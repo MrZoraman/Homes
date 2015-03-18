@@ -14,11 +14,11 @@ import org.bukkit.entity.Player;
  */
 public abstract class CommandBase implements IBukkitLCSCommand
 {
-    protected final HomeManager playerManager;
+    protected final HomeManager homeManager;
     
-    public CommandBase(HomeManager playerManager)
+    public CommandBase(HomeManager homeManager)
     {
-        this.playerManager = playerManager;
+        this.homeManager = homeManager;
     }
     
     protected abstract boolean onCommand(Player player, String[] args);
