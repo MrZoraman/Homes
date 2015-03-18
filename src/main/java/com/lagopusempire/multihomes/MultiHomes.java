@@ -1,5 +1,6 @@
 package com.lagopusempire.multihomes;
 
+import com.lagopusempire.bukkitlcs.BukkitLCS;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
 import javax.persistence.PersistenceException;
@@ -11,6 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class MultiHomes extends JavaPlugin
 {
+    private BukkitLCS commandSystem;
+    
     @Override
     public void onEnable()
     {
@@ -37,6 +40,11 @@ public class MultiHomes extends JavaPlugin
                 return false;
             }
         }
+        
+        commandSystem = new BukkitLCS();
+        
+        getCommand("home").setExecutor(commandSystem);
+        getCommand("sethome").setExecutor(commandSystem);
         
         return true;
     }
