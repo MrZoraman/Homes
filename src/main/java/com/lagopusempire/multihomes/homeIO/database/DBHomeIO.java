@@ -3,8 +3,10 @@ package com.lagopusempire.multihomes.homeIO.database;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -77,5 +79,25 @@ public class DBHomeIO implements HomeIO
         }
         
         return dbHome.toHome();
+    }
+    
+    @Override
+    public List<String> getHomeList(UUID uuid)
+    {
+        final Set<DBHome> dbHomes = plugin.getDatabase().find(DBHome.class)
+                .where()
+                .ieq("owner", uuid.toString())
+                .findSet();
+    
+        final List<String> homeList = new ArrayList<>();
+        
+        final Iterator<DBHome> it = dbHomes.iterator();
+        while(it.hasNext())
+        {
+            homeList.add(it.next().getHome_name());
+        }
+        
+        java.util.Collections.sort(homeList);
+        return homeList;
     }
 }

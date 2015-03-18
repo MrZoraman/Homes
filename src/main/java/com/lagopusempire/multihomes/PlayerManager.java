@@ -3,8 +3,11 @@ package com.lagopusempire.multihomes;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -64,5 +67,18 @@ public class PlayerManager implements Listener
         
         //The player is offline
         return io.loadHome(owner, homeName);
+    }
+    
+    public List<String> getHomeList(UUID owner)
+    {
+        if(homes.containsKey(owner))
+        {
+            final Set<String> homeSet = homes.get(owner).keySet();
+            final List<String> homeList = new ArrayList<>(homeSet);
+            java.util.Collections.sort(homeList);
+            return homeList;
+        }
+        
+        return io.getHomeList(owner);
     }
 }
