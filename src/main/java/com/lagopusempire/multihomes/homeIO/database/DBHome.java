@@ -61,7 +61,7 @@ public class DBHome
     
     public Home toHome()
     {
-        return new Home(UUID.fromString(owner), toLoc(), homeName);
+        return new Home(UUID.fromString(owner), homeName, toLoc());
     }
     
     private Location toLoc()

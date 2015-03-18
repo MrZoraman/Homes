@@ -13,11 +13,18 @@ public class Home
     private Location loc;
     
     private final UUID owner;
+    private final LoadResult loadResult;
     
-    public Home(UUID owner, Location loc, String name)
+    public Home(UUID owner, String name, LoadResult loadResult)
     {
         this.owner = owner;
         this.name = name;
+        this.loadResult = loadResult;
+    }
+    
+    public Home(UUID owner, String name, Location loc)
+    {
+        this(owner, name, LoadResult.SUCCESS);
         this.loc = loc;
     }
 
@@ -44,5 +51,10 @@ public class Home
     public UUID getOwner()
     {
         return owner;
+    }
+
+    public LoadResult getLoadResult()
+    {
+        return loadResult;
     }
 }
