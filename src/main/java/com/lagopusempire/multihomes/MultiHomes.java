@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class MultiHomes extends JavaPlugin
 {
-
     @Override
     public void onEnable()
     {
@@ -21,12 +20,6 @@ public class MultiHomes extends JavaPlugin
             getLogger().severe("Something went wrong while loading " + getDescription().getName() + "! Disabling...");
             getServer().getPluginManager().disablePlugin(this);
         }
-    }
-
-    @Override
-    public void onDisable()
-    {
-
     }
 
     public boolean reload()
