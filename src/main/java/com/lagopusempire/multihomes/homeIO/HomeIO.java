@@ -12,4 +12,5 @@ public interface HomeIO
 {
     public void saveHome(Home home);
     public Map<String, Home> loadHomes(UUID uuid);
+    public Home loadHome(UUID uuid, String homeName);
 }
