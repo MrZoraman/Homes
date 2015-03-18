@@ -1,4 +1,4 @@
-package com.lagopusempire.multihomes.util;
+package com.lagopusempire.multihomes.config;
 
 /*
  * Copyright (C) 2012
