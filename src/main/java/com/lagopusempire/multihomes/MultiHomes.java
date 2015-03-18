@@ -1,5 +1,6 @@
 package com.lagopusempire.multihomes;
 
+import com.lagopusempire.multihomes.config.Config;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -24,5 +25,7 @@ public class MultiHomes extends JavaPlugin
     {
         getConfig().options().copyDefaults(true);
         saveConfig();
+        
+        Config.setConfig(getConfig());
     }
 }
