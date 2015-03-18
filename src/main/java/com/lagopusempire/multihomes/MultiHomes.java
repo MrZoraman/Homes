@@ -15,7 +15,12 @@ public class MultiHomes extends JavaPlugin
     @Override
     public void onEnable()
     {
-        reload();
+        boolean success = reload();
+        if(success == false)
+        {
+            getLogger().severe("Something went wrong while enabling or reloading " + getDescription().getName() + "! Disabling...");
+            getServer().getPluginManager().disablePlugin(this);
+        }
     }
 
     @Override
@@ -24,7 +29,7 @@ public class MultiHomes extends JavaPlugin
 
     }
 
-    public void reload()
+    public boolean reload()
     {
         getConfig().options().copyDefaults(true);
         saveConfig();
@@ -33,8 +38,14 @@ public class MultiHomes extends JavaPlugin
         
         if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE) || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
         {
-            setupDatabase();
+            boolean result = setupDatabase();
+            if(result == false)
+            {
+                return false;
+            }
         }
+        
+        return true;
     }
 
     private boolean setupDatabase()
