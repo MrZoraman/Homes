@@ -6,15 +6,15 @@ import org.bukkit.configuration.file.FileConfiguration;
  *
  * @author MrZoraman
  */
-public class Config
+public class PluginConfig
 {
-    private Config() { }
+    private PluginConfig() { }
     
     private static FileConfiguration config;
     
     public static void setConfig(FileConfiguration config)
     {
-        Config.config = config;
+        PluginConfig.config = config;
     }
     
     public static boolean getBoolean(ConfigKeys key)
