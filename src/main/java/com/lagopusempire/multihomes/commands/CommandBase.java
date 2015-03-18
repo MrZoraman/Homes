@@ -1,7 +1,7 @@
 package com.lagopusempire.multihomes.commands;
 
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
-import com.lagopusempire.multihomes.PlayerManager;
+import com.lagopusempire.multihomes.HomeManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,9 +14,9 @@ import org.bukkit.entity.Player;
  */
 public abstract class CommandBase implements IBukkitLCSCommand
 {
-    protected final PlayerManager playerManager;
+    protected final HomeManager playerManager;
     
-    public CommandBase(PlayerManager playerManager)
+    public CommandBase(HomeManager playerManager)
     {
         this.playerManager = playerManager;
     }

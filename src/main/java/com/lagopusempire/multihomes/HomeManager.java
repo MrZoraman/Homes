@@ -20,13 +20,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
  *
  * @author MrZoraman
  */
-public class PlayerManager implements Listener
+public class HomeManager implements Listener
 {
     private final Map<UUID, Map<String, Home>> homes = new HashMap<>();
     
     private final HomeIO io;
     
-    public PlayerManager(HomeIO io)
+    public HomeManager(HomeIO io)
     {
         this.io = io;
     }
