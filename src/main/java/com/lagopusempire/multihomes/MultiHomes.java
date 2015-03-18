@@ -61,6 +61,7 @@ public class MultiHomes extends JavaPlugin
             try
             {
                 installDDL();
+                System.out.println("done");
             }
             catch (RuntimeException e)
             {

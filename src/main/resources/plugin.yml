@@ -4,7 +4,6 @@ description: ${project.description}
 author: MrZoraman
 website: NULL
 main: ${project.groupId}.multihomes.${project.artifactId}
-database: false
 prefix: Homes
 depend: [${build.plugin.dependency}]
 commands:
