@@ -7,7 +7,8 @@ package com.lagopusempire.multihomes.config;
 public enum ConfigKeys
 {
     USE_DATABASE ("useDatabase"),
-    MIGRATE_DATA ("migrateData");
+    MIGRATE_DATA ("migrateData"),
+    IMPLICIT_HOME_NAME ("implicitHomeName");
     
     private final String key;
     

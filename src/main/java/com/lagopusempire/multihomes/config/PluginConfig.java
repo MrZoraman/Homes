@@ -21,4 +21,9 @@ public class PluginConfig
     {
         return config.getBoolean(key.getKey());
     }
+    
+    public static String getString(ConfigKeys key)
+    {
+        return config.getString(key.getKey());
+    }
 }
