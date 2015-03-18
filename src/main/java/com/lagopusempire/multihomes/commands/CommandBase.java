@@ -1,5 +1,6 @@
 package com.lagopusempire.multihomes.commands;
 
+import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.PlayerManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,7 +12,7 @@ import org.bukkit.entity.Player;
  *
  * @author MrZoraman
  */
-public abstract class CommandBase implements CommandExecutor
+public abstract class CommandBase implements IBukkitLCSCommand
 {
     protected final PlayerManager playerManager;
     
@@ -20,8 +21,10 @@ public abstract class CommandBase implements CommandExecutor
         this.playerManager = playerManager;
     }
     
+    protected abstract boolean onCommand(Player player, String[] args);
+
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args)
+    public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] preArgs, String[] args)
     {
         if(!(sender instanceof Player))
         {
@@ -31,6 +34,4 @@ public abstract class CommandBase implements CommandExecutor
         
         return onCommand((Player) sender, args);
     }
-    
-    protected abstract boolean onCommand(Player player, String[] args);
 }
