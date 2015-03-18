@@ -1,6 +1,7 @@
 package com.lagopusempire.multihomes;
 
 import com.lagopusempire.multihomes.home.Home;
+import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,25 @@ public class PlayerManager implements Listener
     
     public void setHome(Player player, UUID owner, String homeName)
     {
+        Home home = new Home(owner, homeName, player.getLocation());
+        io.saveHome(home);
+        homes.get(owner).put(homeName, home);
+    }
+    
+    public Home getHome(UUID owner, String homeName)
+    {
+        if(homes.containsKey(owner)) //True if the player is online
+        {
+            final Home home = homes.get(owner).get(homeName);
+            if(home != null)
+            {
+                return home;
+            }
+            
+            return new Home(owner, homeName, LoadResult.DOES_NOT_EXIST);
+        }
         
+        //The player is offline
+        return io.loadHome(owner, homeName);
     }
 }
