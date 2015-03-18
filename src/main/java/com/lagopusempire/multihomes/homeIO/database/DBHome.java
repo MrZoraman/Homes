@@ -49,18 +49,6 @@ public class DBHome
     @NotEmpty
     private String home_name;
     
-    public DBHome(Home home)
-    {
-        this.owner = home.getOwner().toString();
-        this.x = home.getLoc().getX();
-        this.y = home.getLoc().getY();
-        this.z = home.getLoc().getZ();
-        this.yaw = home.getLoc().getYaw();
-        this.pitch = home.getLoc().getPitch();
-        this.world_name = home.getLoc().getWorld().getName();
-        this.home_name = home.getName();
-    }
-    
     public Home toHome()
     {
         final World world = Bukkit.getWorld(world_name);
@@ -83,16 +71,6 @@ public class DBHome
     public void setId(int id)
     {
         this.id = id;
-    }
-
-    public String getUUID()
-    {
-        return owner;
-    }
-
-    public void setUUID(String UUID)
-    {
-        this.owner = UUID;
     }
 
     public double getX()
@@ -145,23 +123,33 @@ public class DBHome
         this.pitch = pitch;
     }
 
-    public String getWorldName()
+    public String getOwner()
+    {
+        return owner;
+    }
+
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
+
+    public String getWorld_name()
     {
         return world_name;
     }
 
-    public void setWorldName(String worldName)
+    public void setWorld_name(String world_name)
     {
-        this.world_name = worldName;
+        this.world_name = world_name;
     }
 
-    public String getHomeName()
+    public String getHome_name()
     {
         return home_name;
     }
 
-    public void setHomeName(String homeName)
+    public void setHome_name(String home_name)
     {
-        this.home_name = homeName;
+        this.home_name = home_name;
     }
 }
