@@ -2,7 +2,10 @@ package com.lagopusempire.multihomes.homeIO.database;
 
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,7 +44,21 @@ public class DBHomeIO implements HomeIO
     @Override
     public Map<String, Home> loadHomes(UUID uuid)
     {
-        return null;
+        final Set<DBHome> dbHomes = plugin.getDatabase().find(DBHome.class)
+                .where()
+                .ieq("owner", uuid.toString())
+                .findSet();
+        
+        final Map<String, Home> homes = new HashMap<>();
+        
+        final Iterator<DBHome> it = dbHomes.iterator();
+        while(it.hasNext())
+        {
+            final Home home = it.next().toHome();
+            homes.put(home.getName(), home);
+        }
+        
+        return homes;
     }
 
     @Override
