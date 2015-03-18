@@ -1,6 +1,7 @@
 package com.lagopusempire.multihomes.homeIO;
 
-import com.lagopusempire.multihomes.Home;
+import com.lagopusempire.multihomes.home.Home;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -10,5 +11,5 @@ import java.util.UUID;
 public interface HomeIO
 {
     public void saveHome(Home home);
-    public void loadHomes(UUID uuid);
+    public Map<String, Home> loadHomes(UUID uuid);
 }

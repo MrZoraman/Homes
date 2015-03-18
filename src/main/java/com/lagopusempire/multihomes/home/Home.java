@@ -1,4 +1,4 @@
-package com.lagopusempire.multihomes;
+package com.lagopusempire.multihomes.home;
 
 import java.util.UUID;
 import org.bukkit.Location;
