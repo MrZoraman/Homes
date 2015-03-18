@@ -44,10 +44,10 @@ public class DBHome
     private float pitch;
     
     @NotEmpty
-    private String worldName;
+    private String world_name;
     
     @NotEmpty
-    private String homeName;
+    private String home_name;
     
     public DBHome(Home home)
     {
@@ -57,22 +57,22 @@ public class DBHome
         this.z = home.getLoc().getZ();
         this.yaw = home.getLoc().getYaw();
         this.pitch = home.getLoc().getPitch();
-        this.worldName = home.getLoc().getWorld().getName();
-        this.homeName = home.getName();
+        this.world_name = home.getLoc().getWorld().getName();
+        this.home_name = home.getName();
     }
     
     public Home toHome()
     {
-        final World world = Bukkit.getWorld(worldName);
+        final World world = Bukkit.getWorld(world_name);
         final UUID ownerUUID = UUID.fromString(owner);
         if(world == null)
         {
-            return new Home(ownerUUID, homeName, LoadResult.NO_WORLD);
+            return new Home(ownerUUID, home_name, LoadResult.NO_WORLD);
         }
         
         final Location loc = new Location(world, x, y, z, yaw, pitch);
         
-        return new Home(ownerUUID, homeName, loc);
+        return new Home(ownerUUID, home_name, loc);
     }
 
     public int getId()
@@ -147,21 +147,21 @@ public class DBHome
 
     public String getWorldName()
     {
-        return worldName;
+        return world_name;
     }
 
     public void setWorldName(String worldName)
     {
-        this.worldName = worldName;
+        this.world_name = worldName;
     }
 
     public String getHomeName()
     {
-        return homeName;
+        return home_name;
     }
 
     public void setHomeName(String homeName)
     {
-        this.homeName = homeName;
+        this.home_name = homeName;
     }
 }
