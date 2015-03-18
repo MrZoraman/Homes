@@ -1,6 +1,7 @@
 package com.lagopusempire.multihomes.homeIO.database;
 
 import com.lagopusempire.multihomes.home.Home;
+import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,6 +65,17 @@ public class DBHomeIO implements HomeIO
     @Override
     public Home loadHome(UUID uuid, String homeName)
     {
-        return null;
+        final DBHome dbHome = plugin.getDatabase().find(DBHome.class)
+                .where()
+                .ieq("owner", uuid.toString())
+                .ieq("home_name", homeName)
+                .findUnique();
+        
+        if(dbHome == null)
+        {
+            return new Home(uuid, homeName, LoadResult.DOES_NOT_EXIST);
+        }
+        
+        return dbHome.toHome();
     }
 }
