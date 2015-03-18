@@ -17,7 +17,7 @@ public class Config
         Config.config = config;
     }
     
-    public static boolean getValue(ConfigKeys key)
+    public static boolean getBoolean(ConfigKeys key)
     {
         return config.getBoolean(key.getKey());
     }
