@@ -3,6 +3,8 @@ package com.lagopusempire.multihomes;
 import com.lagopusempire.bukkitlcs.BukkitLCS;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.PersistenceException;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -71,5 +73,13 @@ public class MultiHomes extends JavaPlugin
         }
         
         return true;
+    }
+    
+    @Override
+    public List<Class<?>> getDatabaseClasses()
+    {
+        List<Class<?>> list = new ArrayList<>();
+        list.add(com.lagopusempire.multihomes.homeIO.database.DBHome.class);
+        return list;
     }
 }
