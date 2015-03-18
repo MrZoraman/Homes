@@ -18,7 +18,7 @@ public class MultiHomes extends JavaPlugin
         boolean success = reload();
         if(success == false)
         {
-            getLogger().severe("Something went wrong while enabling or reloading " + getDescription().getName() + "! Disabling...");
+            getLogger().severe("Something went wrong while loading " + getDescription().getName() + "! Disabling...");
             getServer().getPluginManager().disablePlugin(this);
         }
     }
