@@ -6,7 +6,7 @@ website: NULL
 main: ${project.groupId}.multihomes.${project.artifactId}
 database: false
 prefix: Homes
-depend: [BukkitLCS]
+depend: [${build.plugin.dependency}]
 commands:
   home:
   sethome:

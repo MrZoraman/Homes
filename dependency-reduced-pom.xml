@@ -34,15 +34,9 @@
       </resource>
       <resource>
         <filtering>true</filtering>
-        <directory>src/main/resources/config</directory>
+        <directory>src/main/resources</directory>
         <includes>
           <include>config.yml</include>
-        </includes>
-      </resource>
-      <resource>
-        <filtering>true</filtering>
-        <directory>src/main/resources/pluginYaml/${build.profile.id}</directory>
-        <includes>
           <include>plugin.yml</include>
         </includes>
       </resource>
@@ -64,6 +58,7 @@
       <id>normal</id>
       <properties>
         <build.profile.id>normal</build.profile.id>
+        <build.plugin.dependency>BukkitLCS</build.plugin.dependency>
       </properties>
     </profile>
     <profile>
