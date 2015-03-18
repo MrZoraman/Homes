@@ -6,6 +6,7 @@ website: NULL
 main: ${project.groupId}.multihomes.${project.artifactId}
 prefix: Homes
 depend: [${build.plugin.dependency}]
+database: true
 commands:
   home:
   sethome:
