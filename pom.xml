@@ -24,6 +24,14 @@
         </developer>
     </developers>
     
+    <repositories>
+        <repository>
+            <id>Lagopus Empire Repo</id>
+            <name>Lagopus Empire Repo-releases</name>
+            <url>http://repo.lagopusempire.com/artifactory/lagopus-empire-repo</url>
+        </repository>
+    </repositories>
+    
     <dependencies>
         <dependency>
             <groupId>org.bukkit</groupId>
@@ -32,6 +40,11 @@
             <scope>system</scope>
             <systemPath>${basedir}/lib/bukkit-1.8-R0.1-SNAPSHOT-b5.jar</systemPath>
         </dependency>
+        <dependency>
+            <artifactId>BukkitLCS</artifactId>
+            <groupId>com.lagopusempire</groupId>
+            <version>0.1</version>
+        </dependency>
     </dependencies>
     
     <properties>
@@ -39,6 +52,50 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+    
+    <profiles>
+        <profile>
+            <id>normal</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>normal</build.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>shaded</id>
+            <properties>
+                <build.profile.id>shaded</build.profile.id>
+            </properties>
+            <build>
+                <finalName>${project.artifactId}-shaded</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>2.3</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactSet>
+                                        <includes>
+                                            <include>com.lagopusempire:BukkitLCS:*:*</include>
+                                        </includes>
+                                    </artifactSet>
+                                    <shadedArtifactAttached>false</shadedArtifactAttached>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -61,11 +118,17 @@
                 </includes>
             </resource>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/main/resources/config</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>config.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/pluginYaml/${build.profile.id}</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>plugin.yml</include>
-                    <include>config.yml</include>
                 </includes>
             </resource>
         </resources>
