@@ -30,8 +30,12 @@ public class DBHomeIO implements HomeIO
         
         if(dbHome == null)
         {
-            
+            dbHome = new DBHome();
         }
+        
+        dbHome.writeData(home);
+        
+        plugin.getDatabase().save(home);
     }
 
     @Override
@@ -44,21 +48,5 @@ public class DBHomeIO implements HomeIO
     public Home loadHome(UUID uuid, String homeName)
     {
         return null;
-    }
-    
-    private DBHome toDbHome(Home home)
-    {
-        DBHome dbHome = new DBHome();
-        
-        dbHome.setOwner(home.getOwner().toString());
-        dbHome.setX(home.getLoc().getX());
-        dbHome.setY(home.getLoc().getY());
-        dbHome.setZ(home.getLoc().getZ());
-        dbHome.setYaw(home.getLoc().getYaw());
-        dbHome.setPitch(home.getLoc().getPitch());
-        dbHome.setWorld_name(home.getLoc().getWorld().getName());
-        dbHome.setHome_name(home.getName());
-        
-        return dbHome;
     }
 }

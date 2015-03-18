@@ -62,6 +62,18 @@ public class DBHome
         
         return new Home(ownerUUID, home_name, loc);
     }
+    
+    public void writeData(Home home)
+    {
+        this.owner = home.getOwner().toString();
+        this.x = home.getLoc().getX();
+        this.y = home.getLoc().getY();
+        this.z = home.getLoc().getZ();
+        this.yaw = home.getLoc().getYaw();
+        this.pitch = home.getLoc().getPitch();
+        this.world_name = home.getLoc().getWorld().getName();
+        this.home_name = home.getName();
+    }
 
     public int getId()
     {
