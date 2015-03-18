@@ -4,12 +4,14 @@ import com.avaje.ebean.validation.Length;
 import com.avaje.ebean.validation.NotEmpty;
 import com.avaje.ebean.validation.NotNull;
 import com.lagopusempire.multihomes.home.Home;
+import com.lagopusempire.multihomes.home.LoadResult;
 import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 /**
  *
@@ -61,12 +63,16 @@ public class DBHome
     
     public Home toHome()
     {
-        return new Home(UUID.fromString(owner), homeName, toLoc());
-    }
-    
-    private Location toLoc()
-    {
-        return new Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch);
+        final World world = Bukkit.getWorld(worldName);
+        final UUID ownerUUID = UUID.fromString(owner);
+        if(world == null)
+        {
+            return new Home(ownerUUID, homeName, LoadResult.NO_WORLD);
+        }
+        
+        final Location loc = new Location(world, x, y, z, yaw, pitch);
+        
+        return new Home(ownerUUID, homeName, loc);
     }
 
     public int getId()
