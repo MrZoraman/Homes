@@ -9,3 +9,4 @@ prefix: Homes
 depend: [BukkitLCS]
 commands:
   home:
+  sethome:

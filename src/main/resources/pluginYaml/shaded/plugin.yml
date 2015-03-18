@@ -8,3 +8,4 @@ database: false
 prefix: Homes
 commands:
   home:
+  sethome:
