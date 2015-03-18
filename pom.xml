@@ -9,7 +9,7 @@
     <version>0.0.1</version>
     <packaging>jar</packaging>
     
-    <name>${artifactId}</name>
+    <name>${project.artifactId}</name>
     <description>Bukkit Plugin that allows users to have multiple homes.</description>
     <inceptionYear>2015</inceptionYear>
     <organization>
