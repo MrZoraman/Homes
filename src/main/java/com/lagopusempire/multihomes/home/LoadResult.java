@@ -7,5 +7,6 @@ package com.lagopusempire.multihomes.home;
 public enum LoadResult
 {
     SUCCESS,
-    NO_WORLD
+    NO_WORLD,
+    DOES_NOT_EXIST
 }
