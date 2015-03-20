@@ -43,7 +43,7 @@
         <dependency>
             <artifactId>BukkitLCS</artifactId>
             <groupId>com.lagopusempire</groupId>
-            <version>0.1</version>
+            <version>1.2</version>
         </dependency>
     </dependencies>
     
