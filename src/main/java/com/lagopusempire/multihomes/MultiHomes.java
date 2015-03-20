@@ -1,9 +1,12 @@
 package com.lagopusempire.multihomes;
 
 import com.lagopusempire.bukkitlcs.BukkitLCS;
+import com.lagopusempire.multihomes.commands.user.SetHomeCommand;
 import com.lagopusempire.multihomes.config.ConfigAccessor;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
+import com.lagopusempire.multihomes.homeIO.HomeIO;
+import com.lagopusempire.multihomes.homeIO.database.DBHomeIO;
 import com.lagopusempire.multihomes.messages.Messages;
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +36,8 @@ public class MultiHomes extends JavaPlugin
 
     public boolean reload()
     {
+        final boolean useDatabase = PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
+        
         //config
         getConfig().options().copyDefaults(true);
         saveConfig();
@@ -40,7 +45,7 @@ public class MultiHomes extends JavaPlugin
         PluginConfig.setConfig(getConfig());
         
         //database
-        if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE) || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+        if(useDatabase || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
         {
             boolean result = setupDatabase();
             if(result == false)
@@ -68,11 +73,29 @@ public class MultiHomes extends JavaPlugin
         
         Messages.setMessages(messages.getConfig());
         
+        //homeIO
+        HomeIO homeIO;
+        if(useDatabase)
+        {
+            homeIO = new DBHomeIO(this);
+        }
+        else
+        {
+            getLogger().severe("Flatfile home io not implemented yet!");
+            return false;
+        }
+        
+        //home manager
+        final HomeManager homeManager = new HomeManager(homeIO);
+        
         //command system
         commandSystem = new BukkitLCS();
         
         getCommand("home").setExecutor(commandSystem);
         getCommand("sethome").setExecutor(commandSystem);
+        
+        //commands
+        commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(homeManager));
         
         return true;
     }
