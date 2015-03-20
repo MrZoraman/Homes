@@ -36,13 +36,13 @@ public class MultiHomes extends JavaPlugin
 
     public boolean reload()
     {
-        final boolean useDatabase = PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
-        
         //config
         getConfig().options().copyDefaults(true);
         saveConfig();
 
         PluginConfig.setConfig(getConfig());
+        
+        final boolean useDatabase = PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
         
         //database
         if(useDatabase || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
