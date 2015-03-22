@@ -8,12 +8,15 @@ import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.database.DBHomeIO;
+import com.lagopusempire.multihomes.homeIO.database.DatabaseSetup;
 import com.lagopusempire.multihomes.messages.Messages;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import static com.lagopusempire.multihomes.config.ConfigKeys.*;
 
 /**
  *
@@ -26,6 +29,7 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
     private BukkitLCS commandSystem;
     private HomeIO io;
     private HomeManager homeManager;
+    private DatabaseSetup databaseSetup;
     
     @FunctionalInterface
     private interface LoadStep
@@ -61,6 +65,8 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
     {
         //SETUP CONFIGURATION (sync)
         setupConfig();
+        //SETUP DB SETUP (sync)
+        setupDbSetup();
         
         final boolean needToSetupDatabase = PluginConfig.getBoolean(ConfigKeys.USE_DATABASE) 
                 || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
@@ -175,18 +181,21 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         commandSystem.registerCommand("home reload", new ReloadCommand(this));
         return true;
     }
+    
+    private void setupDbSetup()
+    {
+        final String host = PluginConfig.getString(MYSQL_HOST);
+        final String username = PluginConfig.getString(MYSQL_USERNAME);
+        final String password = PluginConfig.getString(MYSQL_PASSWORD);
+        final String port = PluginConfig.getString(MYSQL_PORT);
+        final String database = PluginConfig.getString(MYSQL_DATABASE);
+        
+        final String url = "jdbc://mysql://" + host + ":" + port + "/" + database;
+        databaseSetup = new DatabaseSetup(this, url, username, password);
+    }
 
     private boolean setupDatabase()
     {
-        try
-        {
-            Thread.sleep(500);
-        }
-        catch (InterruptedException ex)
-        {
-            ex.printStackTrace();
-        }
-        
-        return true;
+        return databaseSetup.setup();
     }
 }
