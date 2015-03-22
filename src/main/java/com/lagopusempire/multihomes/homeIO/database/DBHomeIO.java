@@ -15,6 +15,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.plugin.java.JavaPlugin;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+
+import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
 
 /**
  *
@@ -32,11 +42,22 @@ public class DBHomeIO implements HomeIO
     }
 
     @Override
-    public void saveHome(Home home, Runnable callback)
+    public void saveHome(final Home home, final Runnable callback)
     {
+        final UUID uuid = home.getOwner();
+        
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
-            
+            if(getHome(uuid, home.getName()) == null)
+            {
+                //home does not exist
+                final String query = Scripts.getScript(CREATE_HOME);
+                
+            }
+            else
+            {
+                //home exists, update it
+            }
             
             plugin.getServer().getScheduler().runTask(plugin, () -> callback.run());
         });
@@ -61,15 +82,10 @@ public class DBHomeIO implements HomeIO
     {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
+            final Home home = getHome(uuid, homeName);
             
-            
-            plugin.getServer().getScheduler().runTask(plugin, () -> 
-            {
-                
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeLoaded(home));
         });
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -86,5 +102,49 @@ public class DBHomeIO implements HomeIO
         });
         
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    private Home getHome(UUID uuid, String homeName)
+    {
+        final String loadHomeQuery = Scripts.getScript(LOAD_HOME);
+        try(final PreparedStatement stmt = conn.prepareStatement(loadHomeQuery))
+        {
+            stmt.setString(1, uuid.toString());
+            stmt.setString(2, homeName);
+
+            try(final ResultSet rs = stmt.executeQuery())
+            {
+                if(rs.next())
+                {
+                    final double x = rs.getDouble("x");
+                    final double y = rs.getDouble("y");
+                    final double z = rs.getDouble("z");
+                    final float yaw = rs.getFloat("yaw");
+                    final float pitch = rs.getFloat("pitch");
+                    final String worldName = rs.getString("world_name");
+
+                    final World world = Bukkit.getWorld(worldName);
+                    if(world == null)
+                    {
+                        return new Home(uuid, homeName, LoadResult.NO_WORLD);
+                    }
+                    else
+                    {
+                        final Location loc = new Location(world, x, y, z, yaw, pitch);
+                        return new Home(uuid, homeName, loc);
+                    }
+                }
+                else
+                {
+                    return new Home(uuid, homeName, LoadResult.DOES_NOT_EXIST);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        throw new IllegalStateException("Undefined state in DBHomeIO! (This is the developer's problem)");
     }
 }
