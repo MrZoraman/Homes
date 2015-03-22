@@ -47,26 +47,21 @@ public class MultiHomes extends JavaPlugin
     @Override
     public void onEnable()
     {
-        final boolean success = reload();
-        if(success == false)
-        {
-            getLogger().severe("Something went wrong while loading " + getDescription().getName() + "! Disabling...");
-            getServer().getPluginManager().disablePlugin(this);
-        }
+        reload();
     }
 
-    public boolean reload()
+    public void reload()
     {
         for(int ii = 0; ii < loadSteps.size(); ii++)
         {
             final boolean result = loadSteps.get(ii).doStep();
             if(result == false)
             {
-                return false;
+                getLogger().severe("Something went wrong while loading " + getDescription().getName() + "! Disabling...");
+                getServer().getPluginManager().disablePlugin(this);
+                return;
             }
         }
-        
-        return true;
     }
     
     private boolean setupConfig()
