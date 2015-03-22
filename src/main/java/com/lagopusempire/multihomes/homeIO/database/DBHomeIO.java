@@ -3,6 +3,9 @@ package com.lagopusempire.multihomes.homeIO.database;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
+import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
+import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
+import com.lagopusempire.multihomes.homeIO.HomesLoadedCallback;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,27 +27,28 @@ public class DBHomeIO implements HomeIO
     {
         this.plugin = plugin;
     }
-    
+
     @Override
-    public void saveHome(Home home)
+    public void saveHome(Home home, Runnable callback)
     {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Map<String, Home> loadHomes(UUID uuid)
+    public void loadHomes(UUID uuid, HomesLoadedCallback callback)
     {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Home loadHome(UUID uuid, String homeName)
+    public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback)
     {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public List<String> getHomeList(UUID uuid)
+    public void getHomeList(UUID uuid, HomeListLoadedCallback callback)
     {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -34,51 +34,27 @@ public class HomeManager implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        final UUID uuid = event.getPlayer().getUniqueId();
-        final Map<String, Home> playersHomes = io.loadHomes(uuid);
-        homes.put(uuid, playersHomes);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        homes.remove(event.getPlayer().getUniqueId());
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public void setHome(Player player, UUID owner, String homeName)
     {
-        Home home = new Home(owner, homeName, player.getLocation());
-        io.saveHome(home);
-        homes.get(owner).put(homeName, home);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public Home getHome(UUID owner, String homeName)
     {
-        if(homes.containsKey(owner)) //True if the player is online
-        {
-            final Home home = homes.get(owner).get(homeName);
-            if(home != null)
-            {
-                return home;
-            }
-            
-            return new Home(owner, homeName, LoadResult.DOES_NOT_EXIST);
-        }
-        
-        //The player is offline
-        return io.loadHome(owner, homeName);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public List<String> getHomeList(UUID owner)
     {
-        if(homes.containsKey(owner))
-        {
-            final Set<String> homeSet = homes.get(owner).keySet();
-            final List<String> homeList = new ArrayList<>(homeSet);
-            java.util.Collections.sort(homeList);
-            return homeList;
-        }
-        
-        return io.getHomeList(owner);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
