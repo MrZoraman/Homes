@@ -68,6 +68,7 @@ public class Loader
         {
             //We've completed the last step. If we've gotten to this point, then all has been executed successfully
             callCallback(true, callback, onAsyncThread);
+            return;
         }
         
         //first, check if we need to switch threads
