@@ -1,7 +1,6 @@
 useDatabase: true
 migrateData: false
 implicitHomeName: __home__
-firstRun: true
 mysql:
   schemaVersion: 1
   credentials:

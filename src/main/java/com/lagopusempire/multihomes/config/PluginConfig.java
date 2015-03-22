@@ -26,4 +26,14 @@ public class PluginConfig
     {
         return config.getString(key.getKey());
     }
+    
+    public static int getInt(ConfigKeys key)
+    {
+        return config.getInt(key.getKey());
+    }
+    
+    public static void setInt(ConfigKeys key, int value)
+    {
+        config.set(key.getKey(), value);
+    }
 }
