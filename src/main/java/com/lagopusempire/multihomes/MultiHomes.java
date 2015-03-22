@@ -12,6 +12,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,13 +25,20 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  * @author MrZoraman
  */
-public class MultiHomes extends JavaPlugin
+public class MultiHomes extends JavaPlugin implements Callable<Boolean>
 {
     private final List<LoadStep> loadSteps = new ArrayList<>();
     
     private BukkitLCS commandSystem;
     private HomeIO io;
     private HomeManager homeManager;
+
+    @Override
+    public Boolean call() throws Exception
+    {
+        System.out.println("Thread: " + Thread.currentThread().getId());
+        return true;
+    }
     
     @FunctionalInterface
     private interface LoadStep
@@ -35,8 +48,7 @@ public class MultiHomes extends JavaPlugin
     
     public MultiHomes()
     {
-        loadSteps.add(this::setupConfig);
-        loadSteps.add(this::setupDatabase);
+//        loadSteps.add(this::setupDatabase);
         loadSteps.add(this::setupMessages);
         loadSteps.add(this::setupHomeIO);
         loadSteps.add(this::setupHomeManager);
@@ -47,41 +59,73 @@ public class MultiHomes extends JavaPlugin
     @Override
     public void onEnable()
     {
-        reload();
+        System.out.println("Main server thread: " + Thread.currentThread().getId());
+        
+        reload(() -> {getLogger().info(getDescription().getName() + " loaded succesfully!");});
     }
 
-    public void reload()
+    public void reload(final Runnable callback)
     {
+        //SETUP CONFIGURATION (sync)
+        setupConfig();
+        
+        final boolean needToSetupDatabase = PluginConfig.getBoolean(ConfigKeys.USE_DATABASE) 
+                || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
+        
+        getServer().getScheduler().runTaskAsynchronously(this, () -> 
+        {
+            //SETUP DATABASE (async)
+            final boolean databaseSetUpSuccessfully = needToSetupDatabase
+                    ? setupDatabase() 
+                    : true;
+            
+            //SETUP EVERYTHING ELSE (sync)
+            getServer().getScheduler().runTask(this, () ->
+            {
+                if(!databaseSetUpSuccessfully)
+                {
+                    disablePlugin();
+                }
+                else
+                {
+                    if(setupSyncItems())
+                    {
+                        callback.run();
+                    }
+                }
+            });
+        });
+    }
+    
+    private boolean setupSyncItems()
+    {
+        System.out.println("setup sync system thread: " + Thread.currentThread().getId());
         for(int ii = 0; ii < loadSteps.size(); ii++)
         {
             final boolean result = loadSteps.get(ii).doStep();
             if(result == false)
             {
-                getLogger().severe("Something went wrong while loading " + getDescription().getName() + "! Disabling...");
-                getServer().getPluginManager().disablePlugin(this);
-                return;
+                disablePlugin();
+                return false;
             }
         }
+        
+        return true;
     }
     
-    private boolean setupConfig()
+    private void disablePlugin()
     {
+        getLogger().severe("Something went wrong while loading " + getDescription().getName() + "! Disabling...");
+        getServer().getPluginManager().disablePlugin(this);
+    }
+    
+    private void setupConfig()
+    {
+        System.out.println("setup config thread: " + Thread.currentThread().getId());
         getConfig().options().copyDefaults(true);
         saveConfig();
 
         PluginConfig.setConfig(getConfig());
-        
-        return true;
-    }
-    
-    private boolean setupDatabase()
-    {
-        if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE) || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
-        {
-            return configurePersistance();
-        }
-        
-        return true;
     }
     
     private boolean setupMessages()
@@ -143,25 +187,17 @@ public class MultiHomes extends JavaPlugin
         return true;
     }
 
-    private boolean configurePersistance()
+    private boolean setupDatabase()
     {
+        System.out.println("setup database thread: " + Thread.currentThread().getId());
+        System.out.println("\"setting up database\"");
         try
         {
-            getDatabase().find(com.lagopusempire.multihomes.homeIO.database.DBHome.class).findRowCount();
+            Thread.sleep(5000);
         }
-        catch (PersistenceException ignored)
+        catch (InterruptedException ex)
         {
-            getLogger().info("Installing database for " + getDescription().getName() + " due to first time usage");
-            try
-            {
-                installDDL();
-                System.out.println("done");
-            }
-            catch (RuntimeException e)
-            {
-                getLogger().severe(e.getMessage());
-                return false;
-            }
+            ex.printStackTrace();
         }
         
         return true;
