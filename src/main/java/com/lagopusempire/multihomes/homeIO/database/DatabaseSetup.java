@@ -87,8 +87,9 @@ public class DatabaseSetup
         final Connection conn;
         try
         {
+            logger.info("Connecting to '" + url + "'...");
             conn = DriverManager.getConnection(url, user, password);
-            logger.info("Connected to " + url);
+            logger.info("Connection established successfully.");
         }
         catch (Exception e)
         {
