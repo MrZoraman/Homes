@@ -163,15 +163,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupDbSetup()
     {
-        final String host = PluginConfig.getString(MYSQL_HOST);
-        final String username = PluginConfig.getString(MYSQL_USERNAME);
-        final String password = PluginConfig.getString(MYSQL_PASSWORD);
-        final String port = PluginConfig.getString(MYSQL_PORT);
-        final String database = PluginConfig.getString(MYSQL_DATABASE);
-        
-        final String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
-        databaseSetup = new DatabaseSetup(this, url, username, password);
-        
+        databaseSetup = new DatabaseSetup(this);
         return true;
     }
 

@@ -2,6 +2,7 @@ package com.lagopusempire.multihomes.homeIO.database;
 
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
+import com.lagopusempire.multihomes.util.Util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,9 +21,6 @@ public class DatabaseSetup
     private static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
     
     private final List<DbSetupStep> steps = new ArrayList<>();
-    private final String url;
-    private final String user;
-    private final String password;
     
     private final Logger logger;
     
@@ -36,12 +34,8 @@ public class DatabaseSetup
         boolean doStep();
     }
     
-    public DatabaseSetup(JavaPlugin plugin, String databaseString, String user, String password)
+    public DatabaseSetup(JavaPlugin plugin)
     {
-        this.url = databaseString;
-        this.user = user;
-        this.password = password;
-        
         this.schemaVersion = PluginConfig.getInt(ConfigKeys.SCHEMA_VERSION);
         
         this.logger = plugin.getLogger();
@@ -84,8 +78,8 @@ public class DatabaseSetup
         
         try
         {
-            logger.info("Connecting to '" + url + "'...");
-            conn = DriverManager.getConnection(url, user, password);
+            logger.info("Connecting to '" + Util.getDatabaseURL() + "'...");
+            conn = Util.createConnection();
             logger.info("Connection established successfully.");
         }
         catch (Exception e)
