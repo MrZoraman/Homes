@@ -1,1 +1,3 @@
-message_1: 'Hello, World!'
+reload:
+  success: &aMultiHomes has been reloaded successfully!
+  failure: &cMultihomes encountered errors while reloading!

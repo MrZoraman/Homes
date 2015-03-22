@@ -12,33 +12,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.PersistenceException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  *
  * @author MrZoraman
  */
-public class MultiHomes extends JavaPlugin implements Callable<Boolean>
+public class MultiHomes extends JavaPlugin implements ReloadCallback
 {
     private final List<LoadStep> loadSteps = new ArrayList<>();
     
     private BukkitLCS commandSystem;
     private HomeIO io;
     private HomeManager homeManager;
-
-    @Override
-    public Boolean call() throws Exception
-    {
-        System.out.println("Thread: " + Thread.currentThread().getId());
-        return true;
-    }
     
     @FunctionalInterface
     private interface LoadStep
@@ -61,10 +47,19 @@ public class MultiHomes extends JavaPlugin implements Callable<Boolean>
     {
         System.out.println("Main server thread: " + Thread.currentThread().getId());
         
-        reload(() -> {getLogger().info(getDescription().getName() + " loaded succesfully!");});
+        reload(this);
     }
-
-    public void reload(final Runnable callback)
+    
+    @Override
+    public void reloadFinished(boolean result)
+    {
+        if(result)
+        {
+            getLogger().info(getDescription().getName() + " has been loaded successfully.");
+        }
+    }
+    
+    public void reload(final ReloadCallback callback)
     {
         //SETUP CONFIGURATION (sync)
         setupConfig();
@@ -82,17 +77,12 @@ public class MultiHomes extends JavaPlugin implements Callable<Boolean>
             //SETUP EVERYTHING ELSE (sync)
             getServer().getScheduler().runTask(this, () ->
             {
-                if(!databaseSetUpSuccessfully)
-                {
-                    disablePlugin();
-                }
-                else
-                {
-                    if(setupSyncItems())
-                    {
-                        callback.run();
-                    }
-                }
+                boolean result = true;
+                
+                result &= databaseSetUpSuccessfully;
+                result &= setupSyncItems();
+                
+                callback.reloadFinished(result);
             });
         });
     }

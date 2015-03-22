@@ -17,8 +17,8 @@ public class Messages
         Messages.messages = messages;
     }
     
-    public static MessageFormatter getMessage()
+    public static MessageFormatter getMessage(MessageKeys key)
     {
-        return null;
+        return MessageFormatter.create(messages.getString(key.getKey()));
     }
 }

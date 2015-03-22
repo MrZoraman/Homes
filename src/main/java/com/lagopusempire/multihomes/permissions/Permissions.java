@@ -8,6 +8,7 @@ import org.bukkit.permissions.Permissible;
  */
 public enum Permissions
 {
+    RELOAD("multihomes.reload"),
     HELP("multihomes.help");
 
     private Permissions(String node)
