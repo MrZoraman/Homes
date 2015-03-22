@@ -21,12 +21,33 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class MultiHomes extends JavaPlugin
 {
+    private final List<LoadStep> loadSteps = new ArrayList<>();
+    
     private BukkitLCS commandSystem;
+    private HomeIO io;
+    private HomeManager homeManager;
+    
+    @FunctionalInterface
+    private interface LoadStep
+    {
+        public boolean doStep();
+    }
+    
+    public MultiHomes()
+    {
+        loadSteps.add(this::setupConfig);
+        loadSteps.add(this::setupDatabase);
+        loadSteps.add(this::setupMessages);
+        loadSteps.add(this::setupHomeIO);
+        loadSteps.add(this::setupHomeManager);
+        loadSteps.add(this::setupCommandSystem);
+        loadSteps.add(this::setupCommands);
+    }
     
     @Override
     public void onEnable()
     {
-        boolean success = reload();
+        final boolean success = reload();
         if(success == false)
         {
             getLogger().severe("Something went wrong while loading " + getDescription().getName() + "! Disabling...");
@@ -36,25 +57,40 @@ public class MultiHomes extends JavaPlugin
 
     public boolean reload()
     {
-        //config
-        getConfig().options().copyDefaults(true);
-        saveConfig();
-
-        PluginConfig.setConfig(getConfig());
-        
-        final boolean useDatabase = PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
-        
-        //database
-        if(useDatabase || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+        for(int ii = 0; ii < loadSteps.size(); ii++)
         {
-            boolean result = setupDatabase();
+            final boolean result = loadSteps.get(ii).doStep();
             if(result == false)
             {
                 return false;
             }
         }
         
-        //messages
+        return true;
+    }
+    
+    private boolean setupConfig()
+    {
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+
+        PluginConfig.setConfig(getConfig());
+        
+        return true;
+    }
+    
+    private boolean setupDatabase()
+    {
+        if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE) || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+        {
+            return configurePersistance();
+        }
+        
+        return true;
+    }
+    
+    private boolean setupMessages()
+    {
         final String fileName = "messages.yml";
         final File messagesFile = new File(getDataFolder(), fileName);
         try
@@ -73,34 +109,46 @@ public class MultiHomes extends JavaPlugin
         
         Messages.setMessages(messages.getConfig());
         
-        //homeIO
-        HomeIO homeIO;
-        if(useDatabase)
+        return true;
+    }
+    
+    private boolean setupHomeIO()
+    {
+        if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
         {
-            homeIO = new DBHomeIO(this);
+            this.io = new DBHomeIO(this);
+            return true;
         }
         else
         {
             getLogger().severe("Flatfile home io not implemented yet!");
             return false;
         }
-        
-        //home manager
-        final HomeManager homeManager = new HomeManager(homeIO);
-        
-        //command system
+    }
+    
+    private boolean setupHomeManager()
+    {
+        this.homeManager = new HomeManager(io);
+        return true;
+    }
+    
+    private boolean setupCommandSystem()
+    {
         commandSystem = new BukkitLCS();
         
         getCommand("home").setExecutor(commandSystem);
         getCommand("sethome").setExecutor(commandSystem);
         
-        //commands
+        return true;
+    }
+    
+    private boolean setupCommands()
+    {
         commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(homeManager));
-        
         return true;
     }
 
-    private boolean setupDatabase()
+    private boolean configurePersistance()
     {
         try
         {
