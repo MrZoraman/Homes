@@ -40,6 +40,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     @Override
     public void onEnable()
     {
+        System.out.println("main thread: " + Thread.currentThread().getId());
         loader.addStep(this::setupConfig);
         loader.addStep(this::setupMessages);
         loader.addStep(this::setupDbSetup);
@@ -78,6 +79,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupConfig()
     {
+        System.out.println("setupConfig thread: " + Thread.currentThread().getId());
         getConfig().options().copyDefaults(true);
         saveConfig();
 
@@ -89,6 +91,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupMessages()
     {
+        System.out.println("setupMessages thread: " + Thread.currentThread().getId());
         final String fileName = "messages.yml";
         final File messagesFile = new File(getDataFolder(), fileName);
         try
@@ -112,6 +115,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupHomeIO()
     {
+        System.out.println("setupHomeIO thread: " + Thread.currentThread().getId());
         if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
         {
             this.io = new DBHomeIO(this);
@@ -126,12 +130,14 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupHomeManager()
     {
+        System.out.println("setupHomeManager thread: " + Thread.currentThread().getId());
         this.homeManager = new HomeManager(io);
         return true;
     }
     
     private boolean setupCommandSystem()
     {
+        System.out.println("setupCommandSystem thread: " + Thread.currentThread().getId());
         commandSystem = new BukkitLCS();
         
         getCommand("home").setExecutor(commandSystem);
@@ -142,6 +148,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupCommands()
     {
+        System.out.println("setupCommands thread: " + Thread.currentThread().getId());
         commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(homeManager));
         commandSystem.registerCommand("home reload", new ReloadCommand(this));
         return true;
@@ -149,6 +156,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupDbSetup()
     {
+        System.out.println("setupDbSetup thread: " + Thread.currentThread().getId());
         final String host = PluginConfig.getString(MYSQL_HOST);
         final String username = PluginConfig.getString(MYSQL_USERNAME);
         final String password = PluginConfig.getString(MYSQL_PASSWORD);
@@ -163,6 +171,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
 
     private boolean setupDatabase()
     {
+        System.out.println("setupDatabase thread: " + Thread.currentThread().getId());
         return databaseSetup.setup();
     }
 }
