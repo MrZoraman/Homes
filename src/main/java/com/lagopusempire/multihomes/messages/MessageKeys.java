@@ -7,7 +7,8 @@ package com.lagopusempire.multihomes.messages;
 public enum MessageKeys
 {
     RELOAD_SUCCESS("reload.success"),
-    RELOAD_FAILURE("reload.failure");
+    RELOAD_FAILURE("reload.failure"),
+    NO_PERMISSION("noPermissions");
 
     private final String key;
 

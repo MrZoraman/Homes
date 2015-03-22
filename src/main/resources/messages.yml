@@ -1,3 +1,4 @@
+noPermissions: &cYou don''t have permission to do that!
 reload:
   success: &aMultiHomes has been reloaded successfully!
   failure: &cMultihomes encountered errors while reloading!
