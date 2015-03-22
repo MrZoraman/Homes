@@ -1,0 +1,1 @@
+SELECT `home_name`, `x`, `y`, `z`, `yaw`, `pitch`, `world_name` FROM `multihomes` WHERE `uuid`=?;
