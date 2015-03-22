@@ -6,9 +6,19 @@ package com.lagopusempire.multihomes.config;
  */
 public enum ConfigKeys
 {
-    USE_DATABASE ("useDatabase"),
-    MIGRATE_DATA ("migrateData"),
-    IMPLICIT_HOME_NAME ("implicitHomeName");
+    //misc
+    USE_DATABASE        ("useDatabase"),
+    MIGRATE_DATA        ("migrateData"),
+    IMPLICIT_HOME_NAME  ("implicitHomeName"),
+    FIRST_RUN           ("firstRun"),
+    
+    //MySQL
+    SCHEMA_VERSION      ("mysql.schemaVersion"),
+    MYSQL_HOST          ("mysql.credentials.host"),
+    MYSQL_USERNAME      ("mysql.credentials.username"),
+    MYSQL_PASSWORD      ("mysql.credentials.password"),
+    MYSQL_PORT          ("mysql.credentials.port"),
+    MYSQL_DATABASE      ("mysql.credentials.database");
     
     private final String key;
     
