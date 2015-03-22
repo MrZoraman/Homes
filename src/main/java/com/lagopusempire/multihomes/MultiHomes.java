@@ -83,6 +83,9 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
                 result &= setupSyncItems();
                 
                 callback.reloadFinished(result);
+                
+                if(!result)
+                    disablePlugin();
             });
         });
     }
@@ -95,7 +98,6 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
             final boolean result = loadSteps.get(ii).doStep();
             if(result == false)
             {
-                disablePlugin();
                 return false;
             }
         }
