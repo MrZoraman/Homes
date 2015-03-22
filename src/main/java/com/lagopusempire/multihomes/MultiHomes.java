@@ -52,6 +52,13 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         reload(this);
     }
     
+    private boolean setupCommands()
+    {
+        commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(homeManager));
+        commandSystem.registerCommand("home reload", new ReloadCommand(this));
+        return true;
+    }
+    
     @Override
     public void reloadFinished(boolean result)
     {
@@ -137,13 +144,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         getCommand("home").setExecutor(commandSystem);
         getCommand("sethome").setExecutor(commandSystem);
         
-        return true;
-    }
-    
-    private boolean setupCommands()
-    {
-        commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(homeManager));
-        commandSystem.registerCommand("home reload", new ReloadCommand(this));
         return true;
     }
     
