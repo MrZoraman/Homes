@@ -35,7 +35,6 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
     
     public MultiHomes()
     {
-//        loadSteps.add(this::setupDatabase);
         loadSteps.add(this::setupMessages);
         loadSteps.add(this::setupHomeIO);
         loadSteps.add(this::setupHomeManager);
