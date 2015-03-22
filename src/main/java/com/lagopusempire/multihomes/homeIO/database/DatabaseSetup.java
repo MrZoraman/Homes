@@ -20,7 +20,6 @@ public class DatabaseSetup
     private static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
     
     private final List<DbSetupStep> steps = new ArrayList<>();
-    private final JavaPlugin plugin;
     private final String url;
     private final String user;
     private final String password;
@@ -37,7 +36,6 @@ public class DatabaseSetup
     
     public DatabaseSetup(JavaPlugin plugin, String databaseString, String user, String password)
     {
-        this.plugin = plugin;
         this.url = databaseString;
         this.user = user;
         this.password = password;
