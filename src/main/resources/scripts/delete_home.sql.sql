@@ -1,1 +1,0 @@
-DELETE FROM `multihomes` WHERE `uuid`=? AND `home_name`=?;

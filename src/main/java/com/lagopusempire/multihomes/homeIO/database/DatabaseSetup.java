@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -56,17 +55,7 @@ public class DatabaseSetup
     {
         steps.add((conn) ->
         {
-            final InputStream queryStream = plugin.getResource("scripts/create_homes_table.sql");
-            final String query = inputStreamToString(queryStream);
-            try
-            {
-                queryStream.close();
-            }
-            catch (IOException ex)
-            {
-                ex.printStackTrace();
-                return false;
-            }
+            final String query = Scripts.getScript(ScriptKeys.CREATE_HOMES_TABLE);
             
             try (PreparedStatement statement = conn.prepareStatement(query))
             {
@@ -123,12 +112,5 @@ public class DatabaseSetup
         PluginConfig.setInt(ConfigKeys.SCHEMA_VERSION, schemaVersion);
         PluginConfig.save();
         return true;
-    }
-    
-    private String inputStreamToString(InputStream stream)
-    {
-        try (Scanner s = new Scanner(stream).useDelimiter("\\A")) {
-            return s.hasNext() ? s.next() : "";
-        }
     }
 }

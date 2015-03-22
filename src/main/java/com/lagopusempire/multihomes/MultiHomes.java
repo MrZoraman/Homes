@@ -17,6 +17,7 @@ import java.io.IOException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static com.lagopusempire.multihomes.config.ConfigKeys.*;
+import com.lagopusempire.multihomes.homeIO.database.Scripts;
 
 /**
  *
@@ -44,6 +45,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     {
         loader.addStep(this::setupConfig);
         loader.addStep(this::setupMessages);
+        loader.addStep(this::setupScripts);
         loader.addStep(this::setupDbSetup);
         loader.addAsyncStep(this::setupDatabase);
         loader.addStep(this::setupHomeIO);
@@ -147,6 +149,12 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         getCommand("home").setExecutor(commandSystem);
         getCommand("sethome").setExecutor(commandSystem);
         
+        return true;
+    }
+    
+    private boolean setupScripts()
+    {
+        Scripts.setPlugin(this);
         return true;
     }
     

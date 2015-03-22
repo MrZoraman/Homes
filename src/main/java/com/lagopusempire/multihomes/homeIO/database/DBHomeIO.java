@@ -28,76 +28,23 @@ public class DBHomeIO implements HomeIO
     @Override
     public void saveHome(Home home)
     {
-        DBHome dbHome = plugin.getDatabase().find(DBHome.class)
-                .where()
-                .ieq("owner", home.getOwner().toString())
-                .ieq("home_name", home.getName())
-                .findUnique();
-        
-        if(dbHome == null)
-        {
-            dbHome = new DBHome();
-        }
-        
-        dbHome.writeData(home);
-        
-        plugin.getDatabase().save(home);
     }
 
     @Override
     public Map<String, Home> loadHomes(UUID uuid)
     {
-        final Set<DBHome> dbHomes = plugin.getDatabase().find(DBHome.class)
-                .where()
-                .ieq("owner", uuid.toString())
-                .findSet();
-        
-        final Map<String, Home> homes = new HashMap<>();
-        
-        final Iterator<DBHome> it = dbHomes.iterator();
-        while(it.hasNext())
-        {
-            final Home home = it.next().toHome();
-            homes.put(home.getName(), home);
-        }
-        
-        return homes;
+        return null;
     }
 
     @Override
     public Home loadHome(UUID uuid, String homeName)
     {
-        final DBHome dbHome = plugin.getDatabase().find(DBHome.class)
-                .where()
-                .ieq("owner", uuid.toString())
-                .ieq("home_name", homeName)
-                .findUnique();
-        
-        if(dbHome == null)
-        {
-            return new Home(uuid, homeName, LoadResult.DOES_NOT_EXIST);
-        }
-        
-        return dbHome.toHome();
+        return null;
     }
     
     @Override
     public List<String> getHomeList(UUID uuid)
     {
-        final Set<DBHome> dbHomes = plugin.getDatabase().find(DBHome.class)
-                .where()
-                .ieq("owner", uuid.toString())
-                .findSet();
-    
-        final List<String> homeList = new ArrayList<>();
-        
-        final Iterator<DBHome> it = dbHomes.iterator();
-        while(it.hasNext())
-        {
-            homeList.add(it.next().getHome_name());
-        }
-        
-        java.util.Collections.sort(homeList);
-        return homeList;
+        return null;
     }
 }
