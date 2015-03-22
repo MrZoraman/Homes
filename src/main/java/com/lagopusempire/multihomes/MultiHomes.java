@@ -31,6 +31,8 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private HomeManager homeManager;
     private DatabaseSetup databaseSetup;
     
+    private boolean loaded = false;
+    
     public MultiHomes()
     {
         super();
@@ -65,6 +67,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         if(result)
         {
             getLogger().info(getDescription().getName() + " has been loaded successfully.");
+            loaded = true;
         }
         else
         {
@@ -164,5 +167,10 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private boolean setupDatabase()
     {
         return databaseSetup.setup();
+    }
+
+    public boolean isLoaded()
+    {
+        return loaded;
     }
 }
