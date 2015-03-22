@@ -6,6 +6,7 @@ import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomesLoadedCallback;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,10 +23,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class DBHomeIO implements HomeIO
 {
     private final JavaPlugin plugin;
+    private final Connection conn;
     
-    public DBHomeIO(JavaPlugin plugin)
+    public DBHomeIO(JavaPlugin plugin, Connection conn)
     {
         this.plugin = plugin;
+        this.conn = conn;
     }
 
     @Override
@@ -35,10 +38,7 @@ public class DBHomeIO implements HomeIO
         {
             
             
-            plugin.getServer().getScheduler().runTask(plugin, () -> 
-            {
-                
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> callback.run());
         });
     }
 
@@ -47,12 +47,10 @@ public class DBHomeIO implements HomeIO
     {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
+            final Map<String, Home> homes = new HashMap<>();
             
             
-            plugin.getServer().getScheduler().runTask(plugin, () -> 
-            {
-                
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> callback.homesLoaded(homes));
         });
         
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

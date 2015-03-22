@@ -18,6 +18,7 @@ import java.io.IOException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static com.lagopusempire.multihomes.config.ConfigKeys.*;
+import java.sql.Connection;
 
 /**
  *
@@ -31,6 +32,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private HomeIO io;
     private HomeManager homeManager;
     private DatabaseSetup databaseSetup;
+    private Connection conn;
     
     private boolean loaded = false;
     
@@ -48,6 +50,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::setupScripts);
         loader.addStep(this::setupDbSetup);
         loader.addAsyncStep(this::setupDatabase);
+        loader.addStep(this::setupPostDb);
         loader.addStep(this::setupHomeIO);
         loader.addStep(this::setupHomeManager);
         loader.addStep(this::setupCommandSystem);
@@ -126,7 +129,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     {
         if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
         {
-            this.io = new DBHomeIO(this);
+            this.io = new DBHomeIO(this, conn);
             return true;
         }
         else
@@ -175,6 +178,15 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private boolean setupDatabase()
     {
         return databaseSetup.setup();
+    }
+    
+    private boolean setupPostDb()
+    {
+        final boolean success = databaseSetup.postSetup();
+        if(!success) return false;
+        
+        this.conn = databaseSetup.getConnection();
+        return true;
     }
 
     public boolean isLoaded()

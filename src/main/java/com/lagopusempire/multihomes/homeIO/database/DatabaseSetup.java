@@ -28,10 +28,12 @@ public class DatabaseSetup
     
     private volatile int schemaVersion = 1;
     
+    private Connection conn;
+    
     @FunctionalInterface
     private interface DbSetupStep
     {
-        boolean doStep(Connection conn);
+        boolean doStep();
     }
     
     public DatabaseSetup(JavaPlugin plugin, String databaseString, String user, String password)
@@ -49,7 +51,7 @@ public class DatabaseSetup
     
     private void addSteps()
     {
-        steps.add((conn) ->
+        steps.add(() ->
         {
             final String query = Scripts.getScript(ScriptKeys.CREATE_HOMES_TABLE);
             
@@ -63,7 +65,7 @@ public class DatabaseSetup
                 return false;
             }
             
-            logger.info("Database created successfully.");
+            logger.info("Table created successfully.");
             return true;
         });
     }
@@ -80,7 +82,6 @@ public class DatabaseSetup
             return false;
         }
         
-        final Connection conn;
         try
         {
             logger.info("Connecting to '" + url + "'...");
@@ -96,7 +97,7 @@ public class DatabaseSetup
         int ii = schemaVersion;
         for(; ii < steps.size(); ii++)
         {
-            final boolean result = steps.get(ii).doStep(conn);
+            final boolean result = steps.get(ii).doStep();
             if(result == false) return false;
         }
         schemaVersion = ii;
@@ -109,5 +110,10 @@ public class DatabaseSetup
         PluginConfig.setInt(ConfigKeys.SCHEMA_VERSION, schemaVersion);
         PluginConfig.save();
         return true;
+    }
+    
+    public Connection getConnection()
+    {
+        return conn;
     }
 }
