@@ -1,4 +1,4 @@
-useDatabase: false
+useDatabase: true
 migrateData: false
 implicitHomeName: __home__
 firstRun: true
