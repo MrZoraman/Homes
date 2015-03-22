@@ -31,24 +31,62 @@ public class DBHomeIO implements HomeIO
     @Override
     public void saveHome(Home home, Runnable callback)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            
+            
+            plugin.getServer().getScheduler().runTask(plugin, () -> 
+            {
+                
+            });
+        });
     }
 
     @Override
     public void loadHomes(UUID uuid, HomesLoadedCallback callback)
     {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            
+            
+            plugin.getServer().getScheduler().runTask(plugin, () -> 
+            {
+                
+            });
+        });
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback)
     {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            
+            
+            plugin.getServer().getScheduler().runTask(plugin, () -> 
+            {
+                
+            });
+        });
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void getHomeList(UUID uuid, HomeListLoadedCallback callback)
     {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            
+            
+            plugin.getServer().getScheduler().runTask(plugin, () -> 
+            {
+                
+            });
+        });
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
