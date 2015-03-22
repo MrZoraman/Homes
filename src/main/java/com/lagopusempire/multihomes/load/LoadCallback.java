@@ -1,11 +1,11 @@
-package com.lagopusempire.multihomes;
+package com.lagopusempire.multihomes.load;
 
 /**
  *
  * @author MrZoraman
  */
 @FunctionalInterface
-public interface ReloadCallback
+public interface LoadCallback
 {
     public void reloadFinished(boolean success);
 }
