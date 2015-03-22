@@ -1,1 +1,1 @@
-DELETE FROM `multihomes` WHERE `uuid`=?;
+DELETE FROM `multihomes` WHERE `uuid`=? AND `home_name`=?;
