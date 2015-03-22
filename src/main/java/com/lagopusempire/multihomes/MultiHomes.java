@@ -190,7 +190,7 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         final String port = PluginConfig.getString(MYSQL_PORT);
         final String database = PluginConfig.getString(MYSQL_DATABASE);
         
-        final String url = "jdbc://mysql://" + host + ":" + port + "/" + database;
+        final String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
         databaseSetup = new DatabaseSetup(this, url, username, password);
     }
 

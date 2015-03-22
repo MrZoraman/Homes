@@ -86,6 +86,7 @@ public class DatabaseSetup
         final Connection conn;
         try
         {
+            System.out.println("conn: " + url);
             conn = DriverManager.getConnection(url, user, password);
         }
         catch (Exception e)
