@@ -17,6 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import static com.lagopusempire.multihomes.config.ConfigKeys.*;
 import com.lagopusempire.multihomes.load.Loader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -172,6 +174,14 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private boolean setupDatabase()
     {
         System.out.println("setupDatabase thread: " + Thread.currentThread().getId());
+        try
+        {
+            Thread.sleep(5000);
+        }
+        catch (InterruptedException ex)
+        {
+            ex.printStackTrace();
+        }
         return databaseSetup.setup();
     }
 }
