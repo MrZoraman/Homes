@@ -11,14 +11,12 @@ import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.database.DBHomeIO;
 import com.lagopusempire.multihomes.homeIO.database.DatabaseSetup;
 import com.lagopusempire.multihomes.messages.Messages;
+import com.lagopusempire.multihomes.load.Loader;
 import java.io.File;
 import java.io.IOException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static com.lagopusempire.multihomes.config.ConfigKeys.*;
-import com.lagopusempire.multihomes.load.Loader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
