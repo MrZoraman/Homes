@@ -51,7 +51,7 @@ public class Loader
         if(isLoading) throw new IllegalStateException("Loader is already loading!");
         
         loadSteps = Collections.unmodifiableList(preLoadSteps);
-        asyncSteps = Collections.unmodifiableSet(asyncSteps);
+        asyncSteps = Collections.unmodifiableSet(preAsyncSteps);
         
         isLoading = true;
         
