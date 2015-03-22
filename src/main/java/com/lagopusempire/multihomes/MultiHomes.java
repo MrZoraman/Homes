@@ -1,5 +1,6 @@
 package com.lagopusempire.multihomes;
 
+import com.lagopusempire.multihomes.load.LoadCallback;
 import com.lagopusempire.bukkitlcs.BukkitLCS;
 import com.lagopusempire.multihomes.commands.*;
 import com.lagopusempire.multihomes.commands.user.*;
@@ -12,43 +13,42 @@ import com.lagopusempire.multihomes.homeIO.database.DatabaseSetup;
 import com.lagopusempire.multihomes.messages.Messages;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static com.lagopusempire.multihomes.config.ConfigKeys.*;
+import com.lagopusempire.multihomes.load.Loader;
 
 /**
  *
  * @author MrZoraman
  */
-public class MultiHomes extends JavaPlugin implements ReloadCallback
+public class MultiHomes extends JavaPlugin implements LoadCallback
 {
-    private final List<LoadStep> loadSteps = new ArrayList<>();
+    private final Loader loader;
     
     private BukkitLCS commandSystem;
     private HomeIO io;
     private HomeManager homeManager;
     private DatabaseSetup databaseSetup;
     
-    @FunctionalInterface
-    private interface LoadStep
-    {
-        public boolean doStep();
-    }
-    
     public MultiHomes()
     {
-        loadSteps.add(this::setupMessages);
-        loadSteps.add(this::setupHomeIO);
-        loadSteps.add(this::setupHomeManager);
-        loadSteps.add(this::setupCommandSystem);
-        loadSteps.add(this::setupCommands);
+        super();
+        loader = new Loader(this);
     }
     
     @Override
     public void onEnable()
     {
+        loader.addStep(this::setupConfig);
+        loader.addStep(this::setupMessages);
+        loader.addStep(this::setupDbSetup);
+        loader.addAsyncStep(this::setupDatabase);
+        loader.addStep(this::setupHomeIO);
+        loader.addStep(this::setupHomeManager);
+        loader.addStep(this::setupCommandSystem);
+        loader.addStep(this::setupCommands);
+        
         reload(this);
     }
     
@@ -59,54 +59,15 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         {
             getLogger().info(getDescription().getName() + " has been loaded successfully.");
         }
-    }
-    
-    public void reload(final ReloadCallback callback)
-    {
-        //SETUP CONFIGURATION (sync)
-        setupConfig();
-        //SETUP DB SETUP (sync)
-        setupDbSetup();
-        loadSteps.add(databaseSetup::postSetup);
-        
-        final boolean needToSetupDatabase = PluginConfig.getBoolean(ConfigKeys.USE_DATABASE) 
-                || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
-        
-        getServer().getScheduler().runTaskAsynchronously(this, () -> 
+        else
         {
-            //SETUP DATABASE (async)
-            final boolean databaseSetUpSuccessfully = needToSetupDatabase
-                    ? setupDatabase() 
-                    : true;
-            
-            //SETUP EVERYTHING ELSE (sync)
-            getServer().getScheduler().runTask(this, () ->
-            {
-                boolean result = true;
-                
-                result &= databaseSetUpSuccessfully;
-                result &= setupSyncItems();
-                
-                callback.reloadFinished(result);
-                
-                if(!result)
-                    disablePlugin();
-            });
-        });
-    }
-    
-    private boolean setupSyncItems()
-    {
-        for(int ii = 0; ii < loadSteps.size(); ii++)
-        {
-            final boolean result = loadSteps.get(ii).doStep();
-            if(result == false)
-            {
-                return false;
-            }
+            disablePlugin();
         }
-        
-        return true;
+    }
+    
+    public void reload(final LoadCallback callback)
+    {
+        loader.load(this);
     }
     
     private void disablePlugin()
@@ -115,13 +76,15 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         getServer().getPluginManager().disablePlugin(this);
     }
     
-    private void setupConfig()
+    private boolean setupConfig()
     {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
         PluginConfig.setConfig(getConfig());
         PluginConfig.howToSave(this::saveConfig);
+        
+        return true;
     }
     
     private boolean setupMessages()
@@ -184,7 +147,7 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         return true;
     }
     
-    private void setupDbSetup()
+    private boolean setupDbSetup()
     {
         final String host = PluginConfig.getString(MYSQL_HOST);
         final String username = PluginConfig.getString(MYSQL_USERNAME);
@@ -194,6 +157,8 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         
         final String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
         databaseSetup = new DatabaseSetup(this, url, username, password);
+        
+        return true;
     }
 
     private boolean setupDatabase()
