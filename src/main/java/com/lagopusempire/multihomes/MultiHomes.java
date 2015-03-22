@@ -1,7 +1,8 @@
 package com.lagopusempire.multihomes;
 
 import com.lagopusempire.bukkitlcs.BukkitLCS;
-import com.lagopusempire.multihomes.commands.user.SetHomeCommand;
+import com.lagopusempire.multihomes.commands.*;
+import com.lagopusempire.multihomes.commands.user.*;
 import com.lagopusempire.multihomes.config.ConfigAccessor;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
@@ -174,6 +175,7 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
     private boolean setupCommands()
     {
         commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(homeManager));
+        commandSystem.registerCommand("home reload", new ReloadCommand(this));
         return true;
     }
 
