@@ -45,8 +45,6 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
     @Override
     public void onEnable()
     {
-        System.out.println("Main server thread: " + Thread.currentThread().getId());
-        
         reload(this);
     }
     
@@ -92,7 +90,6 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
     
     private boolean setupSyncItems()
     {
-        System.out.println("setup sync system thread: " + Thread.currentThread().getId());
         for(int ii = 0; ii < loadSteps.size(); ii++)
         {
             final boolean result = loadSteps.get(ii).doStep();
@@ -113,7 +110,6 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
     
     private void setupConfig()
     {
-        System.out.println("setup config thread: " + Thread.currentThread().getId());
         getConfig().options().copyDefaults(true);
         saveConfig();
 
@@ -182,11 +178,9 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
 
     private boolean setupDatabase()
     {
-        System.out.println("setup database thread: " + Thread.currentThread().getId());
-        System.out.println("\"setting up database\"");
         try
         {
-            Thread.sleep(5000);
+            Thread.sleep(500);
         }
         catch (InterruptedException ex)
         {
@@ -194,13 +188,5 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         }
         
         return true;
-    }
-    
-    @Override
-    public List<Class<?>> getDatabaseClasses()
-    {
-        List<Class<?>> list = new ArrayList<>();
-        list.add(com.lagopusempire.multihomes.homeIO.database.DBHome.class);
-        return list;
     }
 }
