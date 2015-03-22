@@ -1,5 +1,7 @@
 package com.lagopusempire.multihomes.homeIO.database;
 
+import com.lagopusempire.multihomes.config.ConfigKeys;
+import com.lagopusempire.multihomes.config.PluginConfig;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -25,6 +28,10 @@ public class DatabaseSetup
     private final String user;
     private final String password;
     
+    private final Logger logger;
+    
+    private volatile int schemaVersion = 1;
+    
     @FunctionalInterface
     private interface DbSetupStep
     {
@@ -38,12 +45,16 @@ public class DatabaseSetup
         this.user = user;
         this.password = password;
         
+        this.schemaVersion = PluginConfig.getInt(ConfigKeys.SCHEMA_VERSION);
+        
+        this.logger = plugin.getLogger();
+        
         addSteps();
     }
     
     private void addSteps()
     {
-        steps.add((conn) -> 
+        steps.add((conn) ->
         {
             final InputStream queryStream = plugin.getResource("scripts/create_homes_table.sql");
             final String query = inputStreamToString(queryStream);
@@ -67,6 +78,7 @@ public class DatabaseSetup
                 return false;
             }
             
+            logger.info("Database created successfully.");
             return true;
         });
     }
@@ -86,8 +98,8 @@ public class DatabaseSetup
         final Connection conn;
         try
         {
-            System.out.println("conn: " + url);
             conn = DriverManager.getConnection(url, user, password);
+            logger.info("Connected to " + url);
         }
         catch (Exception e)
         {
@@ -95,12 +107,21 @@ public class DatabaseSetup
             return false;
         }
         
-        for(int ii = 0; ii < steps.size(); ii++)
+        int ii = schemaVersion;
+        for(; ii < steps.size(); ii++)
         {
             final boolean result = steps.get(ii).doStep(conn);
             if(result == false) return false;
         }
+        schemaVersion = ii;
         
+        return true;
+    }
+    
+    public boolean postSetup()
+    {
+        PluginConfig.setInt(ConfigKeys.SCHEMA_VERSION, schemaVersion);
+        PluginConfig.save();
         return true;
     }
     

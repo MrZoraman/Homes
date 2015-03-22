@@ -11,10 +11,21 @@ public class PluginConfig
     private PluginConfig() { }
     
     private static FileConfiguration config;
+    private static Runnable howToSave;
     
     public static void setConfig(FileConfiguration config)
     {
         PluginConfig.config = config;
+    }
+    
+    public static void howToSave(Runnable r)
+    {
+        howToSave = r;
+    }
+    
+    public static void save()
+    {
+        howToSave.run();
     }
     
     public static boolean getBoolean(ConfigKeys key)

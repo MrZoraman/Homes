@@ -67,6 +67,7 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         setupConfig();
         //SETUP DB SETUP (sync)
         setupDbSetup();
+        loadSteps.add(databaseSetup::postSetup);
         
         final boolean needToSetupDatabase = PluginConfig.getBoolean(ConfigKeys.USE_DATABASE) 
                 || PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
@@ -120,6 +121,7 @@ public class MultiHomes extends JavaPlugin implements ReloadCallback
         saveConfig();
 
         PluginConfig.setConfig(getConfig());
+        PluginConfig.howToSave(this::saveConfig);
     }
     
     private boolean setupMessages()
