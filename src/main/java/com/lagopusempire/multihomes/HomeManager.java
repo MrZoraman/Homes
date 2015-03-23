@@ -78,7 +78,7 @@ public class HomeManager implements Listener
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        homes.remove(event.getPlayer().getUniqueId());
     }
     
     public void setHome(Player player, UUID owner, String homeName)
