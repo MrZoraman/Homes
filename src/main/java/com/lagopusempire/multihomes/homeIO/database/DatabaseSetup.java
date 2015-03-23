@@ -77,7 +77,6 @@ public class DatabaseSetup
         
         try
         {
-            Thread.sleep(10000);
             logger.info("Connecting to '" + Util.getDatabaseURL() + "'...");
             conn = Util.createConnection();
             logger.info("Connection established successfully.");
