@@ -11,6 +11,7 @@ import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.database.DBHomeIO;
 import com.lagopusempire.multihomes.homeIO.database.DatabaseSetup;
 import com.lagopusempire.multihomes.homeIO.database.Scripts;
+import com.lagopusempire.multihomes.homeIO.flatfile.FlatfileHomeIO;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.load.Loader;
 import java.io.File;
@@ -166,8 +167,24 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         }
         else
         {
-            getLogger().severe("Flatfile home io not implemented yet!");
-            return false;
+            final String fileName = "homes.yml";
+            final File homesFile = new File(getDataFolder(), fileName);
+            try
+            {
+                homesFile.createNewFile();
+            }
+            catch (IOException ex)
+            {
+                getLogger().severe("Failed to create homes file!");
+                ex.printStackTrace();
+                return false;
+            }
+            final ConfigAccessor homes = new ConfigAccessor(this, fileName);
+            homes.getConfig().options().copyDefaults(true);
+            homes.saveConfig();
+            
+            this.io = new FlatfileHomeIO(homes);
+            return true;
         }
     }
     
