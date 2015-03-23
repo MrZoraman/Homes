@@ -22,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
+import java.util.Collections;
 
 /**
  *
@@ -190,6 +191,8 @@ public class DBHomeIO implements HomeIO
             {
                 ex.printStackTrace();
             }
+            
+            Collections.sort(homes);
             
             plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeListLoaded(homes));
         });
