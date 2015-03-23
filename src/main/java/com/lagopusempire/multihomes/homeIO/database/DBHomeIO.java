@@ -9,17 +9,13 @@ import com.lagopusempire.multihomes.homeIO.HomesLoadedCallback;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -163,15 +159,28 @@ public class DBHomeIO implements HomeIO
     {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
+            final List<String> homes = new ArrayList<>();
             
-            
-            plugin.getServer().getScheduler().runTask(plugin, () -> 
+            final String query = Scripts.getScript(LIST_HOMES);
+            try(final PreparedStatement stmt = conn.prepareStatement(query))
             {
-                
-            });
+                stmt.setString(1, uuid.toString());
+
+                try(final ResultSet rs = stmt.executeQuery())
+                {
+                    while(rs.next())
+                    {
+                        homes.add(rs.getString("home_name"));
+                    }
+                }
+            }
+            catch (SQLException ex)
+            {
+                ex.printStackTrace();
+            }
+            
+            plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeListLoaded(homes));
         });
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     private Home getHome(UUID uuid, String homeName)
