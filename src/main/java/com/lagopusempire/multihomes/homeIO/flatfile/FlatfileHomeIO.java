@@ -17,6 +17,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -62,9 +63,13 @@ public class FlatfileHomeIO implements HomeIO
         
         final Map<String, Home> homes = new HashMap<>();
         
-        final Set<String> homeNames = config.getConfigurationSection(ownerName).getKeys(false);
-        
-        homeNames.forEach((homeName) -> homes.put(homeName, getHome(uuid, homeName)));
+        final ConfigurationSection section = config.getConfigurationSection(ownerName);
+        if(section != null)
+        {
+            final Set<String> homeNames = section.getKeys(false);
+
+            homeNames.forEach((homeName) -> homes.put(homeName, getHome(uuid, homeName)));
+        }
         
         callback.homesLoaded(homes);
     }
@@ -80,10 +85,18 @@ public class FlatfileHomeIO implements HomeIO
     @Override
     public void getHomeList(UUID uuid, HomeListLoadedCallback callback)
     {
-        final Set<String> homeNames = config.getConfigurationSection(uuid.toString()).getKeys(false);
-        final List<String> homeList = new ArrayList<>(homeNames);
-        Collections.sort(homeList);
-        callback.homeListLoaded(homeList);
+        final ConfigurationSection section = config.getConfigurationSection(uuid.toString());
+        if(section != null)
+        {
+            final Set<String> homeNames = config.getConfigurationSection(uuid.toString()).getKeys(false);
+            final List<String> homeList = new ArrayList<>(homeNames);
+            Collections.sort(homeList);
+            callback.homeListLoaded(homeList);
+        }
+        else
+        {
+            callback.homeListLoaded(new ArrayList<>());
+        }
     }
     
     private Home getHome(UUID uuid, String homeName)
