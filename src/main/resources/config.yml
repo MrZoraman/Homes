@@ -1,4 +1,4 @@
-useDatabase: true
+useDatabase: false
 migrateData: false
 implicitHomeName: __home__
 mysql:

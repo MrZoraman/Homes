@@ -47,6 +47,8 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     @Override
     public void onEnable()
     {
+        setupConfig();
+        
         loader.addStep(this::unloadDb);
         loader.addStep(this::unregisterEvents);
         loader.addStep(this::setupConfig);
@@ -54,7 +56,8 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::registerGuranteeListener);
         loader.addStep(this::setupScripts);
         loader.addStep(this::setupDbSetup);
-        loader.addAsyncStep(this::setupDatabase);
+        if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+            loader.addAsyncStep(this::setupDatabase);
         loader.addStep(this::setupPostDb);
         loader.addStep(this::setupHomeIO);
         loader.addStep(this::setupHomeManager);
@@ -117,7 +120,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         reloadConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
-
+        
         PluginConfig.setConfig(getConfig());
         PluginConfig.howToSave(this::saveConfig);
         
@@ -137,7 +140,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupMessages()
     {
-        final ConfigAccessor messages = createYamlFile("messages");
+        final ConfigAccessor messages = createYamlFile("messages.yml");
         if(messages == null) return false;
         
         Messages.setMessages(messages.getConfig());
@@ -147,6 +150,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupHomeIO()
     {
+        System.out.println("using database: " + PluginConfig.getBoolean(ConfigKeys.USE_DATABASE));
         if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
         {
             this.io = new DBHomeIO(this, conn);
@@ -154,7 +158,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         }
         else
         {
-            final ConfigAccessor homes = createYamlFile("homes");
+            final ConfigAccessor homes = createYamlFile("homes.yml");
             if(homes == null) return false;
             
             this.io = new FlatfileHomeIO(homes);
@@ -240,14 +244,14 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private ConfigAccessor createYamlFile(String fileName)
     {
-        final File file = new File(getDataFolder(), fileName + ".yml");
+        final File file = new File(getDataFolder(), fileName);
         try
         {
             file.createNewFile();
         }
         catch (IOException ex)
         {
-            getLogger().severe("Failed to create " + fileName + " file!");
+            getLogger().severe("Failed to create " + fileName + "!");
             ex.printStackTrace();
             return null;
         }
