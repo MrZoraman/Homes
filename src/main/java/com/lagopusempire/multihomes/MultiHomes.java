@@ -49,9 +49,11 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::setupMessages);
         loader.addStep(this::setupScripts);
         loader.addStep(this::setupDbSetup);
-        loader.addAsyncStep(this::setupDatabase);
+        loader.addAsyncStep(databaseSetup::setup);
         loader.addStep(this::setupPostDb);
         loader.addStep(this::setupHomeIO);
+        loader.addStep(homeManager::loadOnlinePlayerMaps);
+        loader.addStep(homeManager::loadOnlinePlayerHomes);
         loader.addStep(this::setupHomeManager);
         loader.addStep(this::setupCommandSystem);
         loader.addStep(this::setupCommands);
@@ -171,11 +173,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     {
         databaseSetup = new DatabaseSetup(this);
         return true;
-    }
-
-    private boolean setupDatabase()
-    {
-        return databaseSetup.setup();
     }
     
     private boolean setupPostDb()

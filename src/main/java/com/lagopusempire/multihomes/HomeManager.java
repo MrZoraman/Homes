@@ -24,7 +24,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class HomeManager implements Listener
 {
-
+    
     private static final int PLAYER_LOGIN_FAIL_TIMEOUT = 20 * 15;//15 seconds
 
     private final Map<UUID, Map<String, Home>> homes = new HashMap<>();
@@ -68,12 +68,8 @@ public class HomeManager implements Listener
         io.loadHomes(event.getUniqueId(), (loadedHomes) ->
         {
             //SYNC
-            if (homes.get(uuid) == null)
-            {
-                homes.put(uuid, new HashMap<>());
-            }
-
-            homes.get(uuid).putAll(loadedHomes);
+            addHomeMap(uuid);
+            loadAllHomes(uuid);
         });
     }
 
@@ -117,5 +113,30 @@ public class HomeManager implements Listener
         }
         
         io.getHomeList(owner, callback);
+    }
+    
+    private void addHomeMap(UUID uuid)
+    {
+        if (homes.get(uuid) == null)
+        {
+            homes.put(uuid, new HashMap<>());
+        }
+    }
+    
+    boolean loadOnlinePlayerMaps()
+    {
+        plugin.getServer().getOnlinePlayers().forEach((player) -> addHomeMap(player.getUniqueId()));
+        return true;
+    }
+    
+    boolean loadOnlinePlayerHomes()
+    {
+        plugin.getServer().getOnlinePlayers().forEach((player) -> loadAllHomes(player.getUniqueId()));
+        return true;
+    }
+    
+    private void loadAllHomes(UUID uuid)
+    {
+        io.loadHomes(uuid, (loadedHomes) -> homes.get(uuid).putAll(loadedHomes));
     }
 }
