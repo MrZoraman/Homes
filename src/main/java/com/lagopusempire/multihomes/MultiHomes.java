@@ -26,7 +26,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class MultiHomes extends JavaPlugin implements LoadCallback
 {
-
     private final Loader loader;
 
     private BukkitLCS commandSystem;
@@ -73,6 +72,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
 
     public void reload(final LoadCallback callback)
     {
+        loaded = false;
         loader.load(this);
     }
 
