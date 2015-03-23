@@ -69,6 +69,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     @Override
     public void onDisable()
     {
+        unloadDb();
     }
     
     @Override
