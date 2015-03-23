@@ -49,12 +49,11 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::setupMessages);
         loader.addStep(this::setupScripts);
         loader.addStep(this::setupDbSetup);
-        loader.addAsyncStep(databaseSetup::setup);
+        loader.addAsyncStep(this::setupDatabase);
         loader.addStep(this::setupPostDb);
         loader.addStep(this::setupHomeIO);
-        loader.addStep(homeManager::loadOnlinePlayerMaps);
-        loader.addStep(homeManager::loadOnlinePlayerHomes);
         loader.addStep(this::setupHomeManager);
+        loader.addStep(this::loadOnlinePlayers);
         loader.addStep(this::setupCommandSystem);
         loader.addStep(this::setupCommands);
         
@@ -97,6 +96,14 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     {
         getLogger().severe("Something went wrong in " + getDescription().getName() + "! Disabling...");
         getServer().getPluginManager().disablePlugin(this);
+    }
+    
+    private boolean loadOnlinePlayers()
+    {
+        boolean success = true;
+        success &= homeManager.loadOnlinePlayerMaps();
+        success &= homeManager.loadOnlinePlayerHomes();
+        return success;
     }
     
     private boolean setupConfig()
@@ -173,6 +180,11 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     {
         databaseSetup = new DatabaseSetup(this);
         return true;
+    }
+
+    private boolean setupDatabase()
+    {
+        return databaseSetup.setup();
     }
     
     private boolean setupPostDb()
