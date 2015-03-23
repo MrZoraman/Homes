@@ -137,21 +137,8 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupMessages()
     {
-        final String fileName = "messages.yml";
-        final File messagesFile = new File(getDataFolder(), fileName);
-        try
-        {
-            messagesFile.createNewFile();
-        }
-        catch (IOException ex)
-        {
-            getLogger().severe("Failed to create messages file!");
-            ex.printStackTrace();
-            return false;
-        }
-        final ConfigAccessor messages = new ConfigAccessor(this, fileName);
-        messages.getConfig().options().copyDefaults(true);
-        messages.saveConfig();
+        final ConfigAccessor messages = createYamlFile("messages");
+        if(messages == null) return false;
         
         Messages.setMessages(messages.getConfig());
         
@@ -167,21 +154,8 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         }
         else
         {
-            final String fileName = "homes.yml";
-            final File homesFile = new File(getDataFolder(), fileName);
-            try
-            {
-                homesFile.createNewFile();
-            }
-            catch (IOException ex)
-            {
-                getLogger().severe("Failed to create homes file!");
-                ex.printStackTrace();
-                return false;
-            }
-            final ConfigAccessor homes = new ConfigAccessor(this, fileName);
-            homes.getConfig().options().copyDefaults(true);
-            homes.saveConfig();
+            final ConfigAccessor homes = createYamlFile("homes");
+            if(homes == null) return false;
             
             this.io = new FlatfileHomeIO(homes);
             return true;
@@ -262,5 +236,25 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     public boolean isLoaded()
     {
         return loaded;
+    }
+    
+    private ConfigAccessor createYamlFile(String fileName)
+    {
+        final File file = new File(getDataFolder(), fileName + ".yml");
+        try
+        {
+            file.createNewFile();
+        }
+        catch (IOException ex)
+        {
+            getLogger().severe("Failed to create " + fileName + " file!");
+            ex.printStackTrace();
+            return null;
+        }
+        final ConfigAccessor config = new ConfigAccessor(this, fileName);
+        config.getConfig().options().copyDefaults(true);
+        config.saveConfig();
+        
+        return config;
     }
 }
