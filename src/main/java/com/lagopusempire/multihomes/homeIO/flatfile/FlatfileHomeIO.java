@@ -64,7 +64,7 @@ public class FlatfileHomeIO implements HomeIO
         
         final Set<String> homeNames = config.getConfigurationSection(ownerName).getKeys(false);
         
-        homeNames.forEach((homeName) -> homes.put(homeName, loadHome(uuid, homeName)));
+        homeNames.forEach((homeName) -> homes.put(homeName, getHome(uuid, homeName)));
         
         callback.homesLoaded(homes);
     }
@@ -72,7 +72,7 @@ public class FlatfileHomeIO implements HomeIO
     @Override
     public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback)
     {
-        final Home home = loadHome(uuid, homeName);
+        final Home home = getHome(uuid, homeName);
         
         callback.homeLoaded(home);
     }
@@ -86,7 +86,7 @@ public class FlatfileHomeIO implements HomeIO
         callback.homeListLoaded(homeList);
     }
     
-    private Home loadHome(UUID uuid, String homeName)
+    private Home getHome(UUID uuid, String homeName)
     {
         final String path = uuid.toString() + "." + homeName + ".";
         
