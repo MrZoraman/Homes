@@ -7,6 +7,7 @@ import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomesLoadedCallback;
+import com.lagopusempire.multihomes.util.Util;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,9 +22,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
-import com.lagopusempire.multihomes.util.Util;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -85,6 +83,9 @@ public class DBHomeIO implements HomeIO
                     stmt.setFloat (4, home.getLoc().getYaw());
                     stmt.setFloat (5, home.getLoc().getPitch());
                     stmt.setString(6, home.getLoc().getWorld().getName());
+                    
+                    stmt.setString(7, uuid.toString());
+                    stmt.setString(8, home.getName());
                     
                     stmt.execute();
                     
@@ -197,6 +198,7 @@ public class DBHomeIO implements HomeIO
     private Home getHome(UUID uuid, String homeName)
     {
         final String loadHomeQuery = Scripts.getScript(LOAD_HOME);
+        System.out.println("load home query: " + loadHomeQuery);
         try(final PreparedStatement stmt = conn.prepareStatement(loadHomeQuery))
         {
             stmt.setString(1, uuid.toString());

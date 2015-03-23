@@ -31,7 +31,7 @@ public class Scripts
         }
         else
         {
-            final InputStream queryStream = plugin.getResource("scripts/create_homes_table.sql");
+            final InputStream queryStream = plugin.getResource(key.getKey());
             final String query = inputStreamToString(queryStream);
             try
             {
