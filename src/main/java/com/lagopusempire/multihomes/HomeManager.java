@@ -65,12 +65,8 @@ public class HomeManager implements Listener
         final UUID uuid = event.getUniqueId();
 
         //the plugin has been loaded at this point
-        io.loadHomes(event.getUniqueId(), (loadedHomes) ->
-        {
-            //SYNC
-            addHomeMap(uuid);
-            loadAllHomes(uuid);
-        });
+        addHomeMap(uuid);
+        loadAllHomes(uuid);
     }
 
     @EventHandler
@@ -117,7 +113,8 @@ public class HomeManager implements Listener
     
     private void addHomeMap(UUID uuid)
     {
-        if (homes.get(uuid) == null)
+        System.out.println("adding home map for " + uuid.toString());
+        if (!homes.containsKey(uuid))
         {
             homes.put(uuid, new HashMap<>());
         }

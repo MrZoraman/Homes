@@ -18,6 +18,7 @@ import java.io.IOException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
+import org.bukkit.event.HandlerList;
 
 /**
  *
@@ -45,6 +46,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     public void onEnable()
     {
         loader.addStep(this::unloadDb);
+        loader.addStep(this::unregisterEvents);
         loader.addStep(this::setupConfig);
         loader.addStep(this::setupMessages);
         loader.addStep(this::setupScripts);
@@ -53,6 +55,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::setupPostDb);
         loader.addStep(this::setupHomeIO);
         loader.addStep(this::setupHomeManager);
+        loader.addStep(this::setupEvents);
         loader.addStep(this::loadOnlinePlayers);
         loader.addStep(this::setupCommandSystem);
         loader.addStep(this::setupCommands);
@@ -185,6 +188,21 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private boolean setupDatabase()
     {
         return databaseSetup.setup();
+    }
+    
+    private boolean setupEvents()
+    {
+        getServer().getPluginManager().registerEvents(homeManager, this);
+        return true;
+    }
+    
+    private boolean unregisterEvents()
+    {
+        if(homeManager != null)
+        {
+            HandlerList.unregisterAll(homeManager);
+        }
+        return true;
     }
     
     private boolean setupPostDb()
