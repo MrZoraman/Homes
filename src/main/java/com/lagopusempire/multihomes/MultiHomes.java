@@ -16,10 +16,9 @@ import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.load.Loader;
 import java.io.File;
 import java.io.IOException;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.sql.Connection;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  *
@@ -27,28 +26,29 @@ import org.bukkit.event.HandlerList;
  */
 public class MultiHomes extends JavaPlugin implements LoadCallback
 {
+
     private final Loader loader;
-    
+
     private BukkitLCS commandSystem;
     private HomeIO io;
     private HomeManager homeManager;
     private DatabaseSetup databaseSetup;
     private Connection conn;
     private PluginStateGurantee stateGurantee;
-    
+
     private volatile boolean loaded = false;
-    
+
     public MultiHomes()
     {
         super();
         loader = new Loader(this);
     }
-    
+
     @Override
     public void onEnable()
     {
         setupConfig();
-        
+
         loader.addStep(this::unloadDb);
         loader.addStep(this::unregisterEvents);
         loader.addStep(this::setupConfig);
@@ -56,8 +56,10 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::registerGuranteeListener);
         loader.addStep(this::setupScripts);
         loader.addStep(this::setupDbSetup);
-        if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+        if (PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+        {
             loader.addAsyncStep(this::setupDatabase);
+        }
         loader.addStep(this::setupPostDb);
         loader.addStep(this::setupHomeIO);
         loader.addStep(this::setupHomeManager);
@@ -65,27 +67,19 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::loadOnlinePlayers);
         loader.addStep(this::setupCommandSystem);
         loader.addStep(this::setupCommands);
-        
+
         reload(this);
     }
-    
-    private boolean setupCommands()
+
+    public void reload(final LoadCallback callback)
     {
-        commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(this, homeManager));
-        commandSystem.registerCommand("home reload", new ReloadCommand(this));
-        return true;
+        loader.load(this);
     }
-    
-    @Override
-    public void onDisable()
-    {
-        unloadDb();
-    }
-    
+
     @Override
     public void reloadFinished(boolean result)
     {
-        if(result)
+        if (result)
         {
             getLogger().info(getDescription().getName() + " has been loaded successfully.");
             loaded = true;
@@ -95,98 +89,84 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
             disablePlugin();
         }
     }
-    
-    public void reload(final LoadCallback callback)
-    {
-        loader.load(this);
-    }
-    
+
     public void disablePlugin()
     {
         getLogger().severe("Something went wrong in " + getDescription().getName() + "! Disabling...");
         getServer().getPluginManager().disablePlugin(this);
     }
-    
-    private boolean loadOnlinePlayers()
+
+    @Override
+    public void onDisable()
     {
-        boolean success = true;
-        success &= homeManager.loadOnlinePlayerMaps();
-        success &= homeManager.loadOnlinePlayerHomes();
-        return success;
+        unloadDb();
     }
-    
+
+    private boolean unloadDb()
+    {
+        if (io != null)
+        {
+            return io.close();
+        }
+        return true;
+    }
+
+    private boolean unregisterEvents()
+    {
+        if (homeManager != null)
+        {
+            HandlerList.unregisterAll(homeManager);
+        }
+
+        if (stateGurantee != null)
+        {
+            HandlerList.unregisterAll(stateGurantee);
+        }
+        return true;
+    }
+
     private boolean setupConfig()
     {
         reloadConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
-        
+
         PluginConfig.setConfig(getConfig());
         PluginConfig.howToSave(this::saveConfig);
-        
+
         return true;
     }
-    
-    private boolean registerGuranteeListener()
-    {
-        if(stateGurantee == null)
-        {
-            stateGurantee = new PluginStateGurantee(this);
-        }
-        
-        getServer().getPluginManager().registerEvents(stateGurantee, this);
-        return true;
-    }
-    
+
     private boolean setupMessages()
     {
         final ConfigAccessor messages = createYamlFile("messages.yml");
-        if(messages == null) return false;
-        
+        if (messages == null)
+        {
+            return false;
+        }
+
         Messages.setMessages(messages.getConfig());
-        
+
         return true;
     }
-    
-    private boolean setupHomeIO()
+
+    private boolean registerGuranteeListener()
     {
-        if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+        if (stateGurantee == null)
         {
-            this.io = new DBHomeIO(this, conn);
-            return true;
+            stateGurantee = new PluginStateGurantee(this);
         }
-        else
-        {
-            final ConfigAccessor homes = createYamlFile("homes.yml");
-            if(homes == null) return false;
-            
-            this.io = new FlatfileHomeIO(homes);
-            return true;
-        }
-    }
-    
-    private boolean setupHomeManager()
-    {
-        this.homeManager = new HomeManager(this, io);
+
+        getServer().getPluginManager().registerEvents(stateGurantee, this);
         return true;
     }
-    
-    private boolean setupCommandSystem()
-    {
-        commandSystem = new BukkitLCS();
-        
-        getCommand("home").setExecutor(commandSystem);
-        getCommand("sethome").setExecutor(commandSystem);
-        
-        return true;
-    }
-    
+
     private boolean setupScripts()
     {
         Scripts.setPlugin(this);
         return true;
     }
-    
+
     private boolean setupDbSetup()
     {
         databaseSetup = new DatabaseSetup(this);
@@ -197,50 +177,76 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     {
         return databaseSetup.setup();
     }
-    
+
+    private boolean setupPostDb()
+    {
+        final boolean success = databaseSetup.postSetup();
+        if (!success)
+        {
+            return false;
+        }
+
+        this.conn = databaseSetup.getConnection();
+        return true;
+    }
+
+    private boolean setupHomeIO()
+    {
+        if (PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+        {
+            this.io = new DBHomeIO(this, conn);
+            return true;
+        }
+        else
+        {
+            final ConfigAccessor homes = createYamlFile("homes.yml");
+            if (homes == null)
+            {
+                return false;
+            }
+
+            this.io = new FlatfileHomeIO(homes);
+            return true;
+        }
+    }
+
+    private boolean setupHomeManager()
+    {
+        this.homeManager = new HomeManager(this, io);
+        return true;
+    }
+
     private boolean setupEvents()
     {
         getServer().getPluginManager().registerEvents(homeManager, this);
         return true;
     }
-    
-    private boolean unregisterEvents()
+
+    private boolean loadOnlinePlayers()
     {
-        if(homeManager != null)
-        {
-            HandlerList.unregisterAll(homeManager);
-        }
-        
-        if(stateGurantee != null)
-        {
-            HandlerList.unregisterAll(stateGurantee);
-        }
-        return true;
+        boolean success = true;
+        success &= homeManager.loadOnlinePlayerMaps();
+        success &= homeManager.loadOnlinePlayerHomes();
+        return success;
     }
-    
-    private boolean setupPostDb()
+
+    private boolean setupCommandSystem()
     {
-        final boolean success = databaseSetup.postSetup();
-        if(!success) return false;
-        
-        this.conn = databaseSetup.getConnection();
-        return true;
-    }
-    
-    private boolean unloadDb()
-    {
-        if(io != null)
-        {
-            return io.close();
-        }
+        commandSystem = new BukkitLCS();
+
+        getCommand("home").setExecutor(commandSystem);
+        getCommand("sethome").setExecutor(commandSystem);
+
         return true;
     }
 
-    public boolean isLoaded()
+    private boolean setupCommands()
     {
-        return loaded;
+        commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(this, homeManager));
+        commandSystem.registerCommand("home reload", new ReloadCommand(this));
+        return true;
     }
-    
+
     private ConfigAccessor createYamlFile(String fileName)
     {
         final File file = new File(getDataFolder(), fileName);
@@ -257,7 +263,12 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         final ConfigAccessor config = new ConfigAccessor(this, fileName);
         config.getConfig().options().copyDefaults(true);
         config.saveConfig();
-        
+
         return config;
+    }
+
+    public boolean isLoaded()
+    {
+        return loaded;
     }
 }
