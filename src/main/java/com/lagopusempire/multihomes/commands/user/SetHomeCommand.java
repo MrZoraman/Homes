@@ -21,17 +21,20 @@ public class SetHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-//        final String homeName;
-//        if(args.length > 0)
-//        {
-//            homeName = args[0];
-//        }
-//        else
-//        {
-//            homeName = PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
-//        }
+        final String homeName;
+        if(args.length > 0)
+        {
+            homeName = args[0];
+        }
+        else
+        {
+            homeName = PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
+        }
         
-        System.out.println("Success!");
+        homeManager.setHome(player, player.getUniqueId(), homeName, () -> 
+        {
+            player.sendMessage("Home has been set.");
+        });
         
         return true;
     }
