@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static com.lagopusempire.multihomes.config.ConfigKeys.*;
 import java.sql.Connection;
 
 /**
@@ -141,7 +140,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupHomeManager()
     {
-        this.homeManager = new HomeManager(io);
+        this.homeManager = new HomeManager(this, io);
         return true;
     }
     
