@@ -150,7 +150,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupHomeIO()
     {
-        System.out.println("using database: " + PluginConfig.getBoolean(ConfigKeys.USE_DATABASE));
         if(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
         {
             this.io = new DBHomeIO(this, conn);
