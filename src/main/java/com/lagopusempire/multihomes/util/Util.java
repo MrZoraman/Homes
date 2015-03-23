@@ -16,12 +16,18 @@ import java.sql.SQLException;
  */
 public class Util
 {
+    private static final int DB_LOGIN_TIMEOUT = 5;
+    
+    static
+    {
+        DriverManager.setLoginTimeout(DB_LOGIN_TIMEOUT);
+    }
+    
     public static Connection createConnection() throws SQLException
     {
         String url = getDatabaseURL();
         final String username = PluginConfig.getString(MYSQL_USERNAME);
         final String password = PluginConfig.getString(MYSQL_PASSWORD);
-        
         return DriverManager.getConnection(url, username, password);
     }
     

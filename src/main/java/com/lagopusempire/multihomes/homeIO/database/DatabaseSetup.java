@@ -67,15 +67,6 @@ public class DatabaseSetup
     {
         try
         {
-            Thread.sleep(20000);
-        }
-        catch (InterruptedException ex)
-        {
-            ex.printStackTrace();
-        }
-        
-        try
-        {
             Class.forName(MYSQL_DRIVER);
         }
         catch (Exception ex)
