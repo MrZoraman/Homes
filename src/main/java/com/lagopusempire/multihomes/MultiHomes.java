@@ -60,7 +60,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupCommands()
     {
-        commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(homeManager));
+        commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(this, homeManager));
         commandSystem.registerCommand("home reload", new ReloadCommand(this));
         return true;
     }

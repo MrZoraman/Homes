@@ -2,9 +2,9 @@ package com.lagopusempire.multihomes.commands;
 
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.HomeManager;
+import com.lagopusempire.multihomes.MultiHomes;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,9 +15,11 @@ import org.bukkit.entity.Player;
 public abstract class CommandBase implements IBukkitLCSCommand
 {
     protected final HomeManager homeManager;
+    private final MultiHomes plugin;
     
-    public CommandBase(HomeManager homeManager)
+    public CommandBase(MultiHomes plugin, HomeManager homeManager)
     {
+        this.plugin = plugin;
         this.homeManager = homeManager;
     }
     
@@ -26,6 +28,12 @@ public abstract class CommandBase implements IBukkitLCSCommand
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] preArgs, String[] args)
     {
+        if(!plugin.isLoaded())
+        {
+            sender.sendMessage(ChatColor.RED + "Multihomes is not loaded yet!");
+            return true;
+        }
+        
         if(!(sender instanceof Player))
         {
             sender.sendMessage(ChatColor.RED + "You must be a player to use that command!");
