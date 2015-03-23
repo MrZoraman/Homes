@@ -47,7 +47,7 @@ public class DBHomeIO implements HomeIO
         {
             verifyConnection();
             
-            if(getHome(uuid, home.getName()) == null)
+            if(getHome(uuid, home.getName()).getLoadResult() == LoadResult.DOES_NOT_EXIST)
             {
                 //home does not exist
                 final String query = Scripts.getScript(CREATE_HOME);
@@ -73,6 +73,7 @@ public class DBHomeIO implements HomeIO
             }
             else
             {
+                System.out.println("home exists, updating it");
                 //home exists, update it
                 final String query = Scripts.getScript(UPDATE_HOME);
                 try(final PreparedStatement stmt = conn.prepareStatement(query))
@@ -198,7 +199,6 @@ public class DBHomeIO implements HomeIO
     private Home getHome(UUID uuid, String homeName)
     {
         final String loadHomeQuery = Scripts.getScript(LOAD_HOME);
-        System.out.println("load home query: " + loadHomeQuery);
         try(final PreparedStatement stmt = conn.prepareStatement(loadHomeQuery))
         {
             stmt.setString(1, uuid.toString());
