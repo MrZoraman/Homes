@@ -44,6 +44,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     @Override
     public void onEnable()
     {
+        loader.addStep(this::unloadDb);
         loader.addStep(this::setupConfig);
         loader.addStep(this::setupMessages);
         loader.addStep(this::setupScripts);
@@ -63,6 +64,11 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         commandSystem.registerCommand("{home set}|sethome", new SetHomeCommand(this, homeManager));
         commandSystem.registerCommand("home reload", new ReloadCommand(this));
         return true;
+    }
+    
+    @Override
+    public void onDisable()
+    {
     }
     
     @Override
@@ -177,6 +183,15 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         if(!success) return false;
         
         this.conn = databaseSetup.getConnection();
+        return true;
+    }
+    
+    private boolean unloadDb()
+    {
+        if(io != null)
+        {
+            return io.close();
+        }
         return true;
     }
 

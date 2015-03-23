@@ -22,6 +22,8 @@ import org.bukkit.World;
 
 import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
 import com.lagopusempire.multihomes.util.Util;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -249,5 +251,24 @@ public class DBHomeIO implements HomeIO
             e.printStackTrace();
             plugin.disablePlugin();
         }
+    }
+    
+    @Override
+    public boolean close()
+    {
+        try
+        {
+            if(conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+            return false;
+        }
+        
+        return true;
     }
 }

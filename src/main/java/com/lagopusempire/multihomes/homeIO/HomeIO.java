@@ -13,4 +13,9 @@ public interface HomeIO
     public void loadHomes(UUID uuid, HomesLoadedCallback callback);
     public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback);
     public void getHomeList(UUID uuid, HomeListLoadedCallback callback);
+    
+    public default boolean close() 
+    {
+        return true;
+    }
 }
