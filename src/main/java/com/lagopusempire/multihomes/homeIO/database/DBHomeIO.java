@@ -1,5 +1,6 @@
 package com.lagopusempire.multihomes.homeIO.database;
 
+import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
@@ -12,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.bukkit.plugin.java.JavaPlugin;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +21,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
+import com.lagopusempire.multihomes.util.Util;
 
 /**
  *
@@ -28,10 +29,10 @@ import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
  */
 public class DBHomeIO implements HomeIO
 {
-    private final JavaPlugin plugin;
-    private final Connection conn;
+    private final MultiHomes plugin;
+    private Connection conn;
     
-    public DBHomeIO(JavaPlugin plugin, Connection conn)
+    public DBHomeIO(MultiHomes plugin, Connection conn)
     {
         this.plugin = plugin;
         this.conn = conn;
@@ -44,6 +45,8 @@ public class DBHomeIO implements HomeIO
         
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
+            verifyConnection();
+            
             if(getHome(uuid, home.getName()) == null)
             {
                 //home does not exist
@@ -98,6 +101,8 @@ public class DBHomeIO implements HomeIO
     {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
+            verifyConnection();
+            
             final Map<String, Home> homes = new HashMap<>();
             
             final String query = Scripts.getScript(LOAD_HOMES);
@@ -148,6 +153,8 @@ public class DBHomeIO implements HomeIO
     {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
+            verifyConnection();
+            
             final Home home = getHome(uuid, homeName);
             
             plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeLoaded(home));
@@ -159,6 +166,8 @@ public class DBHomeIO implements HomeIO
     {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
+            verifyConnection();
+            
             final List<String> homes = new ArrayList<>();
             
             final String query = Scripts.getScript(LIST_HOMES);
@@ -223,6 +232,22 @@ public class DBHomeIO implements HomeIO
         {
             ex.printStackTrace();
             return null;
+        }
+    }
+    
+    private void verifyConnection()
+    {
+        try
+        {
+            if(conn == null || conn.isClosed() || !conn.isValid(10))
+            {
+                conn = Util.createConnection();
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            plugin.disablePlugin();
         }
     }
 }

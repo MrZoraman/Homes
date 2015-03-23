@@ -84,9 +84,9 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.load(this);
     }
     
-    private void disablePlugin()
+    public void disablePlugin()
     {
-        getLogger().severe("Something went wrong while loading " + getDescription().getName() + "! Disabling...");
+        getLogger().severe("Something went wrong in " + getDescription().getName() + "! Disabling...");
         getServer().getPluginManager().disablePlugin(this);
     }
     
