@@ -1,5 +1,7 @@
 package com.lagopusempire.multihomes;
 
+import com.lagopusempire.multihomes.messages.MessageKeys;
+import com.lagopusempire.multihomes.messages.Messages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -23,8 +25,12 @@ public class PluginStateGurantee implements Listener
     {
         if(!plugin.isLoaded())
         {
-            plugin.getLogger().warning("Prventing player " + event.getName() + " from joining the server because multihomes isn't loaded yet.");
-            event.setKickMessage("Server is still loading! Please try logging in again.");
+            plugin.getLogger().warning("Prventing player " + event.getName() 
+                    + " from joining the server because " 
+                    + plugin.getDescription().getName() 
+                    + " is not loaded yet.");
+            
+            event.setKickMessage(Messages.getMessage(MessageKeys.LOGIN_AND_STILL_LOADING).colorize().stripColors().toString());
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
         }
     }

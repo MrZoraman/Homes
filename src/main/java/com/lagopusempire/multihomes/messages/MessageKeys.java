@@ -8,7 +8,8 @@ public enum MessageKeys
 {
     RELOAD_SUCCESS("reload.success"),
     RELOAD_FAILURE("reload.failure"),
-    NO_PERMISSION("noPermissions");
+    NO_PERMISSION("noPermissions"),
+    LOGIN_AND_STILL_LOADING("loginAndStillLoading");
 
     private final String key;
 
