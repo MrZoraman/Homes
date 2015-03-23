@@ -33,8 +33,9 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private HomeManager homeManager;
     private DatabaseSetup databaseSetup;
     private Connection conn;
+    private PluginStateGurantee stateGurantee;
     
-    private boolean loaded = false;
+    private volatile boolean loaded = false;
     
     public MultiHomes()
     {
@@ -49,6 +50,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::unregisterEvents);
         loader.addStep(this::setupConfig);
         loader.addStep(this::setupMessages);
+        loader.addStep(this::registerGuranteeListener);
         loader.addStep(this::setupScripts);
         loader.addStep(this::setupDbSetup);
         loader.addAsyncStep(this::setupDatabase);
@@ -118,6 +120,17 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         PluginConfig.setConfig(getConfig());
         PluginConfig.howToSave(this::saveConfig);
         
+        return true;
+    }
+    
+    private boolean registerGuranteeListener()
+    {
+        if(stateGurantee == null)
+        {
+            stateGurantee = new PluginStateGurantee(this);
+        }
+        
+        getServer().getPluginManager().registerEvents(stateGurantee, this);
         return true;
     }
     
@@ -202,6 +215,11 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         if(homeManager != null)
         {
             HandlerList.unregisterAll(homeManager);
+        }
+        
+        if(stateGurantee != null)
+        {
+            HandlerList.unregisterAll(stateGurantee);
         }
         return true;
     }

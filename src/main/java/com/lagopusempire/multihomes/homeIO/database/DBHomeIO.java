@@ -73,7 +73,6 @@ public class DBHomeIO implements HomeIO
             }
             else
             {
-                System.out.println("home exists, updating it");
                 //home exists, update it
                 final String query = Scripts.getScript(UPDATE_HOME);
                 try(final PreparedStatement stmt = conn.prepareStatement(query))

@@ -24,9 +24,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class HomeManager implements Listener
 {
-    
-    private static final int PLAYER_LOGIN_FAIL_TIMEOUT = 20 * 15;//15 seconds
-
     private final Map<UUID, Map<String, Home>> homes = new HashMap<>();
 
     private final HomeIO io;
@@ -38,30 +35,9 @@ public class HomeManager implements Listener
         this.io = io;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority=EventPriority.MONITOR)
     public void onPlayerJoinAsync(AsyncPlayerPreLoginEvent event)
     {
-        boolean notifiedConsole = false;
-        int failCounter = 0;
-        //ASYNC
-        while (plugin.isEnabled() == false)
-        {
-            if (!notifiedConsole)
-            {
-                plugin.getLogger().warning("Prventing player " + event.getName() + " from joining the server because multihomes isn't loaded yet.");
-                notifiedConsole = true;
-            }
-
-            failCounter++;
-
-            if (failCounter >= PLAYER_LOGIN_FAIL_TIMEOUT)
-            {
-                event.setKickMessage("Server is experiencing internal errors. Please try again later.");
-                event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
-                return;
-            }
-        }
-
         final UUID uuid = event.getUniqueId();
 
         //the plugin has been loaded at this point

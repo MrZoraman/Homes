@@ -4,7 +4,6 @@ import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.util.Util;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,6 +65,15 @@ public class DatabaseSetup
     
     public boolean setup()
     {
+        try
+        {
+            Thread.sleep(20000);
+        }
+        catch (InterruptedException ex)
+        {
+            ex.printStackTrace();
+        }
+        
         try
         {
             Class.forName(MYSQL_DRIVER);
