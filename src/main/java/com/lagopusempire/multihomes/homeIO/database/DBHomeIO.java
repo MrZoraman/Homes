@@ -104,11 +104,47 @@ public class DBHomeIO implements HomeIO
         {
             final Map<String, Home> homes = new HashMap<>();
             
+            final String query = Scripts.getScript(LOAD_HOMES);
+            try(final PreparedStatement stmt = conn.prepareStatement(query))
+            {
+                stmt.setString(1, uuid.toString());
+
+                try(final ResultSet rs = stmt.executeQuery())
+                {
+                    while(rs.next())
+                    {
+                        final String homeName = rs.getString("home_name");
+                        final double x = rs.getDouble("x");
+                        final double y = rs.getDouble("y");
+                        final double z = rs.getDouble("z");
+                        final float yaw = rs.getFloat("yaw");
+                        final float pitch = rs.getFloat("pitch");
+                        final String worldName = rs.getString("world_name");
+                        
+                        final World world = Bukkit.getWorld(worldName);
+                        final Home home;
+                        if(world == null)
+                        {
+                            home = new Home(uuid, homeName, LoadResult.NO_WORLD);
+                        }
+                        else
+                        {
+                            final Location loc = new Location(world, x, y, z, yaw, pitch);
+                            
+                            home = new Home(uuid, homeName, loc);
+                        }
+                        
+                        homes.put(homeName, home);
+                    }
+                }
+            }
+            catch (SQLException ex)
+            {
+                ex.printStackTrace();
+            }
             
             plugin.getServer().getScheduler().runTask(plugin, () -> callback.homesLoaded(homes));
         });
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -177,8 +213,7 @@ public class DBHomeIO implements HomeIO
         catch (SQLException ex)
         {
             ex.printStackTrace();
+            return null;
         }
-        
-        throw new IllegalStateException("Undefined state in DBHomeIO! (This is the developer's problem)");
     }
 }
