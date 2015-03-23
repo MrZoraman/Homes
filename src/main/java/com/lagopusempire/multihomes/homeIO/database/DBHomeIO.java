@@ -52,14 +52,48 @@ public class DBHomeIO implements HomeIO
             {
                 //home does not exist
                 final String query = Scripts.getScript(CREATE_HOME);
-                
+                try(final PreparedStatement stmt = conn.prepareStatement(query))
+                {
+                    stmt.setString(1, home.getOwner().toString());
+                    stmt.setString(2, home.getName());
+                    stmt.setDouble(3, home.getLoc().getX());
+                    stmt.setDouble(4, home.getLoc().getY());
+                    stmt.setDouble(5, home.getLoc().getZ());
+                    stmt.setFloat (6, home.getLoc().getYaw());
+                    stmt.setFloat (7, home.getLoc().getPitch());
+                    stmt.setString(8, home.getLoc().getWorld().getName());
+                    
+                    stmt.execute();
+                    
+                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.run());
+                }
+                catch (SQLException e)
+                {
+                    e.printStackTrace();
+                }
             }
             else
             {
                 //home exists, update it
+                final String query = Scripts.getScript(UPDATE_HOME);
+                try(final PreparedStatement stmt = conn.prepareStatement(query))
+                {
+                    stmt.setDouble(1, home.getLoc().getX());
+                    stmt.setDouble(2, home.getLoc().getY());
+                    stmt.setDouble(3, home.getLoc().getZ());
+                    stmt.setFloat (4, home.getLoc().getYaw());
+                    stmt.setFloat (5, home.getLoc().getPitch());
+                    stmt.setString(6, home.getLoc().getWorld().getName());
+                    
+                    stmt.execute();
+                    
+                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.run());
+                }
+                catch (SQLException e)
+                {
+                    e.printStackTrace();
+                }
             }
-            
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.run());
         });
     }
 
