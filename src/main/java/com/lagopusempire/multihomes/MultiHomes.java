@@ -111,6 +111,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean setupConfig()
     {
+        reloadConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
 
