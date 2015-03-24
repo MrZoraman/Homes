@@ -38,12 +38,8 @@ public class GoHomeCommand extends CommandBase
                 ? args[0] 
                 : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
         
-        System.out.println("home name: " + homeName);
-        
         homeManager.getHome(player.getUniqueId(), homeName, (home) -> 
         {
-            System.out.println("call!");
-            
             final LoadResult result = home.getLoadResult();
             
             MessageKeys key;
@@ -52,7 +48,6 @@ public class GoHomeCommand extends CommandBase
             switch(result)
             {
                 case NO_WORLD:
-                    System.out.println("no world");
                     key = usingExplicitHome
                             ? MessageKeys.Home_GET_NOT_LOADED_IMPLICIT
                             : MessageKeys.Home_GET_NOT_LOADED_EXPLICIT;
@@ -63,7 +58,6 @@ public class GoHomeCommand extends CommandBase
                     break;
                     
                 case DOES_NOT_EXIST:
-                    System.out.println("does not exist");
                     key = usingExplicitHome
                             ? MessageKeys.HOME_GET_NOEXIST_EXPLICIT
                             : MessageKeys.HOME_GET_NOEXIST_IMPLICIT;
@@ -74,7 +68,6 @@ public class GoHomeCommand extends CommandBase
                     break;
                     
                 case SUCCESS:
-                    System.out.println("success");
                     final Location loc = home.getLoc();
                     player.teleport(loc);
             }
