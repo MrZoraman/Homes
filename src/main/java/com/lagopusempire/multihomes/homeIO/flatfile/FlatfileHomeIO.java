@@ -103,7 +103,7 @@ public class FlatfileHomeIO implements HomeIO
     {
         final String path = uuid.toString() + "." + homeName + ".";
         
-        final World world = Bukkit.getWorld(config.getString(path + "worldName"));
+        final World world = Bukkit.getWorld(path + "worldName");
         if(world == null)
         {
             return new Home(uuid, homeName, LoadResult.NO_WORLD);
