@@ -66,8 +66,10 @@ public class HomeManager implements Listener
             if (home != null)
             {
                 callback.homeLoaded(home);
+                return;
             }
             callback.homeLoaded(new Home(owner, homeName, LoadResult.DOES_NOT_EXIST));
+            return;
         }
 
         //The player is offline
