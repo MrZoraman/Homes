@@ -84,6 +84,7 @@ public class HomeManager implements Listener
             final List<String> homeList = new ArrayList<>(homeSet);
             java.util.Collections.sort(homeList);
             callback.homeListLoaded(homeList);
+            return;
         }
         
         io.getHomeList(owner, callback);
@@ -91,7 +92,6 @@ public class HomeManager implements Listener
     
     private void addHomeMap(UUID uuid)
     {
-        System.out.println("adding home map for " + uuid.toString());
         if (!homes.containsKey(uuid))
         {
             homes.put(uuid, new HashMap<>());
