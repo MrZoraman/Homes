@@ -7,4 +7,4 @@ mustBePlayer: '&cYou must be a player to use that command!'
 notLoaded: '&cMultihomes is not loaded yet!'
 homeSet:
   implicit: '&2Home has been set!'
-  explicit: '&2Home ''&a%home%'' &2has been set!'
+  explicit: '&2Home ''&a%home%&2'' has been set!'
