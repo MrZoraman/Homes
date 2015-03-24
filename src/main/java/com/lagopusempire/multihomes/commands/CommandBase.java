@@ -3,8 +3,10 @@ package com.lagopusempire.multihomes.commands;
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -43,5 +45,13 @@ public abstract class CommandBase implements IBukkitLCSCommand
         }
         
         return onCommand((Player) sender, args);
+    }
+    
+    protected String getNoPermsMsg(Permissions perm)
+    {
+        return Messages.getMessage(MessageKeys.NO_PERMISSION)
+                .colorize()
+                .replace("node", perm.getNode())
+                .toString();
     }
 }

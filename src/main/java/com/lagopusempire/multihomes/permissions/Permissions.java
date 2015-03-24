@@ -8,18 +8,36 @@ import org.bukkit.permissions.Permissible;
  */
 public enum Permissions
 {
-    RELOAD("multihomes.reload"),
-    HELP("multihomes.help");
+    RELOAD  ("multihomes.reload"),
+    HELP    ("multihomes.help"),
+    
+    SET_HOME("multihomes.set.self",
+             "multihomes.sethome");
 
-    private Permissions(String node)
+    private Permissions(String... nodes)
     {
-        this.node = node;
+        if(nodes.length < 1) 
+            throw new IllegalStateException("Permission " + toString() + " must have at least one node! (This is a programmer error)");
+        
+        this.nodes = nodes;
     }
 
-    private final String node;
+    private final String[] nodes;
+    
+    public String getNode()
+    {
+        return nodes[0];
+    }
 
     public boolean check(Permissible p)
     {
-        return p.hasPermission(node);
+        boolean hasPermission = false;
+        
+        for(int ii = 0; ii < nodes.length; ii++)
+        {
+            hasPermission |= p.hasPermission(nodes[ii]);
+        }
+        
+        return hasPermission;
     }
 }

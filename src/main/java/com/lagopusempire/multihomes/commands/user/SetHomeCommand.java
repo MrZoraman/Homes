@@ -5,6 +5,10 @@ import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
+import com.lagopusempire.multihomes.messages.MessageFormatter;
+import com.lagopusempire.multihomes.messages.MessageKeys;
+import com.lagopusempire.multihomes.messages.Messages;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 
 /**
@@ -21,19 +25,28 @@ public class SetHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        final String homeName;
-        if(args.length > 0)
+        final boolean usingImplicitHome = args.length > 0;
+        final String homeName = usingImplicitHome 
+                ? args[0] 
+                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
+        
+        if(!Permissions.SET_HOME.check(player))
         {
-            homeName = args[0];
-        }
-        else
-        {
-            homeName = PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
+            player.sendMessage(getNoPermsMsg(Permissions.SET_HOME));
+            return true;
         }
         
         homeManager.setHome(player, player.getUniqueId(), homeName, () -> 
         {
-            player.sendMessage("Home has been set.");
+            final MessageKeys key = usingImplicitHome
+                    ? MessageKeys.HOME_SET_IMPLICIT
+                    : MessageKeys.HOME_SET_EXPLICIT;
+            
+            final MessageFormatter formatter = Messages.getMessage(key)
+                    .colorize()
+                    .replace("home", homeName);
+            
+            player.sendMessage(formatter.toString());
         });
         
         return true;
