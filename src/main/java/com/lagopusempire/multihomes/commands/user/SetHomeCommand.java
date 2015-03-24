@@ -25,16 +25,16 @@ public class SetHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        final boolean usingExplicitHome = args.length > 0;
-        final String homeName = usingExplicitHome 
-                ? args[0] 
-                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
-        
         if(!Permissions.SET_HOME.check(player))
         {
             player.sendMessage(getNoPermsMsg(Permissions.SET_HOME));
             return true;
         }
+        
+        final boolean usingExplicitHome = args.length > 0;
+        final String homeName = usingExplicitHome 
+                ? args[0] 
+                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
         
         homeManager.setHome(player, player.getUniqueId(), homeName, () -> 
         {
