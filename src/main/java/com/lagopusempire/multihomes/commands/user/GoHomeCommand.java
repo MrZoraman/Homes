@@ -5,12 +5,11 @@ import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
-import com.lagopusempire.multihomes.home.LoadResult;
+import com.lagopusempire.multihomes.home.HomeLoadPackage;
 import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
@@ -40,12 +39,12 @@ public class GoHomeCommand extends CommandBase
         
         homeManager.getHome(player.getUniqueId(), homeName, (home) -> 
         {
-            final LoadResult result = home.getLoadResult();
+            final HomeLoadPackage pack = home.getHomeLoadPackage();
             
             MessageKeys key;
             MessageFormatter formatter;
             
-            switch(result)
+            switch(pack.loadResult)
             {
                 case NO_WORLD:
                     key = usingExplicitHome
@@ -68,8 +67,7 @@ public class GoHomeCommand extends CommandBase
                     break;
                     
                 case SUCCESS:
-                    final Location loc = home.getLoc();
-                    player.teleport(loc);
+                    player.teleport(pack.loc);
             }
         });
         

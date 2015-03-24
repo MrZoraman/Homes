@@ -1,7 +1,6 @@
 package com.lagopusempire.multihomes;
 
 import com.lagopusempire.multihomes.home.Home;
-import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
@@ -68,7 +67,7 @@ public class HomeManager implements Listener
                 callback.homeLoaded(home);
                 return;
             }
-            callback.homeLoaded(new Home(owner, homeName, LoadResult.DOES_NOT_EXIST));
+            callback.homeLoaded(new Home(owner, homeName));
             return;
         }
 

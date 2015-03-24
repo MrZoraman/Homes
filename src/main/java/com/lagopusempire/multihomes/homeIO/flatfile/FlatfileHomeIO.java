@@ -1,8 +1,8 @@
 package com.lagopusempire.multihomes.homeIO.flatfile;
 
 import com.lagopusempire.multihomes.config.ConfigAccessor;
+import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
-import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
@@ -14,9 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -38,17 +35,17 @@ public class FlatfileHomeIO implements HomeIO
     @Override
     public void saveHome(Home home, Runnable callback)
     {
-        final Location loc = home.getLoc();
+        final Coordinates coords = home.getCoords();
         final String ownerName = home.getOwner().toString();
         
         final String path = ownerName + "." + home.getName() + ".";
         
-        config.set(path + "x", loc.getX());
-        config.set(path + "y", loc.getY());
-        config.set(path + "z", loc.getZ());
-        config.set(path + "yaw", loc.getYaw());
-        config.set(path + "pitch", loc.getPitch());
-        config.set(path + "worldName", loc.getWorld().getName());
+        config.set(path + "x", coords.x);
+        config.set(path + "y", coords.y);
+        config.set(path + "z", coords.z);
+        config.set(path + "yaw", coords.yaw);
+        config.set(path + "pitch", coords.pitch);
+        config.set(path + "worldName", home.getWorldName());
         
         homesFile.saveConfig();
         
@@ -102,26 +99,22 @@ public class FlatfileHomeIO implements HomeIO
     private Home getHome(UUID uuid, String homeName)
     {
         final String path = uuid.toString() + "." + homeName + ".";
-        final World world = Bukkit.getWorld(config.getString(path + "worldName"));
-        if(world == null)
-        {
-            return new Home(uuid, homeName, LoadResult.NO_WORLD);
-        }
         
         if(!config.contains(path))
         {
-            System.out.println("didn't find shit at " + path);
-            return new Home(uuid, homeName, LoadResult.DOES_NOT_EXIST);
+            return new Home(uuid, homeName);
         }
         
-        final double x = config.getDouble(path + "x");
-        final double y = config.getDouble(path + "y");
-        final double z = config.getDouble(path + "z");
-        final float yaw = (float) config.getDouble(path + "yaw");
-        final float pitch = (float) config.getDouble(path + "pitch");
+        final String worldName = config.getString(path + ".worldName");
+        
+        final Coordinates coords = new Coordinates();
+        
+        coords.x = config.getDouble(path + "x");
+        coords.y = config.getDouble(path + "y");
+        coords.z = config.getDouble(path + "z");
+        coords.yaw = (float) config.getDouble(path + "yaw");
+        coords.pitch = (float) config.getDouble(path + "pitch");
 
-        final Location loc = new Location(world, x, y, z, yaw, pitch);
-
-        return new Home(uuid, homeName, loc);
+        return new Home(uuid, homeName, coords, worldName);
     }
 }

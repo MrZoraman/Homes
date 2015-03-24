@@ -1,7 +1,9 @@
 package com.lagopusempire.multihomes.home;
 
 import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 /**
  *
@@ -10,22 +12,40 @@ import org.bukkit.Location;
 public class Home
 {
     private String name;
-    private Location loc;
     
     private final UUID owner;
-    private final LoadResult loadResult;
     
-    public Home(UUID owner, String name, LoadResult loadResult)
+    private Coordinates coords = null;
+    private String worldName = null;
+    
+    public Home(UUID owner, String name)
     {
         this.owner = owner;
         this.name = name;
-        this.loadResult = loadResult;
     }
     
     public Home(UUID owner, String name, Location loc)
     {
-        this(owner, name, LoadResult.SUCCESS);
-        this.loc = loc;
+        this(owner, name, new Coordinates(loc), loc.getWorld().getName());
+    }
+    
+    public Home(UUID owner, String name, Coordinates coords, String worldName)
+    {
+        this(owner, name);
+        this.coords = coords;
+        this.worldName = worldName;
+    }
+    
+    public HomeLoadPackage getHomeLoadPackage()
+    {
+        if(coords == null)
+            return new HomeLoadPackage(null, LoadResult.DOES_NOT_EXIST);
+        
+        final World world = Bukkit.getWorld(worldName);
+        if(world == null)
+            return new HomeLoadPackage(null, LoadResult.NO_WORLD);
+        
+        return new HomeLoadPackage(coords.toLoc(world), LoadResult.SUCCESS);
     }
 
     public String getName()
@@ -38,14 +58,14 @@ public class Home
         this.name = name;
     }
 
-    public Location getLoc()
+    public Coordinates getCoords()
     {
-        return loc;
+        return coords;
     }
 
-    public void setLoc(Location loc)
+    public void setCoords(Coordinates coords)
     {
-        this.loc = loc;
+        this.coords = coords;
     }
 
     public UUID getOwner()
@@ -53,8 +73,13 @@ public class Home
         return owner;
     }
 
-    public LoadResult getLoadResult()
+    public String getWorldName()
     {
-        return loadResult;
+        return worldName;
+    }
+
+    public void setWorldName(String worldName)
+    {
+        this.worldName = worldName;
     }
 }

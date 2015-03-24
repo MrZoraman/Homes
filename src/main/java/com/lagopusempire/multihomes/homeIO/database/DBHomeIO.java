@@ -1,6 +1,7 @@
 package com.lagopusempire.multihomes.homeIO.database;
 
 import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
@@ -17,12 +18,9 @@ import java.util.UUID;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import java.util.Collections;
 
 import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
-import java.util.Collections;
 
 /**
  *
@@ -48,7 +46,7 @@ public class DBHomeIO implements HomeIO
         {
             verifyConnection();
             
-            if(getHome(uuid, home.getName()).getLoadResult() == LoadResult.DOES_NOT_EXIST)
+            if(getHome(uuid, home.getName()).getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST)
             {
                 //home does not exist
                 final String query = Scripts.getScript(CREATE_HOME);
@@ -56,12 +54,12 @@ public class DBHomeIO implements HomeIO
                 {
                     stmt.setString(1, home.getOwner().toString());
                     stmt.setString(2, home.getName());
-                    stmt.setDouble(3, home.getLoc().getX());
-                    stmt.setDouble(4, home.getLoc().getY());
-                    stmt.setDouble(5, home.getLoc().getZ());
-                    stmt.setFloat (6, home.getLoc().getYaw());
-                    stmt.setFloat (7, home.getLoc().getPitch());
-                    stmt.setString(8, home.getLoc().getWorld().getName());
+                    stmt.setDouble(3, home.getCoords().x);
+                    stmt.setDouble(4, home.getCoords().y);
+                    stmt.setDouble(5, home.getCoords().z);
+                    stmt.setFloat (6, home.getCoords().yaw);
+                    stmt.setFloat (7, home.getCoords().pitch);
+                    stmt.setString(8, home.getWorldName());
                     
                     stmt.execute();
                     
@@ -78,12 +76,12 @@ public class DBHomeIO implements HomeIO
                 final String query = Scripts.getScript(UPDATE_HOME);
                 try(final PreparedStatement stmt = conn.prepareStatement(query))
                 {
-                    stmt.setDouble(1, home.getLoc().getX());
-                    stmt.setDouble(2, home.getLoc().getY());
-                    stmt.setDouble(3, home.getLoc().getZ());
-                    stmt.setFloat (4, home.getLoc().getYaw());
-                    stmt.setFloat (5, home.getLoc().getPitch());
-                    stmt.setString(6, home.getLoc().getWorld().getName());
+                    stmt.setDouble(1, home.getCoords().x);
+                    stmt.setDouble(2, home.getCoords().y);
+                    stmt.setDouble(3, home.getCoords().z);
+                    stmt.setFloat (4, home.getCoords().yaw);
+                    stmt.setFloat (5, home.getCoords().pitch);
+                    stmt.setString(6, home.getWorldName());
                     
                     stmt.setString(7, uuid.toString());
                     stmt.setString(8, home.getName());
@@ -119,25 +117,18 @@ public class DBHomeIO implements HomeIO
                     while(rs.next())
                     {
                         final String homeName = rs.getString("home_name");
-                        final double x = rs.getDouble("x");
-                        final double y = rs.getDouble("y");
-                        final double z = rs.getDouble("z");
-                        final float yaw = rs.getFloat("yaw");
-                        final float pitch = rs.getFloat("pitch");
+                        
+                        final Coordinates coords = new Coordinates();
+                        
+                        coords.x = rs.getDouble("x");
+                        coords.y = rs.getDouble("y");
+                        coords.z = rs.getDouble("z");
+                        coords.yaw = rs.getFloat("yaw");
+                        coords.pitch = rs.getFloat("pitch");
+                        
                         final String worldName = rs.getString("world_name");
                         
-                        final World world = Bukkit.getWorld(worldName);
-                        final Home home;
-                        if(world == null)
-                        {
-                            home = new Home(uuid, homeName, LoadResult.NO_WORLD);
-                        }
-                        else
-                        {
-                            final Location loc = new Location(world, x, y, z, yaw, pitch);
-                            
-                            home = new Home(uuid, homeName, loc);
-                        }
+                        final Home home = new Home(uuid, homeName, coords, worldName);
                         
                         homes.put(homeName, home);
                     }
@@ -210,27 +201,21 @@ public class DBHomeIO implements HomeIO
             {
                 if(rs.next())
                 {
-                    final double x = rs.getDouble("x");
-                    final double y = rs.getDouble("y");
-                    final double z = rs.getDouble("z");
-                    final float yaw = rs.getFloat("yaw");
-                    final float pitch = rs.getFloat("pitch");
+                    final Coordinates coords = new Coordinates();
+
+                    coords.x = rs.getDouble("x");
+                    coords.y = rs.getDouble("y");
+                    coords.z = rs.getDouble("z");
+                    coords.yaw = rs.getFloat("yaw");
+                    coords.pitch = rs.getFloat("pitch");
+
                     final String worldName = rs.getString("world_name");
 
-                    final World world = Bukkit.getWorld(worldName);
-                    if(world == null)
-                    {
-                        return new Home(uuid, homeName, LoadResult.NO_WORLD);
-                    }
-                    else
-                    {
-                        final Location loc = new Location(world, x, y, z, yaw, pitch);
-                        return new Home(uuid, homeName, loc);
-                    }
+                    return new Home(uuid, homeName, coords, worldName);
                 }
                 else
                 {
-                    return new Home(uuid, homeName, LoadResult.DOES_NOT_EXIST);
+                    return new Home(uuid, homeName);
                 }
             }
         }
