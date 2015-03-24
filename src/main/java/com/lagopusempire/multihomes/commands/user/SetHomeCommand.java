@@ -25,8 +25,8 @@ public class SetHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        final boolean usingImplicitHome = args.length > 0;
-        final String homeName = usingImplicitHome 
+        final boolean usingExplicitHome = args.length > 0;
+        final String homeName = usingExplicitHome 
                 ? args[0] 
                 : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
         
@@ -38,9 +38,9 @@ public class SetHomeCommand extends CommandBase
         
         homeManager.setHome(player, player.getUniqueId(), homeName, () -> 
         {
-            final MessageKeys key = usingImplicitHome
-                    ? MessageKeys.HOME_SET_IMPLICIT
-                    : MessageKeys.HOME_SET_EXPLICIT;
+            final MessageKeys key = usingExplicitHome
+                    ? MessageKeys.HOME_SET_EXPLICIT
+                    : MessageKeys.HOME_SET_IMPLICIT;
             
             final MessageFormatter formatter = Messages.getMessage(key)
                     .colorize()
