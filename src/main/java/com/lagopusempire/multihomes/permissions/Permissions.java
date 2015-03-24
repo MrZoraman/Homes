@@ -12,7 +12,9 @@ public enum Permissions
     HELP    ("multihomes.help"),
     
     SET_HOME("multihomes.set.self",
-             "multihomes.sethome");
+             "multihomes.sethome"),
+    GO_HOME ("multihomes.home.self",
+             "multihomes.gohome");
 
     private Permissions(String... nodes)
     {

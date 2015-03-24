@@ -8,3 +8,10 @@ notLoaded: '&cMultihomes is not loaded yet!'
 homeSet:
   implicit: '&2Home has been set!'
   explicit: '&2Home ''&a%home%&2'' has been set!'
+homeGet:
+  doesNotExist:
+    implicit: '&cYou don''t have a home set!'
+    explicit: '&cHome ''&7%home%&c'' does not exist!'
+  worldNotLoaded:
+    implicit: '&cYour home is in a world that is not loaded!'
+    explicit: '&cHome ''&7%home%&c'' is in a world that is not loaded!'
