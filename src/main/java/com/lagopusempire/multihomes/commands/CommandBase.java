@@ -3,6 +3,8 @@ package com.lagopusempire.multihomes.commands;
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.messages.MessageKeys;
+import com.lagopusempire.multihomes.messages.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,13 +32,13 @@ public abstract class CommandBase implements IBukkitLCSCommand
     {
         if(!plugin.isLoaded())
         {
-            sender.sendMessage(ChatColor.RED + "Multihomes is not loaded yet!");
+            sender.sendMessage(Messages.getMessage(MessageKeys.NOT_LOADED).colorize().toString());
             return true;
         }
         
         if(!(sender instanceof Player))
         {
-            sender.sendMessage(ChatColor.RED + "You must be a player to use that command!");
+            sender.sendMessage(Messages.getMessage(MessageKeys.MUST_BE_PLAYER).colorize().toString());
             return true;
         }
         

@@ -3,3 +3,5 @@ reload:
   success: '&aMultiHomes has been reloaded successfully!'
   failure: '&cMultihomes encountered errors while reloading!'
 loginAndStillLoading: 'Server is still loading! Please try logging in again.'
+mustBePlayer: '&cYou must be a player to use that command!'
+notLoaded: '&cMultihomes is not loaded yet!'

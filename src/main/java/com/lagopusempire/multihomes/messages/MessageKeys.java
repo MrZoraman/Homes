@@ -9,7 +9,9 @@ public enum MessageKeys
     RELOAD_SUCCESS("reload.success"),
     RELOAD_FAILURE("reload.failure"),
     NO_PERMISSION("noPermissions"),
-    LOGIN_AND_STILL_LOADING("loginAndStillLoading");
+    LOGIN_AND_STILL_LOADING("loginAndStillLoading"),
+    MUST_BE_PLAYER("mustBePlayer"),
+    NOT_LOADED("notLoaded");
 
     private final String key;
 
