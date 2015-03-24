@@ -102,8 +102,7 @@ public class FlatfileHomeIO implements HomeIO
     private Home getHome(UUID uuid, String homeName)
     {
         final String path = uuid.toString() + "." + homeName + ".";
-        
-        final World world = Bukkit.getWorld(path + "worldName");
+        final World world = Bukkit.getWorld(config.getString(path + "worldName"));
         if(world == null)
         {
             return new Home(uuid, homeName, LoadResult.NO_WORLD);
@@ -111,6 +110,7 @@ public class FlatfileHomeIO implements HomeIO
         
         if(!config.contains(path))
         {
+            System.out.println("didn't find shit at " + path);
             return new Home(uuid, homeName, LoadResult.DOES_NOT_EXIST);
         }
         

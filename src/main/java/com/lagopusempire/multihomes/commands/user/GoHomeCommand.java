@@ -54,8 +54,8 @@ public class GoHomeCommand extends CommandBase
                 case NO_WORLD:
                     System.out.println("no world");
                     key = usingExplicitHome
-                            ? MessageKeys.HOME_GET_NOEXIST_EXPLICIT
-                            : MessageKeys.HOME_GET_NOEXIST_IMPLICIT;
+                            ? MessageKeys.Home_GET_NOT_LOADED_IMPLICIT
+                            : MessageKeys.Home_GET_NOT_LOADED_EXPLICIT;
                     formatter = Messages.getMessage(key)
                             .colorize()
                             .replace("home", homeName);
