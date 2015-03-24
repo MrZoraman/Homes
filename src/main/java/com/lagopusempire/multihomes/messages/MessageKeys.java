@@ -6,15 +6,15 @@ package com.lagopusempire.multihomes.messages;
  */
 public enum MessageKeys
 {
-    RELOAD_SUCCESS("reload.success"),
-    RELOAD_FAILURE("reload.failure"),
-    NO_PERMISSION("noPermissions"),
-    LOGIN_AND_STILL_LOADING("loginAndStillLoading"),
-    MUST_BE_PLAYER("mustBePlayer"),
-    NOT_LOADED("notLoaded"),
+    RELOAD_SUCCESS          ("reload.success"),
+    RELOAD_FAILURE          ("reload.failure"),
+    NO_PERMISSION           ("noPermissions"),
+    LOGIN_AND_STILL_LOADING ("loginAndStillLoading"),
+    MUST_BE_PLAYER          ("mustBePlayer"),
+    NOT_LOADED              ("notLoaded"),
     
-    HOME_SET_IMPLICIT("homeSet.implicit"),
-    HOME_SET_EXPLICIT("homeSet.explicit");
+    HOME_SET_IMPLICIT       ("homeSet.implicit"),
+    HOME_SET_EXPLICIT       ("homeSet.explicit");
 
     private final String key;
 
