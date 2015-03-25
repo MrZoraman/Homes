@@ -32,8 +32,10 @@ public abstract class CommandBase implements IBukkitLCSCommand
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] preArgs, String[] args)
     {
+        System.out.println("on command (" + plugin.isLoaded() + ")");
         if(!plugin.isLoaded())
         {
+            System.out.println("not doing shit");
             sender.sendMessage(Messages.getMessage(MessageKeys.NOT_LOADED).colorize().toString());
             return true;
         }

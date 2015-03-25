@@ -32,13 +32,13 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private HomeManager homeManager;
     private DatabaseSetup databaseSetup;
     private Connection conn;
-    private PluginStateGurantee stateGurantee;
 
     private volatile boolean loaded = false;
 
     @Override
     public void onEnable()
     {
+        System.out.println("Main thread: " + Thread.currentThread().getId());
         reload(this);
     }
 
@@ -52,7 +52,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::unloadDb);
         loader.addStep(this::unregisterEvents);
         loader.addStep(this::setupMessages);
-        loader.addStep(this::registerGuranteeListener);
+        loader.addStep(this::setupNotLoadedCommand);
         if (needToSetupDatabase())
         {
             loader.addStep(this::setupScripts);
@@ -121,11 +121,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         {
             HandlerList.unregisterAll(homeManager);
         }
-
-        if (stateGurantee != null)
-        {
-            HandlerList.unregisterAll(stateGurantee);
-        }
         return true;
     }
 
@@ -141,15 +136,12 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
 
         return true;
     }
-
-    private boolean registerGuranteeListener()
+    
+    private boolean setupNotLoadedCommand()
     {
-        if (stateGurantee == null)
-        {
-            stateGurantee = new PluginStateGurantee(this);
-        }
-
-        getServer().getPluginManager().registerEvents(stateGurantee, this);
+        getCommand("home").setExecutor(new NotLoadedCommand());
+        getCommand("sethome").setExecutor(new NotLoadedCommand());
+        
         return true;
     }
 
