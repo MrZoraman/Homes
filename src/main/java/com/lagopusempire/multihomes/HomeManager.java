@@ -90,7 +90,7 @@ public class HomeManager implements Listener
         io.getHomeList(owner, callback);
     }
     
-    public void getHomeCount(UUID owner, HomeCountCallback callback, boolean syncCallback)
+    public void getHomeCount(UUID owner, HomeCountCallback callback)
     {
         if(homes.containsKey(owner))
         {
@@ -98,7 +98,7 @@ public class HomeManager implements Listener
         }
         else
         {
-            io.getHomeCount(owner, callback, syncCallback);
+            io.getHomeCount(owner, callback);
         }
     }
     

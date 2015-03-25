@@ -98,7 +98,7 @@ public class FlatfileHomeIO implements HomeIO
     }
 
     @Override
-    public void getHomeCount(UUID uuid, HomeCountCallback callback, boolean syncCallback)
+    public void getHomeCount(UUID uuid, HomeCountCallback callback)
     {
         final ConfigurationSection section = config.getConfigurationSection(uuid.toString());
         callback.gotHomeCount(section == null 
