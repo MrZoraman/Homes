@@ -26,8 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class MultiHomes extends JavaPlugin implements LoadCallback
 {
-    private final Loader loader;
-
+    private Loader loader;
     private BukkitLCS commandSystem;
     private HomeIO io;
     private HomeManager homeManager;
@@ -37,42 +36,37 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
 
     private volatile boolean loaded = false;
 
-    public MultiHomes()
-    {
-        super();
-        loader = new Loader(this);
-    }
-
     @Override
     public void onEnable()
     {
-        setupConfig();
-
-        loader.addStep(this::unloadDb);
-        loader.addStep(this::unregisterEvents);
-        loader.addStep(this::setupConfig);
-        loader.addStep(this::setupMessages);
-        loader.addStep(this::registerGuranteeListener);
-        loader.addStep(this::setupScripts);
-        loader.addStep(this::setupDbSetup);
-        if (PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
-        {
-            loader.addAsyncStep(this::setupDatabase);
-        }
-        loader.addStep(this::setupPostDb);
-        loader.addStep(this::setupHomeIO);
-        loader.addStep(this::setupHomeManager);
-        loader.addStep(this::setupEvents);
-        loader.addStep(this::loadOnlinePlayers);
-        loader.addStep(this::setupCommandSystem);
-        loader.addStep(this::setupCommands);
-
         reload(this);
     }
 
     public void reload(final LoadCallback callback)
     {
         loaded = false;
+        
+        setupConfig();
+        
+        loader = new Loader(this);
+        loader.addStep(this::unloadDb);
+        loader.addStep(this::unregisterEvents);
+        loader.addStep(this::setupMessages);
+        loader.addStep(this::registerGuranteeListener);
+        if (needToSetupDatabase())
+        {
+            loader.addStep(this::setupScripts);
+            loader.addStep(this::setupDbSetup);
+            loader.addAsyncStep(this::setupDatabase);
+            loader.addStep(this::setupPostDb);
+        }
+        loader.addStep(this::setupHomeIO);
+        loader.addStep(this::setupHomeManager);
+        loader.addStep(this::setupEvents);
+        loader.addStep(this::loadOnlinePlayers);
+        loader.addStep(this::setupCommandSystem);
+        loader.addStep(this::setupCommands);
+        
         loader.load(this);
     }
 
@@ -110,6 +104,16 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         }
         return true;
     }
+    
+    private void setupConfig()
+    {
+        reloadConfig();
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+
+        PluginConfig.setConfig(getConfig());
+        PluginConfig.howToSave(this::saveConfig);
+    }
 
     private boolean unregisterEvents()
     {
@@ -122,18 +126,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         {
             HandlerList.unregisterAll(stateGurantee);
         }
-        return true;
-    }
-
-    private boolean setupConfig()
-    {
-        reloadConfig();
-        getConfig().options().copyDefaults(true);
-        saveConfig();
-
-        PluginConfig.setConfig(getConfig());
-        PluginConfig.howToSave(this::saveConfig);
-
         return true;
     }
 
@@ -192,7 +184,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
 
     private boolean setupHomeIO()
     {
-        if (PluginConfig.getBoolean(ConfigKeys.USE_DATABASE))
+        if (needToSetupDatabase())
         {
             this.io = new DBHomeIO(this, conn);
             return true;
@@ -267,6 +259,13 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         config.saveConfig();
 
         return config;
+    }
+    
+    private boolean needToSetupDatabase()
+    {
+        System.out.println(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE));
+        
+        return PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
     }
 
     public boolean isLoaded()
