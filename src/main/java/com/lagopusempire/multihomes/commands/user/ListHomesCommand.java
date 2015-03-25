@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
  *
  * @author MrZoraman
  */
-public class ListHomes extends CommandBase
+public class ListHomesCommand extends CommandBase
 {
-    public ListHomes(MultiHomes plugin, HomeManager homeManager)
+    public ListHomesCommand(MultiHomes plugin, HomeManager homeManager)
     {
         super(plugin, homeManager);
     }
