@@ -17,6 +17,7 @@ import com.lagopusempire.multihomes.load.Loader;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.Set;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,6 +33,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private HomeManager homeManager;
     private DatabaseSetup databaseSetup;
     private Connection conn;
+    private Set<String> registeredBukkitCommands;
 
     private volatile boolean loaded = false;
 
@@ -137,11 +139,15 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         return true;
     }
     
+    private boolean setupRegisteredBukkitCommands()
+    {
+        registeredBukkitCommands = getDescription().getCommands().keySet();
+        return true;
+    }
+    
     private boolean setupNotLoadedCommand()
     {
-        getCommand("home").setExecutor(new NotLoadedCommand());
-        getCommand("sethome").setExecutor(new NotLoadedCommand());
-        
+        registeredBukkitCommands.forEach((command) -> getCommand(command).setExecutor(new NotLoadedCommand()));
         return true;
     }
 
@@ -217,9 +223,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private boolean setupCommandSystem()
     {
         commandSystem = new BukkitLCS();
-
-        getCommand("home").setExecutor(commandSystem);
-        getCommand("sethome").setExecutor(commandSystem);
+        registeredBukkitCommands.forEach((command) -> getCommand(command).setExecutor(commandSystem));
 
         return true;
     }
@@ -255,8 +259,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     
     private boolean needToSetupDatabase()
     {
-        System.out.println(PluginConfig.getBoolean(ConfigKeys.USE_DATABASE));
-        
         return PluginConfig.getBoolean(ConfigKeys.USE_DATABASE);
     }
 
