@@ -3,6 +3,7 @@ package com.lagopusempire.multihomes.homeIO.flatfile;
 import com.lagopusempire.multihomes.config.ConfigAccessor;
 import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
+import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
@@ -94,6 +95,16 @@ public class FlatfileHomeIO implements HomeIO
         {
             callback.homeListLoaded(new ArrayList<>());
         }
+    }
+
+    @Override
+    public void getHomeCount(UUID uuid, HomeCountCallback callback)
+    {
+        final ConfigurationSection section = config.getConfigurationSection(uuid.toString());
+        callback.gotHomeCount(section == null 
+                ? 0 
+                : section.getKeys(false).size()
+        );
     }
     
     private Home getHome(UUID uuid, String homeName)

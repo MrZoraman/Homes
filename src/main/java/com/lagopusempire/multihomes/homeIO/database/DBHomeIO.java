@@ -4,6 +4,7 @@ import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
+import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
@@ -186,6 +187,38 @@ public class DBHomeIO implements HomeIO
             Collections.sort(homes);
             
             plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeListLoaded(homes));
+        });
+    }
+    
+    @Override
+    public void getHomeCount(UUID uuid, HomeCountCallback callback)
+    {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            verifyConnection();
+            
+            int homeCount = 0;
+            
+            final String query = Scripts.getScript(GET_HOME_COUNT);
+            try(final PreparedStatement stmt = conn.prepareStatement(query))
+            {
+                stmt.setString(1, uuid.toString());
+
+                try(final ResultSet rs = stmt.executeQuery())
+                {
+                    while(rs.next())
+                    {
+                        homeCount = rs.getInt(1);
+                    }
+                }
+            }
+            catch (SQLException ex)
+            {
+                ex.printStackTrace();
+            }
+            
+            final int _homeCount = homeCount;
+            plugin.getServer().getScheduler().runTask(plugin, () -> callback.gotHomeCount(_homeCount));
         });
     }
     

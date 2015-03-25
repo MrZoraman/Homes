@@ -1,6 +1,7 @@
 package com.lagopusempire.multihomes;
 
 import com.lagopusempire.multihomes.home.Home;
+import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
@@ -87,6 +88,18 @@ public class HomeManager implements Listener
         }
         
         io.getHomeList(owner, callback);
+    }
+    
+    public void getHomeCount(UUID owner, HomeCountCallback callback)
+    {
+        if(homes.containsKey(owner))
+        {
+            callback.gotHomeCount(homes.get(owner).size());
+        }
+        else
+        {
+            io.getHomeCount(owner, callback);
+        }
     }
     
     private void addHomeMap(UUID uuid)

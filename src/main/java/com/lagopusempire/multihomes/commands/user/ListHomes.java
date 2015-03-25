@@ -19,7 +19,10 @@ public class ListHomes extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        
+        homeManager.getHomeCount(player.getUniqueId(), (count) -> 
+        {
+            System.out.println("home count for " + player.getName() + ": " + count);
+        });
         
         return true;
     }

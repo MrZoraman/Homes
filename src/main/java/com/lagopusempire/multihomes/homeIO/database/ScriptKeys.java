@@ -12,7 +12,8 @@ public enum ScriptKeys
     LIST_HOMES          ("scripts/list_homes.sql"),
     LOAD_HOME           ("scripts/load_home.sql"),
     LOAD_HOMES          ("scripts/load_homes.sql"),
-    UPDATE_HOME         ("scripts/update_home.sql");
+    UPDATE_HOME         ("scripts/update_home.sql"),
+    GET_HOME_COUNT      ("scripts/get_home_count.sql");
     
     private ScriptKeys(String key)
     {
