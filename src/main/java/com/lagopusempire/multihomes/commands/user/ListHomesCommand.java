@@ -22,7 +22,7 @@ public class ListHomesCommand extends CommandBase
         homeManager.getHomeCount(player.getUniqueId(), (count) -> 
         {
             System.out.println("home count for " + player.getName() + ": " + count);
-        });
+        }, true);
         
         return true;
     }

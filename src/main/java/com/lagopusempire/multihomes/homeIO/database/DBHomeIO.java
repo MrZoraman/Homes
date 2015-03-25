@@ -191,7 +191,7 @@ public class DBHomeIO implements HomeIO
     }
     
     @Override
-    public void getHomeCount(UUID uuid, HomeCountCallback callback)
+    public void getHomeCount(UUID uuid, HomeCountCallback callback, boolean syncCallback)
     {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
@@ -217,8 +217,15 @@ public class DBHomeIO implements HomeIO
                 ex.printStackTrace();
             }
             
-            final int _homeCount = homeCount;
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.gotHomeCount(_homeCount));
+            if(syncCallback)
+            {
+                final int _homeCount = homeCount;
+                plugin.getServer().getScheduler().runTask(plugin, () -> callback.gotHomeCount(_homeCount));
+            }
+            else
+            {
+                callback.gotHomeCount(homeCount);
+            }
         });
     }
     

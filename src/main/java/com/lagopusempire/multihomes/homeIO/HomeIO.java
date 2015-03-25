@@ -13,7 +13,7 @@ public interface HomeIO
     public void loadHomes(UUID uuid, HomesLoadedCallback callback);
     public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback);
     public void getHomeList(UUID uuid, HomeListLoadedCallback callback);
-    public void getHomeCount(UUID uuid, HomeCountCallback callback);
+    public void getHomeCount(UUID uuid, HomeCountCallback callback, boolean syncCallback);
     
     public default boolean close() 
     {
