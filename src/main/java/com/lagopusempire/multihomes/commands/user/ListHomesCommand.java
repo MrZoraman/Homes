@@ -26,6 +26,7 @@ public class ListHomesCommand extends CommandBase
         
         homeManager.getHomeList(player.getUniqueId(), (List<String> homeList) -> 
         {
+            
         });
         
         return true;

@@ -19,3 +19,4 @@ homeGet:
 homeList:
   initial: '&2Home list (&9%count%&2): '
   format: '&a%home%&8, '
+  none: '&cYou do not have any homes to list!'

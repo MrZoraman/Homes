@@ -23,7 +23,8 @@ public enum MessageKeys
     HOME_GET_NOT_LOADED_EXPLICIT    ("homeGet.worldNotLoaded.explicit"),
     
     HOME_LIST_INITIAL               ("homeList.initial"),
-    HOME_LIST_FORMAT                ("homeList.format");
+    HOME_LIST_FORMAT                ("homeList.format"),
+    HOME_LIST_NONE                  ("homeList.none");
 
     private final String key;
 
