@@ -37,6 +37,8 @@ public class ListHomesCommand extends CommandBase
                 ? String.valueOf(maxHomes)
                 : Messages.getMessage(MessageKeys.INFINITE_HOMES_REP).colorize().toString();
         
+        final boolean listImplicitHome = PluginConfig.getBoolean(ConfigKeys.LIST_IMPLICIT_HOME);
+        
         homeManager.getHomeList(player.getUniqueId(), (List<String> homeList) -> 
         {
             final int amountOfHomes = homeList.size();
@@ -63,7 +65,7 @@ public class ListHomesCommand extends CommandBase
             {
                 final String homeName = homeList.get(ii);
                 
-                if(homeName.equalsIgnoreCase(implicitHomeName))
+                if(!listImplicitHome && homeName.equalsIgnoreCase(implicitHomeName))
                     continue;
                 
                 builder.append(homeFormatterTemplate

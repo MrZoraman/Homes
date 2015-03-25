@@ -10,6 +10,7 @@ public enum ConfigKeys
     USE_DATABASE        ("useDatabase"),
     MIGRATE_DATA        ("migrateData"),
     IMPLICIT_HOME_NAME  ("implicitHomeName"),
+    LIST_IMPLICIT_HOME  ("listImplicitHome"),
     
     //MySQL
     SCHEMA_VERSION      ("mysql.schemaVersion"),
