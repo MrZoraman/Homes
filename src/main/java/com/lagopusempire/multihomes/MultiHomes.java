@@ -40,7 +40,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     @Override
     public void onEnable()
     {
-        System.out.println("Main thread: " + Thread.currentThread().getId());
         reload(this);
     }
 
@@ -54,6 +53,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::unloadDb);
         loader.addStep(this::unregisterEvents);
         loader.addStep(this::setupMessages);
+        loader.addStep(this::setupRegisteredBukkitCommands);
         loader.addStep(this::setupNotLoadedCommand);
         if (needToSetupDatabase())
         {
