@@ -7,7 +7,7 @@ package com.lagopusempire.multihomes.homeIO.database;
 public enum ScriptKeys
 {
     CREATE_HOME         ("scripts/create_home.sql"),
-    CREATE_HOMES_TABLE  ("scripts/create_home_table.sql"),
+    CREATE_HOMES_TABLE  ("scripts/create_homes_table.sql"),
     DELETE_HOME         ("scripts/delete_home.sql"),
     LIST_HOMES          ("scripts/list_homes.sql"),
     LOAD_HOME           ("scripts/load_home.sql"),
