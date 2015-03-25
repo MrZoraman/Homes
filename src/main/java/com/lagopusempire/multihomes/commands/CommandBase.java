@@ -3,11 +3,9 @@ package com.lagopusempire.multihomes.commands;
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
-import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,10 +30,8 @@ public abstract class CommandBase implements IBukkitLCSCommand
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] preArgs, String[] args)
     {
-        System.out.println("on command (" + plugin.isLoaded() + ")");
         if(!plugin.isLoaded())
         {
-            System.out.println("not doing shit");
             sender.sendMessage(Messages.getMessage(MessageKeys.NOT_LOADED).colorize().toString());
             return true;
         }
