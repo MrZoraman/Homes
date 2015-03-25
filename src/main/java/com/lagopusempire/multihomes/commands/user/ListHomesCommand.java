@@ -4,6 +4,7 @@ import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.permissions.Permissions;
+import java.util.List;
 import org.bukkit.entity.Player;
 
 /**
@@ -20,6 +21,12 @@ public class ListHomesCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
+        if(!checkPerms(player, Permissions.LIST_HOMES))
+            return true;
+        
+        homeManager.getHomeList(player.getUniqueId(), (List<String> homeList) -> 
+        {
+        });
         
         return true;
     }

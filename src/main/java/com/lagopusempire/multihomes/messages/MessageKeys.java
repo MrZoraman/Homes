@@ -19,8 +19,11 @@ public enum MessageKeys
     
     HOME_GET_NOEXIST_IMPLICIT       ("homeGet.doesNotExist.implicit"),
     HOME_GET_NOEXIST_EXPLICIT       ("homeGet.doesNotExist.explicit"),
-    Home_GET_NOT_LOADED_IMPLICIT    ("homeGet.worldNotLoaded.implicit"),
-    Home_GET_NOT_LOADED_EXPLICIT    ("homeGet.worldNotLoaded.explicit");
+    HOME_GET_NOT_LOADED_IMPLICIT    ("homeGet.worldNotLoaded.implicit"),
+    HOME_GET_NOT_LOADED_EXPLICIT    ("homeGet.worldNotLoaded.explicit"),
+    
+    HOME_LIST_INITIAL               ("homeList.initial"),
+    HOME_LIST_FORMAT                ("homeList.format");
 
     private final String key;
 
