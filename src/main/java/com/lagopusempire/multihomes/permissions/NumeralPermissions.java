@@ -33,6 +33,12 @@ public enum NumeralPermissions
                 try
                 {
                     int amountInt = Integer.parseInt(amount);
+                    if(amountInt < 0)
+                    {
+                        largestAmountFound = amountInt;
+                        break;
+                    }
+                    
                     if(amountInt > largestAmountFound)
                         largestAmountFound = amountInt;
                 }
