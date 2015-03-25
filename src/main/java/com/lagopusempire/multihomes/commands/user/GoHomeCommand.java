@@ -26,11 +26,8 @@ public class GoHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        if(!Permissions.GO_HOME.check(player))
-        {
-            player.sendMessage(getNoPermsMsg(Permissions.SET_HOME));
+        if(!checkPerms(player, Permissions.GO_HOME))
             return true;
-        }
         
         final boolean usingExplicitHome = args.length > 0;
         final String homeName = usingExplicitHome 

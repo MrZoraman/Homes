@@ -45,7 +45,18 @@ public abstract class CommandBase implements IBukkitLCSCommand
         return onCommand((Player) sender, args);
     }
     
-    protected String getNoPermsMsg(Permissions perm)
+    protected boolean checkPerms(CommandSender sender, Permissions perm)
+    {
+        if(!perm.check(sender))
+        {
+            sender.sendMessage(getNoPermsMsg(perm));
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private String getNoPermsMsg(Permissions perm)
     {
         return Messages.getMessage(MessageKeys.NO_PERMISSION)
                 .colorize()

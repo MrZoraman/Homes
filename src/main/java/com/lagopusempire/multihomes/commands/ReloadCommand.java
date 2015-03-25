@@ -6,7 +6,6 @@ import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,12 +28,6 @@ public class ReloadCommand implements IBukkitLCSCommand
     {
         if(sender == null)
             throw new IllegalStateException("Sender cannot be null!");
-        
-        if(!plugin.isLoaded())
-        {
-            sender.sendMessage(ChatColor.RED + "Multihomes is still loading!");
-            return true;
-        }
         
         final boolean isPlayer = sender instanceof Player;
         if(!isPlayer || Permissions.RELOAD.check(sender))

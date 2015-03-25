@@ -3,6 +3,7 @@ package com.lagopusempire.multihomes.commands.user;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.commands.CommandBase;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,10 +20,6 @@ public class ListHomesCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        homeManager.getHomeCount(player.getUniqueId(), (count) -> 
-        {
-            System.out.println("home count for " + player.getName() + ": " + count);
-        });
         
         return true;
     }

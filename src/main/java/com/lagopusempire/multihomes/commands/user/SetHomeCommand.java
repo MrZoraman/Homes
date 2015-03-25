@@ -27,11 +27,8 @@ public class SetHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        if (!Permissions.SET_HOME.check(player))
-        {
-            player.sendMessage(getNoPermsMsg(Permissions.SET_HOME));
+        if(!checkPerms(player, Permissions.SET_HOME))
             return true;
-        }
 
         //Get home name
         final boolean usingExplicitHome = args.length > 0;
