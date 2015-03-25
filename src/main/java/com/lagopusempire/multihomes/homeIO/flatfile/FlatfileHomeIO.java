@@ -7,6 +7,7 @@ import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
+import com.lagopusempire.multihomes.homeIO.HomeSavedCallback;
 import com.lagopusempire.multihomes.homeIO.HomesLoadedCallback;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,12 +35,14 @@ public class FlatfileHomeIO implements HomeIO
     }
     
     @Override
-    public void saveHome(Home home, Runnable callback)
+    public void saveHome(Home home, HomeSavedCallback callback)
     {
         final Coordinates coords = home.getCoords();
         final String ownerName = home.getOwner().toString();
         
         final String path = ownerName + "." + home.getName() + ".";
+        
+        final boolean update = config.contains(path);
         
         config.set(path + "x", coords.x);
         config.set(path + "y", coords.y);
@@ -51,7 +54,7 @@ public class FlatfileHomeIO implements HomeIO
         homesFile.saveConfig();
         
         if(callback != null)
-            callback.run();
+            callback.homeSaved(update);
     }
 
     @Override

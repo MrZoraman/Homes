@@ -5,6 +5,7 @@ import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
+import com.lagopusempire.multihomes.homeIO.HomeSavedCallback;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,11 +52,11 @@ public class HomeManager implements Listener
         homes.remove(event.getPlayer().getUniqueId());
     }
 
-    public void setHome(Player player, UUID owner, String homeName, Runnable callback)
+    public void setHome(Player player, UUID owner, String homeName, HomeSavedCallback callback)
     {
         final Home home = new Home(owner, homeName, player.getLocation());
-        io.saveHome(home, callback);
         homes.get(owner).put(homeName, home);
+        io.saveHome(home, callback);
     }
 
     public void getHome(UUID owner, String homeName, HomeLoadedCallback callback)

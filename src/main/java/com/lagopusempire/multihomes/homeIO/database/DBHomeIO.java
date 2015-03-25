@@ -8,6 +8,7 @@ import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
+import com.lagopusempire.multihomes.homeIO.HomeSavedCallback;
 import com.lagopusempire.multihomes.homeIO.HomesLoadedCallback;
 import com.lagopusempire.multihomes.util.Util;
 import java.sql.Connection;
@@ -39,7 +40,7 @@ public class DBHomeIO implements HomeIO
     }
 
     @Override
-    public void saveHome(final Home home, final Runnable callback)
+    public void saveHome(final Home home, final HomeSavedCallback callback)
     {
         final UUID uuid = home.getOwner();
         
@@ -64,7 +65,7 @@ public class DBHomeIO implements HomeIO
                     
                     stmt.execute();
                     
-                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.run());
+                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeSaved(false));
                 }
                 catch (SQLException e)
                 {
@@ -89,7 +90,7 @@ public class DBHomeIO implements HomeIO
                     
                     stmt.execute();
                     
-                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.run());
+                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeSaved(true));
                 }
                 catch (SQLException e)
                 {

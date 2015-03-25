@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
  */
 public class SetHomeCommand extends CommandBase
 {
+
     public SetHomeCommand(MultiHomes plugin, HomeManager homeManager)
     {
         super(plugin, homeManager);
@@ -32,29 +33,33 @@ public class SetHomeCommand extends CommandBase
             return true;
         }
 
-        homeManager.getHomeCount(player.getUniqueId(), (amount) ->
+        //Get home name
+        final boolean usingExplicitHome = args.length > 0;
+        final String homeName = usingExplicitHome
+                ? args[0]
+                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
+
+        //Set their home
+        homeManager.setHome(player, player.getUniqueId(), homeName, (wasUpdate) ->
         {
-            //Check if player has space for another home
-            final int maxHomes = NumeralPermissions.COUNT.getAmount(player);
-            if (maxHomes >= 0 && amount >= maxHomes)
+            //Get the amount of homes this player has
+            homeManager.getHomeCount(player.getUniqueId(), (amount) ->
             {
-                final MessageFormatter formatter = Messages.getMessage(MessageKeys.HOME_SET_TOO_MANY)
-                        .colorize()
-                        .replace("count", String.valueOf(maxHomes));
+                if(!wasUpdate)//new home
+                {
+                    //Check if player has space for another home
+                    final int maxHomes = NumeralPermissions.COUNT.getAmount(player);
+                    if (maxHomes >= 0 && amount >= maxHomes)
+                    {
+                        final MessageFormatter formatter = Messages.getMessage(MessageKeys.HOME_SET_TOO_MANY)
+                                .colorize()
+                                .replace("count", String.valueOf(maxHomes));
 
-                player.sendMessage(formatter.toString());
-                return;
-            }
+                        player.sendMessage(formatter.toString());
+                        return;
+                    }
+                }
 
-            //Get home name
-            final boolean usingExplicitHome = args.length > 0;
-            final String homeName = usingExplicitHome
-                    ? args[0]
-                    : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
-
-            //Set their home
-            homeManager.setHome(player, player.getUniqueId(), homeName, () ->
-            {
                 final MessageKeys key = usingExplicitHome
                         ? MessageKeys.HOME_SET_EXPLICIT
                         : MessageKeys.HOME_SET_IMPLICIT;

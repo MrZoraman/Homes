@@ -9,7 +9,7 @@ import java.util.UUID;
  */
 public interface HomeIO
 {
-    public void saveHome(Home home, Runnable callback);
+    public void saveHome(Home home, HomeSavedCallback callback);
     public void loadHomes(UUID uuid, HomesLoadedCallback callback);
     public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback);
     public void getHomeList(UUID uuid, HomeListLoadedCallback callback);
