@@ -3,7 +3,9 @@ package com.lagopusempire.multihomes.homeIO.flatfile;
 import com.lagopusempire.multihomes.config.ConfigAccessor;
 import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
+import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
+import com.lagopusempire.multihomes.homeIO.HomeDeletedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
@@ -108,6 +110,33 @@ public class FlatfileHomeIO implements HomeIO
                 ? 0 
                 : section.getKeys(false).size()
         );
+    }
+    
+
+    @Override
+    public void deleteHome(UUID uuid, String homeName, HomeDeletedCallback callback)
+    {
+        final Home home = getHome(uuid, homeName);
+        
+        if(home.getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST)
+        {
+            callback.homeDeleted(false);
+            return;
+        }
+        
+        final String path = uuid.toString() + "." + homeName;
+        
+        config.set(path + ".x", null);
+        config.set(path + ".y", null);
+        config.set(path + ".z", null);
+        config.set(path + ".yaw", null);
+        config.set(path + ".pitch", null);
+        config.set(path + ".worldName", null);
+        config.set(path, null);
+        
+        homesFile.saveConfig();
+        
+        callback.homeDeleted(true);
     }
     
     private Home getHome(UUID uuid, String homeName)

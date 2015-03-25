@@ -14,6 +14,7 @@ public interface HomeIO
     public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback);
     public void getHomeList(UUID uuid, HomeListLoadedCallback callback);
     public void getHomeCount(UUID uuid, HomeCountCallback callback);
+    public void deleteHome(UUID uuid, String homename, HomeDeletedCallback callback);
     
     public default boolean close() 
     {

@@ -5,6 +5,7 @@ import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
+import com.lagopusempire.multihomes.homeIO.HomeDeletedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
@@ -220,6 +221,37 @@ public class DBHomeIO implements HomeIO
             
             final int _homeCount = homeCount;
             plugin.getServer().getScheduler().runTask(plugin, () -> callback.gotHomeCount(_homeCount));
+        });
+    }
+
+    @Override
+    public void deleteHome(UUID uuid, String homeName, HomeDeletedCallback callback)
+    {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            verifyConnection();
+            
+            final Home home = getHome(uuid, homeName);
+            if(home.getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST)
+            {
+                plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeDeleted(false));
+                return;
+            }
+            
+            final String query = Scripts.getScript(DELETE_HOME);
+            try(final PreparedStatement stmt = conn.prepareStatement(query))
+            {
+                stmt.setString(1, uuid.toString());
+                stmt.setString(2, homeName);
+                
+                stmt.execute();
+                
+                plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeDeleted(true));
+            }
+            catch (SQLException ex)
+            {
+                ex.printStackTrace();
+            }
         });
     }
     

@@ -2,6 +2,7 @@ package com.lagopusempire.multihomes;
 
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
+import com.lagopusempire.multihomes.homeIO.HomeDeletedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
@@ -101,6 +102,16 @@ public class HomeManager implements Listener
         {
             io.getHomeCount(owner, callback);
         }
+    }
+    
+    public void deleteHome(UUID owner, String homeName, HomeDeletedCallback callback)
+    {
+        if(homes.containsKey(owner))
+        {
+            homes.get(owner).remove(homeName);
+        }
+        
+        io.deleteHome(owner, homeName, callback);
     }
     
     private void addHomeMap(UUID uuid)
