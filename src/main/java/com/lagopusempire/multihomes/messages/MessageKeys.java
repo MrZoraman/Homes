@@ -27,7 +27,12 @@ public enum MessageKeys
     HOME_LIST_NONE                  ("homeList.none"),
     HOME_LIST_END_STRIP_LENGTH      ("homeList.endStripLength"),
     
-    INFINITE_HOMES_REP              ("infiniteHomesRep");
+    INFINITE_HOMES_REP              ("infiniteHomesRep"),
+    
+    HOME_DELETE_NOEXIST_IMPLICIT    ("homeDelete.noExist.implicit"),
+    HOME_DELETE_NOEXIST_EXPLICIT    ("homeDelete.noExist.explicit"),
+    HOME_DELETE_SUCCESS_IMPLICIT    ("homeDelete.success.implicit"),
+    HOME_DELETE_SUCCESS_EXPLICIT    ("homeDelete.success.explicit");
 
     private final String key;
 

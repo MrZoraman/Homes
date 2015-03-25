@@ -9,3 +9,4 @@ depend: [${build.plugin.dependency}]
 commands:
   home:
   sethome:
+  delhome:

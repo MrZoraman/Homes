@@ -15,7 +15,8 @@ public enum Permissions
                  "multihomes.sethome"),
     GO_HOME     ("multihomes.home.self",
                  "multihomes.gohome"),
-    LIST_HOMES  ("multihomes.list.self");
+    LIST_HOMES  ("multihomes.list.self"),
+    DELETE_HOME ("multihomes.delete.self");
 
     private Permissions(String... nodes)
     {
