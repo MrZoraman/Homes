@@ -8,6 +8,7 @@ notLoaded: '&cMultihomes is not loaded yet!'
 homeSet:
   implicit: '&2Home has been set!'
   explicit: '&2Home ''&a%home%&2'' has been set!'
+  tooMany: '&cYou have too many homes! The max you can have is &7%count%&c!'
 homeGet:
   doesNotExist:
     implicit: '&cYou don''t have a home set!'

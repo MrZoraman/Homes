@@ -15,6 +15,7 @@ public enum MessageKeys
     
     HOME_SET_IMPLICIT               ("homeSet.implicit"),
     HOME_SET_EXPLICIT               ("homeSet.explicit"),
+    HOME_SET_TOO_MANY               ("homeSet.tooMany"),
     
     HOME_GET_NOEXIST_IMPLICIT       ("homeGet.doesNotExist.implicit"),
     HOME_GET_NOEXIST_EXPLICIT       ("homeGet.doesNotExist.explicit"),

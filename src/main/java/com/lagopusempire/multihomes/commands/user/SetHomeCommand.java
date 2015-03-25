@@ -8,6 +8,7 @@ import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
+import com.lagopusempire.multihomes.permissions.NumeralPermissions;
 import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 
@@ -25,30 +26,47 @@ public class SetHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        if(!Permissions.SET_HOME.check(player))
+        if (!Permissions.SET_HOME.check(player))
         {
             player.sendMessage(getNoPermsMsg(Permissions.SET_HOME));
             return true;
         }
-        
-        final boolean usingExplicitHome = args.length > 0;
-        final String homeName = usingExplicitHome 
-                ? args[0] 
-                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
-        
-        homeManager.setHome(player, player.getUniqueId(), homeName, () -> 
+
+        homeManager.getHomeCount(player.getUniqueId(), (amount) ->
         {
-            final MessageKeys key = usingExplicitHome
-                    ? MessageKeys.HOME_SET_EXPLICIT
-                    : MessageKeys.HOME_SET_IMPLICIT;
-            
-            final MessageFormatter formatter = Messages.getMessage(key)
-                    .colorize()
-                    .replace("home", homeName);
-            
-            player.sendMessage(formatter.toString());
+            //Check if player has space for another home
+            final int maxHomes = NumeralPermissions.COUNT.getAmount(player);
+            if (maxHomes >= 0 && amount >= maxHomes)
+            {
+                final MessageFormatter formatter = Messages.getMessage(MessageKeys.HOME_SET_TOO_MANY)
+                        .colorize()
+                        .replace("count", String.valueOf(maxHomes));
+
+                player.sendMessage(formatter.toString());
+                return;
+            }
+
+            //Get home name
+            final boolean usingExplicitHome = args.length > 0;
+            final String homeName = usingExplicitHome
+                    ? args[0]
+                    : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
+
+            //Set their home
+            homeManager.setHome(player, player.getUniqueId(), homeName, () ->
+            {
+                final MessageKeys key = usingExplicitHome
+                        ? MessageKeys.HOME_SET_EXPLICIT
+                        : MessageKeys.HOME_SET_IMPLICIT;
+
+                final MessageFormatter formatter = Messages.getMessage(key)
+                        .colorize()
+                        .replace("home", homeName);
+
+                player.sendMessage(formatter.toString());
+            });
         });
-        
+
         return true;
     }
 }
