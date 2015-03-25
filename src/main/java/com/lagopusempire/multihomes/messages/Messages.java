@@ -21,4 +21,9 @@ public class Messages
     {
         return MessageFormatter.create(messages.getString(key.getKey()));
     }
+    
+    public static int getInt(MessageKeys key)
+    {
+        return messages.getInt(key.getKey());
+    }
 }

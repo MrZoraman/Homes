@@ -24,7 +24,10 @@ public enum MessageKeys
     
     HOME_LIST_INITIAL               ("homeList.initial"),
     HOME_LIST_FORMAT                ("homeList.format"),
-    HOME_LIST_NONE                  ("homeList.none");
+    HOME_LIST_NONE                  ("homeList.none"),
+    HOME_LIST_END_STRIP_LENGTH      ("homeList.endStripLength"),
+    
+    INFINITE_HOMES_REP              ("infiniteHomesRep");
 
     private final String key;
 

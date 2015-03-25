@@ -13,6 +13,12 @@ public class MessageFormatter
     private String contents;
     private boolean colorized = false;
     
+    private MessageFormatter(String contents, boolean colorized)
+    {
+        this(contents);
+        this.colorized = colorized;
+    }
+    
     private MessageFormatter(String contents)
     {
         if(contents == null || contents.isEmpty()) throw new IllegalArgumentException("Contents cannot be null/empty!");
@@ -68,6 +74,11 @@ public class MessageFormatter
                 .toString();
         contents = contents.replaceAll(toReplace, replacement);
         return this;
+    }
+    
+    public MessageFormatter dup()
+    {
+        return new MessageFormatter(contents, colorized);
     }
     
     @Override

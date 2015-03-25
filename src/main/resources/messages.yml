@@ -17,6 +17,8 @@ homeGet:
     implicit: '&cYour home is in a world that is not loaded!'
     explicit: '&cHome ''&7%home%&c'' is in a world that is not loaded!'
 homeList:
-  initial: '&2Home list (&9%count%&2): '
+  initial: '&2Home list (&9%count%&2/&9%max%&2): '
   format: '&a%home%&8, '
-  none: '&cYou do not have any homes to list!'
+  none: '&cYou do not have any homes to list! (The most you can have is &7%max%&c)'
+  endStripLength: 2
+infiniteHomesRep: 'Infinity'
