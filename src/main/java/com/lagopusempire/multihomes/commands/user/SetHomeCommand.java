@@ -50,7 +50,7 @@ public class SetHomeCommand extends CommandBase
                     {
                         final MessageFormatter formatter = Messages.getMessage(MessageKeys.HOME_SET_TOO_MANY)
                                 .colorize()
-                                .replace("count", String.valueOf(maxHomes));
+                                .replace("max", String.valueOf(maxHomes));
 
                         player.sendMessage(formatter.toString());
                         return;
