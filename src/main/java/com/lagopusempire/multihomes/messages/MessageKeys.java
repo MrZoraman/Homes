@@ -34,9 +34,14 @@ public enum MessageKeys
     HOME_DELETE_SUCCESS_EXPLICIT    ("self.homeDelete.success.explicit"),
     
     //OTHER
-    PLAYER_NOT_FOUND                ("other.playerNotFound");
+    PLAYER_NOT_FOUND                ("other.playerNotFound"),
+    MUST_SPECIFY_PLAYER             ("other.mustSpecifyPlayer"),
     
-
+    HOME_SET_OTHER_TOOMANY_MESSAGE  ("other.homeSet.tooMany.message"),
+    HOME_SET_OTHER_TOOMANY_SUGGEST  ("other.homeSet.tooMany.suggestion"),
+    HOME_SET_OTHER_IMPLICIT         ("other.homeSet.implicit"),
+    HOME_SET_OTHER_EXPLICIT         ("other.homeSet.explicit");
+    
     private final String key;
 
     private MessageKeys(String key)

@@ -8,15 +8,18 @@ import org.bukkit.permissions.Permissible;
  */
 public enum Permissions
 {
-    RELOAD      ("multihomes.reload"),
-    HELP        ("multihomes.help"),
+    RELOAD              ("multihomes.reload"),
+    HELP                ("multihomes.help"),
     
-    SET_HOME    ("multihomes.set.self",
-                 "multihomes.sethome"),
-    GO_HOME     ("multihomes.home.self",
-                 "multihomes.gohome"),
-    LIST_HOMES  ("multihomes.list.self"),
-    DELETE_HOME ("multihomes.delete.self");
+    SET_HOME            ("multihomes.set.self",
+                         "multihomes.sethome"),
+    GO_HOME             ("multihomes.home.self",
+                         "multihomes.gohome"),
+    LIST_HOMES          ("multihomes.list.self"),
+    DELETE_HOME         ("multihomes.delete.self"),
+    
+    SET_HOME_OTHER      ("multihomes.set.other"),
+    SET_HOME_OTHER_FORCE("multihomes.set.other.force");
 
     private Permissions(String... nodes)
     {

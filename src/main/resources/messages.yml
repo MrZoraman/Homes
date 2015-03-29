@@ -9,7 +9,7 @@ self:
   homeSet:
     implicit: '&2Home has been set!'
     explicit: '&2Home ''&a%home%&2'' has been set!'
-    tooMany: '&cYou have too many homes! The max you can have is &7%count%&c!'
+    tooMany: '&cYou have too many homes! The max you can have is &7%max%&c!'
   homeGet:
     doesNotExist:
       implicit: '&cYou don''t have a home set!'
@@ -30,4 +30,11 @@ self:
       implicit: '&2Home has been deleted!'
       explicit: '&2Home ''&a%home%&2'' has been deleted!'
 other:
+  mustSpecifyPlayer: '&cYou must specify a player!'
   playerNotFound: '&7''%player%''&c is not online!'
+  homeSet:
+    tooMany:
+      message: '&cPlayer &7''%player%''&c has too many homes set! (The most they can have is &7%max%&7)'
+      suggestion: '&cTo force the home to be set, add the &7''force''&c argument to the end of your command.'
+    implicit: '&a''%player''&2''s home has been set!'
+    explicit: '&2Home &a''%home%''&2 has been set for &a''%player%''&2!'
