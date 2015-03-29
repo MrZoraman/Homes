@@ -26,7 +26,10 @@ public class SetOthersHomeCommand extends CommandBase
     protected boolean onCommand(Player player, String[] args)
     {
         // /home set other [playername] (homename)
-        // /home set other [playername] (homename) force_m
+        // /home set other [playername] (homename) force
+        
+        if(!checkPerms(player, Permissions.SET_HOME_OTHER))
+            return true;
         
         String targetName_m = null;
         boolean usingImplicitHome_m = true;
