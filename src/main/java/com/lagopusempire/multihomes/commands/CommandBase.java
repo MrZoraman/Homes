@@ -10,6 +10,7 @@ import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
 import com.lagopusempire.multihomes.util.UUIDFetcher;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -77,13 +78,15 @@ public abstract class CommandBase implements IBukkitLCSCommand
         return true;
     }
     
-    protected void getPlayer(String playerName, Set<? extends Player> onlinePlayers, PlayerLookupCallback callback)
+    protected void getPlayer(String playerName, PlayerLookupCallback callback)
     {
         if(playerName.matches(uuid_regex))
         {
             callback.playerFound(playerName, UUID.fromString(playerName));
             return;
         }
+        
+        final Set<? extends Player> onlinePlayers = new HashSet<>(plugin.getServer().getOnlinePlayers());
         
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
