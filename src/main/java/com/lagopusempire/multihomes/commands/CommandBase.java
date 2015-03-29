@@ -34,7 +34,7 @@ public abstract class CommandBase implements IBukkitLCSCommand
     @FunctionalInterface
     protected interface PlayerLookupCallback
     {
-        public void playerFound(UUID uuid);
+        public void playerFound(String name, UUID uuid);
     }
     
     protected final HomeManager homeManager;
@@ -81,7 +81,7 @@ public abstract class CommandBase implements IBukkitLCSCommand
     {
         if(playerName.matches(uuid_regex))
         {
-            callback.playerFound(UUID.fromString(playerName));
+            callback.playerFound(playerName, UUID.fromString(playerName));
             return;
         }
         
@@ -91,7 +91,7 @@ public abstract class CommandBase implements IBukkitLCSCommand
             {
                 if(player.getName().equalsIgnoreCase(playerName))
                 {
-                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(player.getUniqueId()));
+                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(playerName, player.getUniqueId()));
                     return;
                 }
             }
@@ -106,12 +106,12 @@ public abstract class CommandBase implements IBukkitLCSCommand
             {
                 plugin.getLogger().warning("Failed to lookup uuid for player '" + playerName + "'!");
                 e.printStackTrace();
-                plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(null));
+                plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(null, null));
                 return;
             }
             
             final UUID uuid = response.get(playerName);
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(uuid));
+            plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(playerName, uuid));
         });
     }
     
