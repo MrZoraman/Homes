@@ -3,6 +3,8 @@ package com.lagopusempire.multihomes.commands;
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.config.ConfigKeys;
+import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
@@ -21,6 +23,14 @@ import org.bukkit.entity.Player;
  */
 public abstract class CommandBase implements IBukkitLCSCommand
 {
+    private static String uuid_regex = null;
+    
+    static
+    {
+        uuid_regex = PluginConfig.getString(ConfigKeys.UUID_REGEX);
+        System.out.println("UUID REGEX: " + uuid_regex);
+    }
+    
     @FunctionalInterface
     protected interface PlayerLookupCallback
     {
@@ -69,6 +79,12 @@ public abstract class CommandBase implements IBukkitLCSCommand
     
     protected void getPlayer(String playerName, Set<? extends Player> onlinePlayers, PlayerLookupCallback callback)
     {
+        if(playerName.matches(uuid_regex))
+        {
+            callback.playerFound(UUID.fromString(playerName));
+            return;
+        }
+        
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
         {
             for(Player player : onlinePlayers)
