@@ -2,30 +2,32 @@ noPermissions: '&cYou don''t have permission to do that!'
 reload:
   success: '&aMultiHomes has been reloaded successfully!'
   failure: '&cMultihomes encountered errors while reloading!'
-loginAndStillLoading: 'Server is still loading! Please try logging in again.'
 mustBePlayer: '&cYou must be a player to use that command!'
 notLoaded: '&cMultihomes is not loaded yet!'
-homeSet:
-  implicit: '&2Home has been set!'
-  explicit: '&2Home ''&a%home%&2'' has been set!'
-  tooMany: '&cYou have too many homes! The max you can have is &7%count%&c!'
-homeGet:
-  doesNotExist:
-    implicit: '&cYou don''t have a home set!'
-    explicit: '&cHome ''&7%home%&c'' does not exist!'
-  worldNotLoaded:
-    implicit: '&cYour home is in a world that is not loaded!'
-    explicit: '&cHome ''&7%home%&c'' is in a world that is not loaded!'
-homeList:
-  initial: '&2Home list (&9%count%&2/&9%max%&2): '
-  format: '&a%home%&8, '
-  none: '&cYou do not have any homes to list! (The most you can have is &7%max%&c)'
-  endStripLength: 2
-homeDelete:
-  noExist:
-    implicit: '&cYou don''t have a home to delete!'
-    explicit: '&cYou can''t delete &7''%home%&c'' because it doesn''t exist!'
-  success:
-    implicit: '&2Home has been deleted!'
-    explicit: '&2Home ''&a%home%&2'' has been deleted!'
 infiniteHomesRep: 'Infinity'
+self:
+  homeSet:
+    implicit: '&2Home has been set!'
+    explicit: '&2Home ''&a%home%&2'' has been set!'
+    tooMany: '&cYou have too many homes! The max you can have is &7%count%&c!'
+  homeGet:
+    doesNotExist:
+      implicit: '&cYou don''t have a home set!'
+      explicit: '&cHome ''&7%home%&c'' does not exist!'
+    worldNotLoaded:
+      implicit: '&cYour home is in a world that is not loaded!'
+      explicit: '&cHome ''&7%home%&c'' is in a world that is not loaded!'
+  homeList:
+    initial: '&2Home list (&9%count%&2/&9%max%&2): '
+    format: '&a%home%&8, '
+    none: '&cYou do not have any homes to list! (The most you can have is &7%max%&c)'
+    endStripLength: 2
+  homeDelete:
+    noExist:
+      implicit: '&cYou don''t have a home to delete!'
+      explicit: '&cYou can''t delete &7''%home%&c'' because it doesn''t exist!'
+    success:
+      implicit: '&2Home has been deleted!'
+      explicit: '&2Home ''&a%home%&2'' has been deleted!'
+other:
+  playerNotFound: '&7''%player%''&c is not online!'

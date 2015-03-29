@@ -9,30 +9,33 @@ public enum MessageKeys
     RELOAD_SUCCESS                  ("reload.success"),
     RELOAD_FAILURE                  ("reload.failure"),
     NO_PERMISSION                   ("noPermissions"),
-    LOGIN_AND_STILL_LOADING         ("loginAndStillLoading"),
     MUST_BE_PLAYER                  ("mustBePlayer"),
-    NOT_LOADED                      ("notLoaded"),
-    
-    HOME_SET_IMPLICIT               ("homeSet.implicit"),
-    HOME_SET_EXPLICIT               ("homeSet.explicit"),
-    HOME_SET_TOO_MANY               ("homeSet.tooMany"),
-    
-    HOME_GET_NOEXIST_IMPLICIT       ("homeGet.doesNotExist.implicit"),
-    HOME_GET_NOEXIST_EXPLICIT       ("homeGet.doesNotExist.explicit"),
-    HOME_GET_NOT_LOADED_IMPLICIT    ("homeGet.worldNotLoaded.implicit"),
-    HOME_GET_NOT_LOADED_EXPLICIT    ("homeGet.worldNotLoaded.explicit"),
-    
-    HOME_LIST_INITIAL               ("homeList.initial"),
-    HOME_LIST_FORMAT                ("homeList.format"),
-    HOME_LIST_NONE                  ("homeList.none"),
-    HOME_LIST_END_STRIP_LENGTH      ("homeList.endStripLength"),
-    
+    NOT_LOADED                      ("notLoaded"),    
     INFINITE_HOMES_REP              ("infiniteHomesRep"),
+
+    //SELF
+    HOME_SET_IMPLICIT               ("self.homeSet.implicit"),
+    HOME_SET_EXPLICIT               ("self.homeSet.explicit"),
+    HOME_SET_TOO_MANY               ("self.homeSet.tooMany"),
     
-    HOME_DELETE_NOEXIST_IMPLICIT    ("homeDelete.noExist.implicit"),
-    HOME_DELETE_NOEXIST_EXPLICIT    ("homeDelete.noExist.explicit"),
-    HOME_DELETE_SUCCESS_IMPLICIT    ("homeDelete.success.implicit"),
-    HOME_DELETE_SUCCESS_EXPLICIT    ("homeDelete.success.explicit");
+    HOME_GET_NOEXIST_IMPLICIT       ("self.homeGet.doesNotExist.implicit"),
+    HOME_GET_NOEXIST_EXPLICIT       ("self.homeGet.doesNotExist.explicit"),
+    HOME_GET_NOT_LOADED_IMPLICIT    ("self.homeGet.worldNotLoaded.implicit"),
+    HOME_GET_NOT_LOADED_EXPLICIT    ("self.homeGet.worldNotLoaded.explicit"),
+    
+    HOME_LIST_INITIAL               ("self.homeList.initial"),
+    HOME_LIST_FORMAT                ("self.homeList.format"),
+    HOME_LIST_NONE                  ("self.homeList.none"),
+    HOME_LIST_END_STRIP_LENGTH      ("self.homeList.endStripLength"),
+    
+    HOME_DELETE_NOEXIST_IMPLICIT    ("self.homeDelete.noExist.implicit"),
+    HOME_DELETE_NOEXIST_EXPLICIT    ("self.homeDelete.noExist.explicit"),
+    HOME_DELETE_SUCCESS_IMPLICIT    ("self.homeDelete.success.implicit"),
+    HOME_DELETE_SUCCESS_EXPLICIT    ("self.homeDelete.success.explicit"),
+    
+    //OTHER
+    PLAYER_NOT_FOUND                ("other.playerNotFound");
+    
 
     private final String key;
 
