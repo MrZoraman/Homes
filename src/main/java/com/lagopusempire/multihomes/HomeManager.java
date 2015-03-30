@@ -1,5 +1,6 @@
 package com.lagopusempire.multihomes;
 
+import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -49,9 +49,9 @@ public class HomeManager implements Listener
         homes.remove(event.getPlayer().getUniqueId());
     }
 
-    public boolean setHome(Player player, UUID owner, String homeName)
+    public boolean setHome(UUID owner, String homeName, Coordinates coords, String worldName)
     {
-        final Home home = new Home(owner, homeName, player.getLocation());
+        final Home home = new Home(owner, homeName, coords, worldName);
         homes.get(owner).put(homeName, home);
         return io.saveHome(home);
     }

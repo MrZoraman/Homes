@@ -24,11 +24,6 @@ public class Home
         this.name = name;
     }
     
-    public Home(UUID owner, String name, Location loc)
-    {
-        this(owner, name, new Coordinates(loc), loc.getWorld().getName());
-    }
-    
     public Home(UUID owner, String name, Coordinates coords, String worldName)
     {
         this(owner, name);
