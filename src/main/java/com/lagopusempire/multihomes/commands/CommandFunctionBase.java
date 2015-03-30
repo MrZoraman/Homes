@@ -2,6 +2,7 @@ package com.lagopusempire.multihomes.commands;
 
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
+import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
@@ -11,7 +12,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,11 +42,11 @@ public class CommandFunctionBase
         this.plugin = plugin;
     }
     
-    protected boolean checkPerms(CommandSender sender, Permissions perm)
+    protected boolean checkPerms(Player player, Permissions perm)
     {
-        if(!perm.check(sender))
+        if(!perm.check(player))
         {
-            sender.sendMessage(getNoPermsMsg(perm));
+            sendMessage(player, getNoPermsMsg(perm));
             return false;
         }
         
@@ -93,11 +93,17 @@ public class CommandFunctionBase
         });
     }
     
-    private String getNoPermsMsg(Permissions perm)
+    private MessageFormatter getNoPermsMsg(Permissions perm)
     {
         return Messages.getMessage(MessageKeys.NO_PERMISSION)
-                .colorize()
-                .replace("node", perm.getNode())
-                .toString();
+                .replace("node", perm.getNode());
+    }
+    
+    protected void sendMessage(Player player, MessageFormatter formatter)
+    {
+        if(player != null && player.isOnline())
+        {
+            player.sendMessage(formatter.colorize().toString());
+        }
     }
 }
