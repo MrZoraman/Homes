@@ -55,11 +55,7 @@ public class Loader
         
         isLoading = true;
         
-        load(0, (success) -> 
-        {
-            isLoading = false;
-            callback.reloadFinished(success);
-        }, false);
+        load(0, callback, false);
     }
     
     private void load(final int stepIndex, final LoadCallback callback, final boolean onAsyncThread)
@@ -100,6 +96,9 @@ public class Loader
     
     private void callCallback(final boolean success, final LoadCallback callback, final boolean onAsyncThread)
     {
+        if(callback == null)
+            return;
+        
         if(onAsyncThread)
         {
             //move to the right thread, then call callback
