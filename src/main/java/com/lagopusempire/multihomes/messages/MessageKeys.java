@@ -10,7 +10,7 @@ public enum MessageKeys
     RELOAD_FAILURE                  ("reload.failure"),
     NO_PERMISSION                   ("noPermissions"),
     MUST_BE_PLAYER                  ("mustBePlayer"),
-    NOT_LOADED                      ("notLoaded"),    
+    PLUGIN_NOT_LOADED               ("notLoaded"),    
     INFINITE_HOMES_REP              ("infiniteHomesRep"),
 
     //SELF
@@ -33,6 +33,8 @@ public enum MessageKeys
     HOME_DELETE_SUCCESS_IMPLICIT    ("self.homeDelete.success.implicit"),
     HOME_DELETE_SUCCESS_EXPLICIT    ("self.homeDelete.success.explicit"),
     
+    NOT_LOADED_SELF                 ("self.notLoaded"),
+    
     //OTHER
     PLAYER_NOT_FOUND                ("other.playerNotFound"),
     MUST_SPECIFY_PLAYER             ("other.mustSpecifyPlayer"),
@@ -40,7 +42,9 @@ public enum MessageKeys
     HOME_SET_OTHER_TOOMANY_MESSAGE  ("other.homeSet.tooMany.message"),
     HOME_SET_OTHER_TOOMANY_SUGGEST  ("other.homeSet.tooMany.suggestion"),
     HOME_SET_OTHER_IMPLICIT         ("other.homeSet.implicit"),
-    HOME_SET_OTHER_EXPLICIT         ("other.homeSet.explicit");
+    HOME_SET_OTHER_EXPLICIT         ("other.homeSet.explicit"),
+    
+    NOT_LOADED_OTHER                ("other.notLoaded");
     
     private final String key;
 

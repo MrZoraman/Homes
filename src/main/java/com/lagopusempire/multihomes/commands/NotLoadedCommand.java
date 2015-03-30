@@ -15,7 +15,7 @@ public class NotLoadedCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args)
     {
-        sender.sendMessage(Messages.getMessage(MessageKeys.NOT_LOADED).colorize().toString());
+        sender.sendMessage(Messages.getMessage(MessageKeys.PLUGIN_NOT_LOADED).colorize().toString());
         return true;
     }
 }

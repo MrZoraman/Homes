@@ -29,6 +29,7 @@ self:
     success:
       implicit: '&2Home has been deleted!'
       explicit: '&2Home ''&a%home%&2'' has been deleted!'
+  notLoaded: '&cYour homes are not loaded yet! Please try the command again.'
 other:
   mustSpecifyPlayer: '&cYou must specify a player!'
   playerNotFound: '&7''%player%''&c is not online!'
@@ -38,3 +39,4 @@ other:
       suggestion: '&cTo force the home to be set, add the &7''force''&c argument to the end of your command.'
     implicit: '&a''%player''&2''s home has been set!'
     explicit: '&2Home &a''%home%''&2 has been set for &a''%player%''&2!'
+  notLoaded: '&7''%player%''&c''s homes are not loaded yet! Please try the command again.'

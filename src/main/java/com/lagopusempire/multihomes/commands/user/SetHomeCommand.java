@@ -67,9 +67,9 @@ public class SetHomeCommand extends CommandBase
             this.uuid = player.getUniqueId();
             
             final boolean isAsync = homeManager.shouldBeAsync();
-            System.out.println("isAsync: " + isAsync);
             
             loader.addStep(this::checkPermissions, false);
+            loader.addStep(this::verifyLoaded, false);
             loader.addStep(this::setHome, isAsync);
             loader.addStep(this::notifyPlayer, false);
         }
@@ -82,6 +82,19 @@ public class SetHomeCommand extends CommandBase
         private boolean checkPermissions()
         {
             return checkPerms(player, Permissions.SET_HOME);
+        }
+        
+        private boolean verifyLoaded()
+        {
+            if(!homeManager.isLoaded(uuid))
+            {
+                final MessageFormatter formatter = Messages.getMessage(MessageKeys.NOT_LOADED_SELF)
+                        .colorize();
+                sendMessage(player, formatter);
+                return false;
+            }
+            
+            return true;
         }
         
         private boolean setHome()
