@@ -50,24 +50,24 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         setupConfig();
         
         loader = new Loader(this);
-        loader.addStep(this::unloadDb);
-        loader.addStep(this::unregisterEvents);
-        loader.addStep(this::setupMessages);
-        loader.addStep(this::setupRegisteredBukkitCommands);
-        loader.addStep(this::setupNotLoadedCommand);
+        loader.addStep(this::unloadDb, false);
+        loader.addStep(this::unregisterEvents, false);
+        loader.addStep(this::setupMessages, false);
+        loader.addStep(this::setupRegisteredBukkitCommands, false);
+        loader.addStep(this::setupNotLoadedCommand, false);
         if (needToSetupDatabase())
         {
-            loader.addStep(this::setupScripts);
-            loader.addStep(this::setupDbSetup);
-            loader.addAsyncStep(this::setupDatabase);
-            loader.addStep(this::setupPostDb);
+            loader.addStep(this::setupScripts, false);
+            loader.addStep(this::setupDbSetup, false);
+            loader.addStep(this::setupDatabase, true);
+            loader.addStep(this::setupPostDb, false);
         }
-        loader.addStep(this::setupHomeIO);
-        loader.addStep(this::setupHomeManager);
-        loader.addStep(this::setupEvents);
-        loader.addStep(this::loadOnlinePlayers);
-        loader.addStep(this::setupCommandSystem);
-        loader.addStep(this::setupCommands);
+        loader.addStep(this::setupHomeIO, false);
+        loader.addStep(this::setupHomeManager, false);
+        loader.addStep(this::setupEvents, false);
+        loader.addStep(this::loadOnlinePlayers, false);
+        loader.addStep(this::setupCommandSystem, false);
+        loader.addStep(this::setupCommands, false);
         
         loader.load(this);
     }

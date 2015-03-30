@@ -37,7 +37,7 @@ public class SetHomeCommand extends CommandBase
             this.loader = new Loader(plugin);
             this.player = player;
             
-            loader.addStep(this::checkPermissions);
+            loader.addStep(this::checkPermissions, false);
         }
         
         void run()

@@ -30,20 +30,17 @@ public class Loader
         this.plugin = plugin;
     }
     
-    public void addStep(LoadStep step)
+    public void addStep(LoadStep step, boolean async)
     {
         if(isLoading) throw new IllegalStateException("Cannot call addStep after loading has started!");
         
         preLoadSteps.add(stepIndex, step);
         stepIndex++;
-    }
-    
-    public void addAsyncStep(LoadStep step)
-    {
-        if(isLoading) throw new IllegalStateException("Cannot call addAsyncStep after loading has started!");
         
-        preAsyncSteps.add(stepIndex);
-        addStep(step);
+        if(async)
+        {
+            preAsyncSteps.add(stepIndex);
+        }
     }
     
     public void load(final LoadCallback callback)
