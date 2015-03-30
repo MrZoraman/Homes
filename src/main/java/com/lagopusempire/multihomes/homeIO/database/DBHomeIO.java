@@ -285,12 +285,14 @@ public class DBHomeIO implements HomeIO
     {
         try
         {
+            System.out.println("Sleeping for 5 seconds on thread " + Thread.currentThread().getId());
+            Thread.sleep(5000);
             if(conn == null || conn.isClosed() || !conn.isValid(10))
             {
                 conn = Util.createConnection();
             }
         }
-        catch(SQLException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             plugin.disablePlugin();

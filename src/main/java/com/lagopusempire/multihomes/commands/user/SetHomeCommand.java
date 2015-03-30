@@ -67,6 +67,7 @@ public class SetHomeCommand extends CommandBase
             this.uuid = player.getUniqueId();
             
             final boolean isAsync = homeManager.shouldBeAsync();
+            System.out.println("isAsync: " + isAsync);
             
             loader.addStep(this::checkPermissions, false);
             loader.addStep(this::setHome, isAsync);

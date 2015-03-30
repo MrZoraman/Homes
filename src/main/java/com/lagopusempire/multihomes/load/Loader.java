@@ -35,12 +35,13 @@ public class Loader
         if(isLoading) throw new IllegalStateException("Cannot call addStep after loading has started!");
         
         preLoadSteps.add(stepIndex, step);
-        stepIndex++;
         
         if(async)
         {
             preAsyncSteps.add(stepIndex);
         }
+        
+        stepIndex++;
     }
     
     public void load(final LoadCallback callback)
