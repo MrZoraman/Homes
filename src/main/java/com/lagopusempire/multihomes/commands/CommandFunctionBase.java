@@ -21,14 +21,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class CommandFunctionBase
 {
-    private static String uuid_regex = null;
-    
-    static
-    {
-        uuid_regex = PluginConfig.getString(ConfigKeys.UUID_REGEX);
-        System.out.println("UUID REGEX: " + uuid_regex);
-    }
-    
     @FunctionalInterface
     protected interface PlayerLookupCallback
     {
@@ -55,6 +47,8 @@ public class CommandFunctionBase
     
     protected void getPlayer(String playerName, PlayerLookupCallback callback)
     {
+        final String uuid_regex = PluginConfig.getString(ConfigKeys.UUID_REGEX);
+        System.out.println(uuid_regex);
         if(playerName.matches(uuid_regex))
         {
             callback.playerFound(playerName, UUID.fromString(playerName));
