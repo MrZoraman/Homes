@@ -4,13 +4,7 @@ import com.lagopusempire.multihomes.config.ConfigAccessor;
 import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
-import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
-import com.lagopusempire.multihomes.homeIO.HomeDeletedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
-import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
-import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
-import com.lagopusempire.multihomes.homeIO.HomeSavedCallback;
-import com.lagopusempire.multihomes.homeIO.HomesLoadedCallback;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,7 +31,7 @@ public class FlatfileHomeIO implements HomeIO
     }
     
     @Override
-    public void saveHome(Home home, HomeSavedCallback callback)
+    public boolean saveHome(Home home)
     {
         final Coordinates coords = home.getCoords();
         final String ownerName = home.getOwner().toString();
@@ -55,12 +49,11 @@ public class FlatfileHomeIO implements HomeIO
         
         homesFile.saveConfig();
         
-        if(callback != null)
-            callback.homeSaved(update);
+        return update;
     }
 
     @Override
-    public void loadHomes(UUID uuid, HomesLoadedCallback callback)
+    public Map<String, Home> loadHomes(UUID uuid)
     {
         final String ownerName = uuid.toString();
         
@@ -74,19 +67,17 @@ public class FlatfileHomeIO implements HomeIO
             homeNames.forEach((homeName) -> homes.put(homeName, getHome(uuid, homeName)));
         }
         
-        callback.homesLoaded(homes);
+        return homes;
     }
 
     @Override
-    public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback)
+    public Home loadHome(UUID uuid, String homeName)
     {
-        final Home home = getHome(uuid, homeName);
-        
-        callback.homeLoaded(home);
+        return getHome(uuid, homeName);
     }
 
     @Override
-    public void getHomeList(UUID uuid, HomeListLoadedCallback callback)
+    public List<String> getHomeList(UUID uuid)
     {
         final ConfigurationSection section = config.getConfigurationSection(uuid.toString());
         if(section != null)
@@ -94,34 +85,32 @@ public class FlatfileHomeIO implements HomeIO
             final Set<String> homeNames = config.getConfigurationSection(uuid.toString()).getKeys(false);
             final List<String> homeList = new ArrayList<>(homeNames);
             Collections.sort(homeList);
-            callback.homeListLoaded(homeList);
+            return homeList;
         }
         else
         {
-            callback.homeListLoaded(new ArrayList<>());
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public void getHomeCount(UUID uuid, HomeCountCallback callback)
+    public int getHomeCount(UUID uuid)
     {
         final ConfigurationSection section = config.getConfigurationSection(uuid.toString());
-        callback.gotHomeCount(section == null 
+        return section == null 
                 ? 0 
-                : section.getKeys(false).size()
-        );
+                : section.getKeys(false).size();
     }
     
 
     @Override
-    public void deleteHome(UUID uuid, String homeName, HomeDeletedCallback callback)
+    public boolean deleteHome(UUID uuid, String homeName)
     {
         final Home home = getHome(uuid, homeName);
         
         if(home.getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST)
         {
-            callback.homeDeleted(false);
-            return;
+            return false;
         }
         
         final String path = uuid.toString() + "." + homeName;
@@ -136,7 +125,7 @@ public class FlatfileHomeIO implements HomeIO
         
         homesFile.saveConfig();
         
-        callback.homeDeleted(true);
+        return true;
     }
     
     private Home getHome(UUID uuid, String homeName)

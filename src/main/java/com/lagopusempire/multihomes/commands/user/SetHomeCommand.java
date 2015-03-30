@@ -3,7 +3,9 @@ package com.lagopusempire.multihomes.commands.user;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.commands.CommandBase;
+import com.lagopusempire.multihomes.commands.CommandFunctionBase;
 import com.lagopusempire.multihomes.load.Loader;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,14 +26,28 @@ public class SetHomeCommand extends CommandBase
         return true;
     }
     
-    private class HomeSetter
+    private class HomeSetter extends CommandFunctionBase
     {
         private final Loader loader;
+        private final Player player;
         
-        HomeSetter(JavaPlugin plugin)
+        HomeSetter(JavaPlugin plugin, Player player)
         {
+            super(plugin);
             this.loader = new Loader(plugin);
+            this.player = player;
             
+            loader.addStep(this::checkPermissions);
+        }
+        
+        void run()
+        {
+            loader.load(null);
+        }
+        
+        private boolean checkPermissions()
+        {
+            return checkPerms(player, Permissions.SET_HOME);
         }
     }
 }

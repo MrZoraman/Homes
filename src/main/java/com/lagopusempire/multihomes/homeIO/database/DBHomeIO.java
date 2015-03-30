@@ -4,13 +4,7 @@ import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
-import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
-import com.lagopusempire.multihomes.homeIO.HomeDeletedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
-import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
-import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
-import com.lagopusempire.multihomes.homeIO.HomeSavedCallback;
-import com.lagopusempire.multihomes.homeIO.HomesLoadedCallback;
 import com.lagopusempire.multihomes.util.Util;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -41,218 +35,207 @@ public class DBHomeIO implements HomeIO
     }
 
     @Override
-    public void saveHome(final Home home, final HomeSavedCallback callback)
+    public boolean saveHome(final Home home)
     {
         final UUID uuid = home.getOwner();
         
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
-        {
-            verifyConnection();
-            
-            if(getHome(uuid, home.getName()).getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST)
-            {
-                //home does not exist
-                final String query = Scripts.getScript(CREATE_HOME);
-                try(final PreparedStatement stmt = conn.prepareStatement(query))
-                {
-                    stmt.setString(1, home.getOwner().toString());
-                    stmt.setString(2, home.getName());
-                    stmt.setDouble(3, home.getCoords().x);
-                    stmt.setDouble(4, home.getCoords().y);
-                    stmt.setDouble(5, home.getCoords().z);
-                    stmt.setFloat (6, home.getCoords().yaw);
-                    stmt.setFloat (7, home.getCoords().pitch);
-                    stmt.setString(8, home.getWorldName());
-                    
-                    stmt.execute();
-                    
-                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeSaved(false));
-                }
-                catch (SQLException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            else
-            {
-                //home exists, update it
-                final String query = Scripts.getScript(UPDATE_HOME);
-                try(final PreparedStatement stmt = conn.prepareStatement(query))
-                {
-                    stmt.setDouble(1, home.getCoords().x);
-                    stmt.setDouble(2, home.getCoords().y);
-                    stmt.setDouble(3, home.getCoords().z);
-                    stmt.setFloat (4, home.getCoords().yaw);
-                    stmt.setFloat (5, home.getCoords().pitch);
-                    stmt.setString(6, home.getWorldName());
-                    
-                    stmt.setString(7, uuid.toString());
-                    stmt.setString(8, home.getName());
-                    
-                    stmt.execute();
-                    
-                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeSaved(true));
-                }
-                catch (SQLException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+        verifyConnection();
 
-    @Override
-    public void loadHomes(UUID uuid, HomesLoadedCallback callback)
-    {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        if(getHome(uuid, home.getName()).getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST)
         {
-            verifyConnection();
-            
-            final Map<String, Home> homes = new HashMap<>();
-            
-            final String query = Scripts.getScript(LOAD_HOMES);
+            //home does not exist
+            final String query = Scripts.getScript(CREATE_HOME);
             try(final PreparedStatement stmt = conn.prepareStatement(query))
             {
-                stmt.setString(1, uuid.toString());
+                stmt.setString(1, home.getOwner().toString());
+                stmt.setString(2, home.getName());
+                stmt.setDouble(3, home.getCoords().x);
+                stmt.setDouble(4, home.getCoords().y);
+                stmt.setDouble(5, home.getCoords().z);
+                stmt.setFloat (6, home.getCoords().yaw);
+                stmt.setFloat (7, home.getCoords().pitch);
+                stmt.setString(8, home.getWorldName());
 
-                try(final ResultSet rs = stmt.executeQuery())
-                {
-                    while(rs.next())
-                    {
-                        final String homeName = rs.getString("home_name");
-                        
-                        final Coordinates coords = new Coordinates();
-                        
-                        coords.x = rs.getDouble("x");
-                        coords.y = rs.getDouble("y");
-                        coords.z = rs.getDouble("z");
-                        coords.yaw = rs.getFloat("yaw");
-                        coords.pitch = rs.getFloat("pitch");
-                        
-                        final String worldName = rs.getString("world_name");
-                        
-                        final Home home = new Home(uuid, homeName, coords, worldName);
-                        
-                        homes.put(homeName, home);
-                    }
-                }
+                stmt.execute();
             }
-            catch (SQLException ex)
+            catch (SQLException e)
             {
-                ex.printStackTrace();
+                e.printStackTrace();
             }
-            
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.homesLoaded(homes));
-        });
-    }
-
-    @Override
-    public void loadHome(UUID uuid, String homeName, HomeLoadedCallback callback)
-    {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+            finally
+            {
+                return false;
+            }
+        }
+        else
         {
-            verifyConnection();
-            
-            final Home home = getHome(uuid, homeName);
-            
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeLoaded(home));
-        });
-    }
-
-    @Override
-    public void getHomeList(UUID uuid, HomeListLoadedCallback callback)
-    {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
-        {
-            verifyConnection();
-            
-            final List<String> homes = new ArrayList<>();
-            
-            final String query = Scripts.getScript(LIST_HOMES);
+            //home exists, update it
+            final String query = Scripts.getScript(UPDATE_HOME);
             try(final PreparedStatement stmt = conn.prepareStatement(query))
             {
-                stmt.setString(1, uuid.toString());
+                stmt.setDouble(1, home.getCoords().x);
+                stmt.setDouble(2, home.getCoords().y);
+                stmt.setDouble(3, home.getCoords().z);
+                stmt.setFloat (4, home.getCoords().yaw);
+                stmt.setFloat (5, home.getCoords().pitch);
+                stmt.setString(6, home.getWorldName());
 
-                try(final ResultSet rs = stmt.executeQuery())
+                stmt.setString(7, uuid.toString());
+                stmt.setString(8, home.getName());
+
+                stmt.execute();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                return true;
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Home> loadHomes(UUID uuid)
+    {
+        verifyConnection();
+
+        final Map<String, Home> homes = new HashMap<>();
+
+        final String query = Scripts.getScript(LOAD_HOMES);
+        try(final PreparedStatement stmt = conn.prepareStatement(query))
+        {
+            stmt.setString(1, uuid.toString());
+
+            try(final ResultSet rs = stmt.executeQuery())
+            {
+                while(rs.next())
                 {
-                    while(rs.next())
-                    {
-                        homes.add(rs.getString("home_name"));
-                    }
+                    final String homeName = rs.getString("home_name");
+
+                    final Coordinates coords = new Coordinates();
+
+                    coords.x = rs.getDouble("x");
+                    coords.y = rs.getDouble("y");
+                    coords.z = rs.getDouble("z");
+                    coords.yaw = rs.getFloat("yaw");
+                    coords.pitch = rs.getFloat("pitch");
+
+                    final String worldName = rs.getString("world_name");
+
+                    final Home home = new Home(uuid, homeName, coords, worldName);
+
+                    homes.put(homeName, home);
                 }
             }
-            catch (SQLException ex)
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            return homes;
+        }
+    }
+
+    @Override
+    public Home loadHome(UUID uuid, String homeName)
+    {
+        verifyConnection();
+
+        return getHome(uuid, homeName);
+    }
+
+    @Override
+    public List<String> getHomeList(UUID uuid)
+    {
+        verifyConnection();
+
+        final List<String> homes = new ArrayList<>();
+
+        final String query = Scripts.getScript(LIST_HOMES);
+        try(final PreparedStatement stmt = conn.prepareStatement(query))
+        {
+            stmt.setString(1, uuid.toString());
+
+            try(final ResultSet rs = stmt.executeQuery())
             {
-                ex.printStackTrace();
+                while(rs.next())
+                {
+                    homes.add(rs.getString("home_name"));
+                }
             }
-            
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
             Collections.sort(homes);
-            
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeListLoaded(homes));
-        });
+            return homes;
+        }
     }
     
     @Override
-    public void getHomeCount(UUID uuid, HomeCountCallback callback)
+    public int getHomeCount(UUID uuid)
     {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
-        {
-            verifyConnection();
-            
-            int homeCount = 0;
-            
-            final String query = Scripts.getScript(GET_HOME_COUNT);
-            try(final PreparedStatement stmt = conn.prepareStatement(query))
-            {
-                stmt.setString(1, uuid.toString());
+        verifyConnection();
 
-                try(final ResultSet rs = stmt.executeQuery())
+        int homeCount = 0;
+
+        final String query = Scripts.getScript(GET_HOME_COUNT);
+        try(final PreparedStatement stmt = conn.prepareStatement(query))
+        {
+            stmt.setString(1, uuid.toString());
+
+            try(final ResultSet rs = stmt.executeQuery())
+            {
+                while(rs.next())
                 {
-                    while(rs.next())
-                    {
-                        homeCount = rs.getInt(1);
-                    }
+                    homeCount = rs.getInt(1);
                 }
             }
-            catch (SQLException ex)
-            {
-                ex.printStackTrace();
-            }
-            
-            final int _homeCount = homeCount;
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.gotHomeCount(_homeCount));
-        });
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            return homeCount;
+        }
     }
 
     @Override
-    public void deleteHome(UUID uuid, String homeName, HomeDeletedCallback callback)
+    public boolean deleteHome(UUID uuid, String homeName)
     {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        verifyConnection();
+
+        final Home home = getHome(uuid, homeName);
+        if(home.getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST)
         {
-            verifyConnection();
-            
-            final Home home = getHome(uuid, homeName);
-            if(home.getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST)
-            {
-                plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeDeleted(false));
-                return;
-            }
-            
-            final String query = Scripts.getScript(DELETE_HOME);
-            try(final PreparedStatement stmt = conn.prepareStatement(query))
-            {
-                stmt.setString(1, uuid.toString());
-                stmt.setString(2, homeName);
-                
-                stmt.execute();
-                
-                plugin.getServer().getScheduler().runTask(plugin, () -> callback.homeDeleted(true));
-            }
-            catch (SQLException ex)
-            {
-                ex.printStackTrace();
-            }
-        });
+            return false;
+        }
+
+        final String query = Scripts.getScript(DELETE_HOME);
+        try(final PreparedStatement stmt = conn.prepareStatement(query))
+        {
+            stmt.setString(1, uuid.toString());
+            stmt.setString(2, homeName);
+
+            stmt.execute();
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            return true;
+        }
     }
     
     private Home getHome(UUID uuid, String homeName)

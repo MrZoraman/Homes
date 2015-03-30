@@ -1,12 +1,7 @@
 package com.lagopusempire.multihomes;
 
 import com.lagopusempire.multihomes.home.Home;
-import com.lagopusempire.multihomes.homeIO.HomeCountCallback;
-import com.lagopusempire.multihomes.homeIO.HomeDeletedCallback;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
-import com.lagopusempire.multihomes.homeIO.HomeListLoadedCallback;
-import com.lagopusempire.multihomes.homeIO.HomeLoadedCallback;
-import com.lagopusempire.multihomes.homeIO.HomeSavedCallback;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,65 +48,62 @@ public class HomeManager implements Listener
         homes.remove(event.getPlayer().getUniqueId());
     }
 
-    public void setHome(Player player, UUID owner, String homeName, HomeSavedCallback callback)
+    public boolean setHome(Player player, UUID owner, String homeName)
     {
         final Home home = new Home(owner, homeName, player.getLocation());
         homes.get(owner).put(homeName, home);
-        io.saveHome(home, callback);
+        return io.saveHome(home);
     }
 
-    public void getHome(UUID owner, String homeName, HomeLoadedCallback callback)
+    public Home getHome(UUID owner, String homeName)
     {
         if (homes.containsKey(owner)) //True if the player is online
         {
             final Home home = homes.get(owner).get(homeName);
             if (home != null)
             {
-                callback.homeLoaded(home);
-                return;
+                return home;
             }
-            callback.homeLoaded(new Home(owner, homeName));
-            return;
+            return new Home(owner, homeName);
         }
 
         //The player is offline
-        io.loadHome(owner, homeName, callback);
+        return io.loadHome(owner, homeName);
     }
 
-    public void getHomeList(UUID owner, HomeListLoadedCallback callback)
+    public List<String> getHomeList(UUID owner)
     {
         if (homes.containsKey(owner))
         {
             final Set<String> homeSet = homes.get(owner).keySet();
             final List<String> homeList = new ArrayList<>(homeSet);
             java.util.Collections.sort(homeList);
-            callback.homeListLoaded(homeList);
-            return;
+            return homeList;
         }
         
-        io.getHomeList(owner, callback);
+        return io.getHomeList(owner);
     }
     
-    public void getHomeCount(UUID owner, HomeCountCallback callback)
+    public int getHomeCount(UUID owner)
     {
         if(homes.containsKey(owner))
         {
-            callback.gotHomeCount(homes.get(owner).size());
+            return homes.get(owner).size();
         }
         else
         {
-            io.getHomeCount(owner, callback);
+            return io.getHomeCount(owner);
         }
     }
     
-    public void deleteHome(UUID owner, String homeName, HomeDeletedCallback callback)
+    public boolean deleteHome(UUID owner, String homeName)
     {
         if(homes.containsKey(owner))
         {
             homes.get(owner).remove(homeName);
         }
         
-        io.deleteHome(owner, homeName, callback);
+        return io.deleteHome(owner, homeName);
     }
     
     private void addHomeMap(UUID uuid)
@@ -136,6 +128,6 @@ public class HomeManager implements Listener
     
     private void loadAllHomes(UUID uuid)
     {
-        io.loadHomes(uuid, (loadedHomes) -> homes.get(uuid).putAll(loadedHomes));
+        homes.get(uuid).putAll(io.loadHomes(uuid));
     }
 }
