@@ -4,6 +4,7 @@ import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class HomeManager implements Listener
 {
     private final Map<UUID, Map<String, Home>> homes = new ConcurrentHashMap<>();
+    private final Set<UUID> loadedUUIDs = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     private final HomeIO io;
     private final MultiHomes plugin;
@@ -38,15 +40,17 @@ public class HomeManager implements Listener
     {
         final UUID uuid = event.getUniqueId();
 
-        //the plugin has been loaded at this point
         addHomeMap(uuid);
-        loadAllHomes(uuid);
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> loadAllHomes(uuid));
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        homes.remove(event.getPlayer().getUniqueId());
+        final UUID uuid = event.getPlayer().getUniqueId();
+        
+        loadedUUIDs.remove(uuid);
+        homes.remove(uuid);
     }
 
     public boolean setHome(UUID owner, String homeName, Coordinates coords, String worldName)
@@ -111,6 +115,11 @@ public class HomeManager implements Listener
     {
         return io.shouldBeAsync();
     }
+    
+    public boolean isLoaded(UUID uuid)
+    {
+        return loadedUUIDs.contains(uuid);
+    }
 
     private void addHomeMap(UUID uuid)
     {
@@ -135,5 +144,6 @@ public class HomeManager implements Listener
     private void loadAllHomes(UUID uuid)
     {
         homes.get(uuid).putAll(io.loadHomes(uuid));
+        loadedUUIDs.add(uuid);
     }
 }
