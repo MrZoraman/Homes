@@ -18,6 +18,8 @@ public interface HomeIO
     public int getHomeCount(UUID uuid);
     public boolean deleteHome(UUID uuid, String homename);
     
+    public boolean shouldBeAsync();
+    
     public default boolean close() 
     {
         return true;

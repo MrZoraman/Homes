@@ -128,6 +128,12 @@ public class FlatfileHomeIO implements HomeIO
         return true;
     }
     
+    @Override
+    public boolean shouldBeAsync()
+    {
+        return false;
+    }
+    
     private Home getHome(UUID uuid, String homeName)
     {
         final String path = uuid.toString() + "." + homeName + ".";

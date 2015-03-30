@@ -238,6 +238,12 @@ public class DBHomeIO implements HomeIO
         }
     }
     
+    @Override
+    public boolean shouldBeAsync()
+    {
+        return true;
+    }
+    
     private Home getHome(UUID uuid, String homeName)
     {
         final String loadHomeQuery = Scripts.getScript(LOAD_HOME);

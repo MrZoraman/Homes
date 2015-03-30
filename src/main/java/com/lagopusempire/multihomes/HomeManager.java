@@ -106,6 +106,11 @@ public class HomeManager implements Listener
 
         return io.deleteHome(owner, homeName);
     }
+    
+    public boolean shouldBeAsync()
+    {
+        return io.shouldBeAsync();
+    }
 
     private void addHomeMap(UUID uuid)
     {
