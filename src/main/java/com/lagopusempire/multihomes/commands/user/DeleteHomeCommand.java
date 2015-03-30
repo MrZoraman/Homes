@@ -25,41 +25,41 @@ public class DeleteHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-        if(!checkPerms(player, Permissions.DELETE_HOME))
-            return true;
-        
-        //Get home name
-        final boolean usingExplicitHome = args.length > 0;
-        final String homeName = usingExplicitHome
-                ? args[0]
-                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
-        
-        homeManager.deleteHome(player.getUniqueId(), homeName, (deleted) -> 
-        {
-            if(!deleted)//The home didn't exist
-            {
-                final MessageKeys key = usingExplicitHome
-                        ? MessageKeys.HOME_DELETE_NOEXIST_EXPLICIT
-                        : MessageKeys.HOME_DELETE_NOEXIST_IMPLICIT;
-                
-                final MessageFormatter formatter = Messages.getMessage(key)
-                        .colorize()
-                        .replace("home", homeName);
-                
-                player.sendMessage(formatter.toString());
-                return;
-            }
-            
-            final MessageKeys key = usingExplicitHome
-                    ? MessageKeys.HOME_DELETE_SUCCESS_EXPLICIT
-                    : MessageKeys.HOME_DELETE_SUCCESS_IMPLICIT;
-            
-            final MessageFormatter formatter = Messages.getMessage(key)
-                    .colorize()
-                    .replace("home", homeName);
-            
-            player.sendMessage(formatter.toString());
-        });
+//        if(!checkPerms(player, Permissions.DELETE_HOME))
+//            return true;
+//        
+//        //Get home name
+//        final boolean usingExplicitHome = args.length > 0;
+//        final String homeName = usingExplicitHome
+//                ? args[0]
+//                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
+//        
+//        homeManager.deleteHome(player.getUniqueId(), homeName, (deleted) -> 
+//        {
+//            if(!deleted)//The home didn't exist
+//            {
+//                final MessageKeys key = usingExplicitHome
+//                        ? MessageKeys.HOME_DELETE_NOEXIST_EXPLICIT
+//                        : MessageKeys.HOME_DELETE_NOEXIST_IMPLICIT;
+//                
+//                final MessageFormatter formatter = Messages.getMessage(key)
+//                        .colorize()
+//                        .replace("home", homeName);
+//                
+//                player.sendMessage(formatter.toString());
+//                return;
+//            }
+//            
+//            final MessageKeys key = usingExplicitHome
+//                    ? MessageKeys.HOME_DELETE_SUCCESS_EXPLICIT
+//                    : MessageKeys.HOME_DELETE_SUCCESS_IMPLICIT;
+//            
+//            final MessageFormatter formatter = Messages.getMessage(key)
+//                    .colorize()
+//                    .replace("home", homeName);
+//            
+//            player.sendMessage(formatter.toString());
+//        });
         
         return true;
     }

@@ -24,20 +24,6 @@ import org.bukkit.entity.Player;
  */
 public abstract class CommandBase implements IBukkitLCSCommand
 {
-    private static String uuid_regex = null;
-    
-    static
-    {
-        uuid_regex = PluginConfig.getString(ConfigKeys.UUID_REGEX);
-        System.out.println("UUID REGEX: " + uuid_regex);
-    }
-    
-    @FunctionalInterface
-    protected interface PlayerLookupCallback
-    {
-        public void playerFound(String name, UUID uuid);
-    }
-    
     protected final HomeManager homeManager;
     private final MultiHomes plugin;
     
@@ -65,64 +51,5 @@ public abstract class CommandBase implements IBukkitLCSCommand
         }
         
         return onCommand((Player) sender, args);
-    }
-    
-    protected boolean checkPerms(CommandSender sender, Permissions perm)
-    {
-        if(!perm.check(sender))
-        {
-            sender.sendMessage(getNoPermsMsg(perm));
-            return false;
-        }
-        
-        return true;
-    }
-    
-    protected void getPlayer(String playerName, PlayerLookupCallback callback)
-    {
-        if(playerName.matches(uuid_regex))
-        {
-            callback.playerFound(playerName, UUID.fromString(playerName));
-            return;
-        }
-        
-        final Set<? extends Player> onlinePlayers = new HashSet<>(plugin.getServer().getOnlinePlayers());
-        
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
-        {
-            for(Player player : onlinePlayers)
-            {
-                if(player.getName().equalsIgnoreCase(playerName))
-                {
-                    plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(playerName, player.getUniqueId()));
-                    return;
-                }
-            }
-            
-            final UUIDFetcher fetcher = new UUIDFetcher(Arrays.asList(playerName));
-            Map<String, UUID> response = null;
-            try
-            {
-                response = fetcher.call();
-            }
-            catch (Exception e)
-            {
-                plugin.getLogger().warning("Failed to lookup uuid for player '" + playerName + "'!");
-                e.printStackTrace();
-                plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(null, null));
-                return;
-            }
-            
-            final UUID uuid = response.get(playerName);
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.playerFound(playerName, uuid));
-        });
-    }
-    
-    private String getNoPermsMsg(Permissions perm)
-    {
-        return Messages.getMessage(MessageKeys.NO_PERMISSION)
-                .colorize()
-                .replace("node", perm.getNode())
-                .toString();
     }
 }
