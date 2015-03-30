@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,7 +22,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class HomeManager implements Listener
 {
-    private final Map<UUID, Map<String, Home>> homes = new HashMap<>();
+    private final Map<UUID, Map<String, Home>> homes = new ConcurrentHashMap<>();
 
     private final HomeIO io;
     private final MultiHomes plugin;
@@ -32,7 +33,7 @@ public class HomeManager implements Listener
         this.io = io;
     }
 
-    @EventHandler(priority=EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoinAsync(AsyncPlayerPreLoginEvent event)
     {
         final UUID uuid = event.getUniqueId();
@@ -80,13 +81,13 @@ public class HomeManager implements Listener
             java.util.Collections.sort(homeList);
             return homeList;
         }
-        
+
         return io.getHomeList(owner);
     }
-    
+
     public int getHomeCount(UUID owner)
     {
-        if(homes.containsKey(owner))
+        if (homes.containsKey(owner))
         {
             return homes.get(owner).size();
         }
@@ -95,17 +96,17 @@ public class HomeManager implements Listener
             return io.getHomeCount(owner);
         }
     }
-    
+
     public boolean deleteHome(UUID owner, String homeName)
     {
-        if(homes.containsKey(owner))
+        if (homes.containsKey(owner))
         {
             homes.get(owner).remove(homeName);
         }
-        
+
         return io.deleteHome(owner, homeName);
     }
-    
+
     private void addHomeMap(UUID uuid)
     {
         if (!homes.containsKey(uuid))
@@ -113,19 +114,19 @@ public class HomeManager implements Listener
             homes.put(uuid, new HashMap<>());
         }
     }
-    
+
     boolean loadOnlinePlayerMaps()
     {
         plugin.getServer().getOnlinePlayers().forEach((player) -> addHomeMap(player.getUniqueId()));
         return true;
     }
-    
+
     boolean loadOnlinePlayerHomes()
     {
         plugin.getServer().getOnlinePlayers().forEach((player) -> loadAllHomes(player.getUniqueId()));
         return true;
     }
-    
+
     private void loadAllHomes(UUID uuid)
     {
         homes.get(uuid).putAll(io.loadHomes(uuid));
