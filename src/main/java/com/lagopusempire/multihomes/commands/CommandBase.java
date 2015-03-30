@@ -3,17 +3,8 @@ package com.lagopusempire.multihomes.commands;
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
-import com.lagopusempire.multihomes.config.ConfigKeys;
-import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
-import com.lagopusempire.multihomes.permissions.Permissions;
-import com.lagopusempire.multihomes.util.UUIDFetcher;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,7 +16,7 @@ import org.bukkit.entity.Player;
 public abstract class CommandBase implements IBukkitLCSCommand
 {
     protected final HomeManager homeManager;
-    private final MultiHomes plugin;
+    protected final MultiHomes plugin;
     
     public CommandBase(MultiHomes plugin, HomeManager homeManager)
     {
