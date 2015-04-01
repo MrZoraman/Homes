@@ -25,7 +25,7 @@ self:
   homeDelete:
     noExist:
       implicit: '&cYou don''t have a home to delete!'
-      explicit: '&cYou can''t delete &7''%home%&c'' because it doesn''t exist!'
+      explicit: '&cYou can''t delete &7''%home%''&c because it doesn''t exist!'
     success:
       implicit: '&2Home has been deleted!'
       explicit: '&2Home ''&a%home%&2'' has been deleted!'
