@@ -5,11 +5,7 @@ import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
-import com.lagopusempire.multihomes.home.HomeLoadPackage;
-import com.lagopusempire.multihomes.messages.MessageFormatter;
-import com.lagopusempire.multihomes.messages.MessageKeys;
-import com.lagopusempire.multihomes.messages.Messages;
-import com.lagopusempire.multihomes.permissions.Permissions;
+import com.lagopusempire.multihomes.jobs.user.GoHomeJob;
 import org.bukkit.entity.Player;
 
 /**
@@ -26,48 +22,14 @@ public class GoHomeCommand extends CommandBase
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-//        if(!checkPerms(player, Permissions.GO_HOME))
-//            return true;
-//        
-//        final boolean usingExplicitHome = args.length > 0;
-//        final String homeName = usingExplicitHome 
-//                ? args[0] 
-//                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
-//        
-//        homeManager.getHome(player.getUniqueId(), homeName, (home) -> 
-//        {
-//            final HomeLoadPackage pack = home.getHomeLoadPackage();
-//            
-//            MessageKeys key;
-//            MessageFormatter formatter;
-//            
-//            switch(pack.loadResult)
-//            {
-//                case NO_WORLD:
-//                    key = usingExplicitHome
-//                            ? MessageKeys.HOME_GET_NOT_LOADED_IMPLICIT
-//                            : MessageKeys.HOME_GET_NOT_LOADED_EXPLICIT;
-//                    formatter = Messages.getMessage(key)
-//                            .colorize()
-//                            .replace("home", homeName);
-//                    player.sendMessage(formatter.toString());
-//                    break;
-//                    
-//                case DOES_NOT_EXIST:
-//                    key = usingExplicitHome
-//                            ? MessageKeys.HOME_GET_NOEXIST_EXPLICIT
-//                            : MessageKeys.HOME_GET_NOEXIST_IMPLICIT;
-//                    formatter = Messages.getMessage(key)
-//                            .colorize()
-//                            .replace("home", homeName);
-//                    player.sendMessage(formatter.toString());
-//                    break;
-//                    
-//                case SUCCESS:
-//                    player.teleport(pack.loc);
-//            }
-//        });
+        //Get home name
+        final boolean usingExplicitHome = args.length > 0;
+        final String homeName = usingExplicitHome
+                ? args[0]
+                : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
         
+        final GoHomeJob job = new GoHomeJob(plugin, homeManager, player, homeName, usingExplicitHome);
+        job.run();
         return true;
     }
 }

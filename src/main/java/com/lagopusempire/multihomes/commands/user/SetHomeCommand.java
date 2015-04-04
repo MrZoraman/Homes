@@ -27,7 +27,6 @@ public class SetHomeCommand extends CommandBase
 		? args[0]
 		: PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
         
-        //public SetHomeJob(JavaPlugin plugin, HomeManager homeManager, Player player, String homeName, boolean usingExplicitHome, boolean force)
         final SetHomeJob job = new SetHomeJob(plugin, homeManager, player, homeName, usingExplicitHome, false);
         job.run();
         return true;
