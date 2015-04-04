@@ -7,6 +7,7 @@ import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
 import com.lagopusempire.multihomes.util.UUIDFetcher;
+import com.lagopusempire.multihomes.util.Util;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,17 +33,6 @@ public class CommandFunctionBase
     public CommandFunctionBase(JavaPlugin plugin)
     {
         this.plugin = plugin;
-    }
-    
-    protected boolean checkPerms(Player player, Permissions perm)
-    {
-        if(!perm.check(player))
-        {
-            sendMessage(player, getNoPermsMsg(perm));
-            return false;
-        }
-        
-        return true;
     }
     
     protected void getPlayer(String playerName, PlayerLookupCallback callback)
@@ -87,17 +77,5 @@ public class CommandFunctionBase
         });
     }
     
-    private MessageFormatter getNoPermsMsg(Permissions perm)
-    {
-        return Messages.getMessage(MessageKeys.NO_PERMISSION)
-                .replace("node", perm.getNode());
-    }
     
-    protected void sendMessage(Player player, MessageFormatter formatter)
-    {
-        if(player != null && player.isOnline())
-        {
-            player.sendMessage(formatter.colorize().toString());
-        }
-    }
 }

@@ -13,6 +13,7 @@ import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.NumeralPermissions;
 import com.lagopusempire.multihomes.permissions.Permissions;
+import com.lagopusempire.multihomes.util.Util;
 import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -81,18 +82,18 @@ public class SetHomeCommand extends CommandBase
         
         private boolean checkPermissions()
         {
-            return checkPerms(player, Permissions.SET_HOME);
+            return Util.checkPerms(player, Permissions.SET_HOME);
         }
         
         private boolean verifyLoaded()
         {
-            if(!homeManager.isLoaded(uuid))
-            {
-                final MessageFormatter formatter = Messages.getMessage(MessageKeys.NOT_LOADED_SELF)
-                        .colorize();
-                sendMessage(player, formatter);
-                return false;
-            }
+//            if(!homeManager.isLoaded(uuid))
+//            {
+//                final MessageFormatter formatter = Messages.getMessage(MessageKeys.NOT_LOADED_SELF)
+//                        .colorize();
+//                Util.sendMessage(player, formatter);
+//                return false;
+//            }
             
             return true;
         }

@@ -6,9 +6,14 @@ import static com.lagopusempire.multihomes.config.ConfigKeys.MYSQL_PASSWORD;
 import static com.lagopusempire.multihomes.config.ConfigKeys.MYSQL_PORT;
 import static com.lagopusempire.multihomes.config.ConfigKeys.MYSQL_USERNAME;
 import com.lagopusempire.multihomes.config.PluginConfig;
+import com.lagopusempire.multihomes.messages.MessageFormatter;
+import com.lagopusempire.multihomes.messages.MessageKeys;
+import com.lagopusempire.multihomes.messages.Messages;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.bukkit.entity.Player;
 
 /**
  *
@@ -38,5 +43,30 @@ public class Util
         final String database = PluginConfig.getString(MYSQL_DATABASE);
         
         return "jdbc:mysql://" + host + ":" + port + "/" + database;
+    }
+    
+    public static void sendMessage(Player player, MessageFormatter formatter)
+    {
+        if(player != null && player.isOnline())
+        {
+            player.sendMessage(formatter.colorize().toString());
+        }
+    }
+    
+    public static MessageFormatter getNoPermsMsg(Permissions perm)
+    {
+        return Messages.getMessage(MessageKeys.NO_PERMISSION)
+                .replace("node", perm.getNode());
+    }
+    
+    public static boolean checkPerms(Player player, Permissions perm)
+    {
+        if(!perm.check(player))
+        {
+            Util.sendMessage(player, getNoPermsMsg(perm));
+            return false;
+        }
+        
+        return true;
     }
 }
