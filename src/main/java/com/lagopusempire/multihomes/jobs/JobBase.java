@@ -2,16 +2,10 @@ package com.lagopusempire.multihomes.jobs;
 
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.load.Loader;
-import com.lagopusempire.multihomes.messages.MessageFormatter;
-import com.lagopusempire.multihomes.messages.MessageKeys;
-import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
 import com.lagopusempire.multihomes.util.Util;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
