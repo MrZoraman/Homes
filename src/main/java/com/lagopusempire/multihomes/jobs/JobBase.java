@@ -21,16 +21,14 @@ public abstract class JobBase implements Runnable
     protected final HomeManager homeManager;
     protected final Player player;
     protected final UUID uuid;
-    protected final String homeName;
     
-    public JobBase(JavaPlugin plugin, HomeManager homeManager, Player player, String homeName)
+    public JobBase(JavaPlugin plugin, HomeManager homeManager, Player player)
     {
         this.plugin = plugin;
         this.homeManager = homeManager;
         this.player = player;
         this.uuid = player.getUniqueId();
         this.loader = new Loader(plugin);
-        this.homeName = homeName;
     }
     
     @Override

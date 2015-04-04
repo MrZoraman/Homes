@@ -17,13 +17,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class DeleteHomeJob extends JobBase
 {
     private final boolean usingExplicitHome;
+    private final String homeName;
     
     private volatile boolean somethingWasDeleted;
 
     public DeleteHomeJob(JavaPlugin plugin, HomeManager homeManager, Player player, String homeName, boolean usingExplicitHome)
     {
-        super(plugin, homeManager, player, homeName);
+        super(plugin, homeManager, player);
         this.usingExplicitHome = usingExplicitHome;
+        this.homeName = homeName;
 
         this.setRequiredPermissions(Permissions.DELETE_HOME);
     }

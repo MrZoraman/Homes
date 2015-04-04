@@ -22,17 +22,19 @@ public class SetHomeJob extends JobBase
     private final String worldName;
     private final boolean force;
     private final boolean usingExplicitHome;
+    private final String homeName;
 
     private volatile boolean setHomeResult;
     private volatile int homeCount;
 
     public SetHomeJob(JavaPlugin plugin, HomeManager homeManager, Player player, String homeName, boolean usingExplicitHome, boolean force)
     {
-        super(plugin, homeManager, player, homeName);
+        super(plugin, homeManager, player);
         this.coords = new Coordinates(player.getLocation());
         this.worldName = player.getLocation().getWorld().getName();
         this.usingExplicitHome = usingExplicitHome;
         this.force = force;
+        this.homeName = homeName;
 
         this.setRequiredPermissions(Permissions.SET_HOME);
     }
