@@ -62,7 +62,7 @@ public abstract class ListHomesJobBase extends JobBase
 
         final int amountOfHomes = homeList.size();
 
-        if (amountOfHomes <= 0) //1 because it will still say 'no homes to list' if they only have their main home set
+        if (amountOfHomes <= 0)
         {
             final MessageFormatter formatter = Messages.getMessage(getHomeListNone())
                     .colorize()
