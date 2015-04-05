@@ -43,7 +43,12 @@ public enum MessageKeys
     HOME_DELETE_OTHER_NOEXIST_IMPLICIT ("other.homeDelete.noExist.implicit"),
     HOME_DELETE_OTHER_NOEXIST_EXPLICIT ("other.homeDelete.noExist.explicit"),
     HOME_DELETE_OTHER_SUCCESS_IMPLICIT ("other.homeDelete.success.implicit"),
-    HOME_DELETE_OTHER_SUCCESS_EXPLICIT ("other.homeDelete.success.explicit");
+    HOME_DELETE_OTHER_SUCCESS_EXPLICIT ("other.homeDelete.success.explicit"),
+    
+    HOME_LIST_OTHER_INITIAL            ("other.homeList.initial"),
+    HOME_LIST_OTHER_FORMAT             ("other.homeList.format"),
+    HOME_LIST_OTHER_NONE               ("other.homeList.none"),
+    HOME_LIST_OTHER_END_STRIP_LENGTH   ("other.homeList.endStripLength");
     
     private final String key;
 

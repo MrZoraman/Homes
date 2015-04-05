@@ -42,4 +42,9 @@ other:
     success:
       implicit: '&2Home has been set for player &a''%player%''&2!'
       explicit: '&2Home &a''%home%''&2 has been set for player &a''%player%''&2!'
+  homeList:
+    initial: '&a''%player%''&2''s home list (&9%count%&2): '
+    format: '&a%home%&8, '
+    none: '&7''%player%''&c does not have any homes to list!'
+    endStripLength: 2
     
