@@ -19,7 +19,8 @@ public enum Permissions
     DELETE_HOME         ("multihomes.delete.self"),
     
     SET_HOME_OTHER      ("multihomes.set.other"),
-    SET_HOME_OTHER_FORCE("multihomes.set.other.force");
+    
+    DELETE_HOME_OTHER   ("multihomes.delete.other");
 
     private Permissions(String... nodes)
     {

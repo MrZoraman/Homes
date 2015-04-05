@@ -37,10 +37,13 @@ public enum MessageKeys
     PLAYER_NOT_FOUND                ("other.playerNotFound"),
     MUST_SPECIFY_PLAYER             ("other.mustSpecifyPlayer"),
     
-    HOME_SET_OTHER_TOOMANY_MESSAGE  ("other.homeSet.tooMany.message"),
-    HOME_SET_OTHER_TOOMANY_SUGGEST  ("other.homeSet.tooMany.suggestion"),
     HOME_SET_OTHER_IMPLICIT         ("other.homeSet.implicit"),
-    HOME_SET_OTHER_EXPLICIT         ("other.homeSet.explicit");
+    HOME_SET_OTHER_EXPLICIT         ("other.homeSet.explicit"),
+    
+    HOME_DELETE_OTHER_NOEXIST_IMPLICIT ("other.homeDelete.noExist.implicit"),
+    HOME_DELETE_OTHER_NOEXIST_EXPLICIT ("other.homeDelete.noExist.explicit"),
+    HOME_DELETE_OTHER_SUCCESS_IMPLICIT ("other.homeDelete.success.implicit"),
+    HOME_DELETE_OTHER_SUCCESS_EXPLICIT ("other.homeDelete.success.explicit");
     
     private final String key;
 

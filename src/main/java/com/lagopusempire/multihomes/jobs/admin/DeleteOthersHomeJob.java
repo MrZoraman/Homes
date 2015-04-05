@@ -1,7 +1,6 @@
 package com.lagopusempire.multihomes.jobs.admin;
 
 import com.lagopusempire.multihomes.HomeManager;
-import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.jobs.JobBase;
 import com.lagopusempire.multihomes.load.Loader;
 import com.lagopusempire.multihomes.messages.MessageFormatter;
@@ -19,29 +18,26 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  * @author MrZoraman
  */
-public class SetOthersHomeJob extends JobBase
+public class DeleteOthersHomeJob extends JobBase
 {
     private final String targetName;
     private final boolean usingExplicitHome;
     private final String homeName;
-    private final Coordinates coords;
-    private final String worldName;
     private final Set<? extends Player> onlinePlayers;
 
     private volatile UUID target;
+    private volatile boolean somethingWasDeleted;
 
-    public SetOthersHomeJob(JavaPlugin plugin, HomeManager homeManager, Player player,
+    public DeleteOthersHomeJob(JavaPlugin plugin, HomeManager homeManager, Player player,
             String targetName, boolean usingExplicitHome, String homeName)
     {
         super(plugin, homeManager, player);
         this.targetName = targetName;
         this.usingExplicitHome = usingExplicitHome;
         this.homeName = homeName;
-        this.coords = new Coordinates(player.getLocation());
-        this.worldName = player.getLocation().getWorld().getName();
         this.onlinePlayers = new HashSet<>(plugin.getServer().getOnlinePlayers());
-        
-        this.setRequiredPermissions(Permissions.SET_HOME_OTHER);
+
+        this.setRequiredPermissions(Permissions.DELETE_HOME_OTHER);
     }
 
     @Override
@@ -49,7 +45,7 @@ public class SetOthersHomeJob extends JobBase
     {
         loader.addStep(this::getTarget, true);
         loader.addStep(this::verifyTarget, false);
-        loader.addStep(this::setHome, homeManager.shouldBeAsync());
+        loader.addStep(this::deleteHome, homeManager.shouldBeAsync());
     }
 
     private boolean getTarget()
@@ -65,24 +61,38 @@ public class SetOthersHomeJob extends JobBase
             Util.sendMessage(player, Messages.getMessage(MessageKeys.PLAYER_NOT_FOUND).colorize());
             return false;
         }
+        
+        System.out.println("target uuid: " + target.toString());
 
         return true;
     }
 
-    private boolean setHome()
+    private boolean deleteHome()
     {
-        homeManager.setHome(target, homeName, coords, worldName);
+        somethingWasDeleted = homeManager.deleteHome(target, homeName);
         return true;
     }
 
     @Override
     protected boolean notifyPlayer()
     {
-        final MessageKeys key = usingExplicitHome
-                ? MessageKeys.HOME_SET_OTHER_EXPLICIT
-                : MessageKeys.HOME_SET_OTHER_IMPLICIT;
+        MessageFormatter formatter;
+        MessageKeys key = null;
 
-        final MessageFormatter formatter = Messages.getMessage(key)
+        if (!somethingWasDeleted)
+        {
+            key = usingExplicitHome
+                    ? MessageKeys.HOME_DELETE_OTHER_NOEXIST_EXPLICIT
+                    : MessageKeys.HOME_DELETE_OTHER_NOEXIST_IMPLICIT;
+        }
+        else
+        {
+            key = usingExplicitHome
+                    ? MessageKeys.HOME_DELETE_OTHER_SUCCESS_EXPLICIT
+                    : MessageKeys.HOME_DELETE_OTHER_SUCCESS_IMPLICIT;
+        }
+
+        formatter = Messages.getMessage(key)
                 .colorize()
                 .replace("home", homeName)
                 .replace("player", targetName);
