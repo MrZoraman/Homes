@@ -8,6 +8,7 @@ import com.lagopusempire.multihomes.commands.user.*;
 import com.lagopusempire.multihomes.config.ConfigAccessor;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
+import com.lagopusempire.multihomes.help.Help;
 import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.homeIO.database.DBHomeIO;
 import com.lagopusempire.multihomes.homeIO.database.DatabaseSetup;
@@ -55,6 +56,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::unloadDb, false);
         loader.addStep(this::unregisterEvents, false);
         loader.addStep(this::setupMessages, false);
+        loader.addStep(this::setupHelp, false);
         loader.addStep(this::setupRegisteredBukkitCommands, false);
         loader.addStep(this::setupNotLoadedCommand, false);
         if (needToSetupDatabase())
@@ -138,6 +140,19 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
 
         Messages.setMessages(messages.getConfig());
 
+        return true;
+    }
+    
+    private boolean setupHelp()
+    {
+        final ConfigAccessor helpMessages = createYamlFile("help.yml");
+        if (helpMessages == null)
+        {
+            return false;
+        }
+        
+        Help.setHelpMessages(helpMessages.getConfig());
+        
         return true;
     }
     
