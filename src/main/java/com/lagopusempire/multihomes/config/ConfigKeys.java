@@ -19,7 +19,8 @@ public enum ConfigKeys
     MYSQL_PORT          ("mysql.credentials.port"),
     MYSQL_DATABASE      ("mysql.credentials.database"),
     
-    UUID_REGEX          ("uuidRegex");
+    UUID_REGEX          ("uuidRegex"),
+    UUID_FETCH_URL      ("uuidFetchURL");
     
     private final String key;
     

@@ -11,17 +11,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.*;
-import java.util.concurrent.Callable;
 
 /**
  * 
  * @author EvilMidget38
  */
-public class UUIDFetcher implements Callable<Map<String, UUID>>
+public class UUIDFetcher
 {
 
     private static final double PROFILES_PER_REQUEST = 100;
-    private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
     private final JSONParser jsonParser = new JSONParser();
     private final List<String> names;
     private final boolean rateLimiting;
@@ -37,14 +35,13 @@ public class UUIDFetcher implements Callable<Map<String, UUID>>
         this(names, true);
     }
 
-    @Override
-    public Map<String, UUID> call() throws Exception
+    public Map<String, UUID> call(String profileUrl) throws Exception
     {
         Map<String, UUID> uuidMap = new HashMap<>();
         int requests = (int) Math.ceil(names.size() / PROFILES_PER_REQUEST);
         for (int i = 0; i < requests; i++)
         {
-            HttpURLConnection connection = createConnection();
+            HttpURLConnection connection = createConnection(profileUrl);
             String body = JSONArray.toJSONString(names.subList(i * 100, Math.min((i + 1) * 100, names.size())));
             writeBody(connection, body);
             JSONArray array = (JSONArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
@@ -73,9 +70,9 @@ public class UUIDFetcher implements Callable<Map<String, UUID>>
         }
     }
 
-    private static HttpURLConnection createConnection() throws Exception
+    private static HttpURLConnection createConnection(String profileUrl) throws Exception
     {
-        URL url = new URL(PROFILE_URL);
+        URL url = new URL(profileUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
@@ -110,8 +107,8 @@ public class UUIDFetcher implements Callable<Map<String, UUID>>
         return new UUID(mostSignificant, leastSignificant);
     }
 
-    public static UUID getUUIDOf(String name) throws Exception
+    public static UUID getUUIDOf(String profileUrl, String name) throws Exception
     {
-        return new UUIDFetcher(Arrays.asList(name)).call().get(name);
+        return new UUIDFetcher(Arrays.asList(name)).call(profileUrl).get(name);
     }
 }

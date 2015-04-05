@@ -10,3 +10,4 @@ mysql:
     port: 3306
     database: database
 uuidRegex: '[a-f0-9]{8}-[a-f0-9]{4}-4[0-9]{3}-[89ab][a-f0-9]{3}-[0-9a-f]{12}'
+uuidFetchURL: 'https://api.mojang.com/profiles/minecraft'

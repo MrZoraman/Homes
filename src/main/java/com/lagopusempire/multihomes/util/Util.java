@@ -97,7 +97,7 @@ public class Util
         Map<String, UUID> response = null;
         try
         {
-            response = fetcher.call();
+            response = fetcher.call(PluginConfig.getString(ConfigKeys.UUID_FETCH_URL));
         }
         catch (Exception e)
         {
