@@ -3,6 +3,7 @@ package com.lagopusempire.multihomes;
 import com.lagopusempire.multihomes.load.LoadCallback;
 import com.lagopusempire.bukkitlcs.BukkitLCS;
 import com.lagopusempire.multihomes.commands.*;
+import com.lagopusempire.multihomes.commands.admin.SetOthersHomeCommand;
 import com.lagopusempire.multihomes.commands.user.*;
 import com.lagopusempire.multihomes.config.ConfigAccessor;
 import com.lagopusempire.multihomes.config.ConfigKeys;
@@ -237,6 +238,8 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         commandSystem.registerCommand("home", new GoHomeCommand(this, homeManager));
         commandSystem.registerCommand("home list", new ListHomesCommand(this, homeManager));
         commandSystem.registerCommand("{home delete|del|remove|rm|clear}|delhome", new DeleteHomeCommand(this, homeManager));
+        
+        commandSystem.registerCommand("{home set}|sethome other", new SetOthersHomeCommand(this, homeManager));
         return true;
     }
 

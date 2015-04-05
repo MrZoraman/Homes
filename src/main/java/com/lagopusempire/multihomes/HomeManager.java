@@ -53,6 +53,9 @@ public class HomeManager implements Listener
     public boolean setHome(UUID owner, String homeName, Coordinates coords, String worldName)
     {
         final Home home = new Home(owner, homeName, coords, worldName);
+        assert(homes.containsKey(owner));
+        assert(homeName != null);
+        assert(home != null);
         homes.get(owner).put(homeName, home);
         return io.saveHome(home);
     }

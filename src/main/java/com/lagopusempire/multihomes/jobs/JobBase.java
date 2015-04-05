@@ -58,6 +58,9 @@ public abstract class JobBase implements Runnable
     
     private boolean checkPermissions()
     {
+        if(permissions == null)
+            return true;
+        
         for(int ii = 0; ii < permissions.length; ii++)
         {
             if(Util.checkPerms(player, permissions[ii]) == false)

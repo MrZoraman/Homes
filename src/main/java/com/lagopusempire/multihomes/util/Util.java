@@ -1,5 +1,6 @@
 package com.lagopusempire.multihomes.util;
 
+import com.lagopusempire.multihomes.config.ConfigKeys;
 import static com.lagopusempire.multihomes.config.ConfigKeys.MYSQL_DATABASE;
 import static com.lagopusempire.multihomes.config.ConfigKeys.MYSQL_HOST;
 import static com.lagopusempire.multihomes.config.ConfigKeys.MYSQL_PASSWORD;
@@ -13,6 +14,11 @@ import com.lagopusempire.multihomes.permissions.Permissions;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.logging.Logger;
 import org.bukkit.entity.Player;
 
 /**
@@ -68,5 +74,39 @@ public class Util
         }
         
         return true;
+    }
+    
+    public static UUID getPlayer(String playerName, Logger logger, Set<? extends Player> onlinePlayers)
+    {
+        final String uuid_regex = PluginConfig.getString(ConfigKeys.UUID_REGEX);
+        if(playerName.matches(uuid_regex))//the 'name' is a uuid
+        {
+            return UUID.fromString(playerName);
+        }
+        
+//        final Set<? extends Player> onlinePlayers = new HashSet<>(plugin.getServer().getOnlinePlayers());
+        for(Player player : onlinePlayers)
+        {
+            if(player.getName().equalsIgnoreCase(playerName))
+            {
+                return player.getUniqueId();
+            }
+        }
+        
+        final UUIDFetcher fetcher = new UUIDFetcher(Arrays.asList(playerName));
+        Map<String, UUID> response = null;
+        try
+        {
+            response = fetcher.call();
+        }
+        catch (Exception e)
+        {
+            logger.warning("Failed to lookup uuid for player '" + playerName + "'!");
+            e.printStackTrace();
+            return null;
+        }
+
+        final UUID uuid = response.get(playerName);
+        return uuid;
     }
 }
