@@ -30,6 +30,7 @@ public abstract class ListHomesJobBase extends JobBase
     }
     
     protected abstract UUID getTarget();
+    protected abstract int getTargetMaxHomes();
     
     protected abstract MessageKeys getHomeListNone();
     protected abstract MessageKeys getHomeListInitial();
@@ -55,7 +56,7 @@ public abstract class ListHomesJobBase extends JobBase
 
         final boolean listImplicitHome = PluginConfig.getBoolean(ConfigKeys.LIST_IMPLICIT_HOME);
 
-        final int maxHomes = NumeralPermissions.COUNT.getAmount(player);
+        final int maxHomes = getTargetMaxHomes();
         final String maxHomesString = maxHomes >= 0
                 ? String.valueOf(maxHomes)
                 : Messages.getMessage(MessageKeys.INFINITE_HOMES_REP).colorize().toString();
@@ -66,7 +67,8 @@ public abstract class ListHomesJobBase extends JobBase
         {
             final MessageFormatter formatter = Messages.getMessage(getHomeListNone())
                     .colorize()
-                    .replace("max", maxHomesString);
+                    .replace("max", maxHomesString)
+                    .replace("player", targetName);
 
             player.sendMessage(formatter.toString());
             return true;

@@ -3,6 +3,7 @@ package com.lagopusempire.multihomes.jobs.user;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.jobs.ListHomesJobBase;
 import com.lagopusempire.multihomes.messages.MessageKeys;
+import com.lagopusempire.multihomes.permissions.NumeralPermissions;
 import com.lagopusempire.multihomes.permissions.Permissions;
 import java.util.UUID;
 import org.bukkit.entity.Player;
@@ -49,5 +50,11 @@ public class ListHomesJob extends ListHomesJobBase
     protected MessageKeys getStripLength()
     {
         return MessageKeys.HOME_LIST_END_STRIP_LENGTH;
+    }
+
+    @Override
+    protected int getTargetMaxHomes()
+    {
+        return NumeralPermissions.COUNT.getAmount(player);
     }
 }
