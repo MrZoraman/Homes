@@ -22,7 +22,9 @@ public enum Permissions
     
     DELETE_HOME_OTHER   ("multihomes.delete.other"),
     
-    LIST_HOMES_OTHER    ("multihomes.list.other");
+    LIST_HOMES_OTHER    ("multihomes.list.other"),
+    
+    GO_HOME_OTHER       ("multihomes.home.other");
 
     private Permissions(String... nodes)
     {

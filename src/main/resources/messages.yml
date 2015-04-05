@@ -47,4 +47,11 @@ other:
     format: '&a%home%&8, '
     none: '&7''%player%''&c does not have any homes to list!'
     endStripLength: 2
+  homeGet:
+    doesNotExist:
+      implicit: '&7''%player%''&c does not have a home set!'
+      explicit: '&7''%player%''&c''s home ''&7%home%&c'' does not exist!'
+    worldNotLoaded:
+      implicit: '&7''%player%''&c''s home is in a world that is not loaded!'
+      explicit: '&7''%player%''&c''s home ''&7%home%&c'' is in a world that is not loaded!'
     

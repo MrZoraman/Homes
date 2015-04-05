@@ -239,6 +239,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         commandSystem.registerCommand("home list", new ListHomesCommand(this, homeManager));
         commandSystem.registerCommand("{home delete|del|remove|rm|clear}|delhome", new DeleteHomeCommand(this, homeManager));
         
+        commandSystem.registerCommand("home other", new GoToOthersHomeCommand(this, homeManager));
         commandSystem.registerCommand("{home set}|sethome other", new SetOthersHomeCommand(this, homeManager));
         commandSystem.registerCommand("{home delete|del|remove|rm|clear}|delhome other", new DeleteOthersHomeCommand(this, homeManager));
         commandSystem.registerCommand("home list other", new ListOthersHomeCommand(this, homeManager));

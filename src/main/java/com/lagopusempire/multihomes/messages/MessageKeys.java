@@ -48,7 +48,12 @@ public enum MessageKeys
     HOME_LIST_OTHER_INITIAL            ("other.homeList.initial"),
     HOME_LIST_OTHER_FORMAT             ("other.homeList.format"),
     HOME_LIST_OTHER_NONE               ("other.homeList.none"),
-    HOME_LIST_OTHER_END_STRIP_LENGTH   ("other.homeList.endStripLength");
+    HOME_LIST_OTHER_END_STRIP_LENGTH   ("other.homeList.endStripLength"),
+    
+    HOME_GET_OTHER_NOEXIST_IMPLICIT    ("other.homeGet.doesNotExist.implicit"),
+    HOME_GET_OTHER_NOEXIST_EXPLICIT    ("other.homeGet.doesNotExist.explicit"),
+    HOME_GET_OTHER_NOT_LOADED_IMPLICIT ("other.homeGet.worldNotLoaded.implicit"),
+    HOME_GET_OTHER_NOT_LOADED_EXPLICIT ("other.homeGet.worldNotLoaded.explicit");
     
     private final String key;
 
