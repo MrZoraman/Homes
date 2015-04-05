@@ -62,7 +62,9 @@ public class SetOthersHomeJob extends JobBase
     {
         if (target == null)
         {
-            Util.sendMessage(player, Messages.getMessage(MessageKeys.PLAYER_NOT_FOUND).colorize());
+            Util.sendMessage(player, Messages.getMessage(MessageKeys.PLAYER_NOT_FOUND)
+                    .replace("player", targetName)
+                    .colorize());
             return false;
         }
 
