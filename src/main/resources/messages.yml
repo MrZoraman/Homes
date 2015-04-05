@@ -31,7 +31,7 @@ self:
       explicit: '&2Home ''&a%home%&2'' has been deleted!'
 other:
   mustSpecifyPlayer: '&cYou must specify a player!'
-  playerNotFound: '&7''%player%''&c is not online!'
+  playerNotFound: '&7''%player%''&c not found!'
   homeSet:
     implicit: '&a''%player%''&2''s home has been set!'
     explicit: '&2Home &a''%home%''&2 has been set for &a''%player%''&2!'
