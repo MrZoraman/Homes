@@ -61,8 +61,6 @@ public class DeleteOthersHomeJob extends JobBase
             Util.sendMessage(player, Messages.getMessage(MessageKeys.PLAYER_NOT_FOUND).colorize());
             return false;
         }
-        
-        System.out.println("target uuid: " + target.toString());
 
         return true;
     }
