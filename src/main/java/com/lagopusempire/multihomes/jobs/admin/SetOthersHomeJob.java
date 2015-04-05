@@ -1,4 +1,4 @@
-package com.lagopusempire.multihomes.jobs.user.admin;
+package com.lagopusempire.multihomes.jobs.admin;
 
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.home.Coordinates;

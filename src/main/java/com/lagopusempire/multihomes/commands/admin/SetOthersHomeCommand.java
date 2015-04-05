@@ -5,7 +5,7 @@ import com.lagopusempire.multihomes.MultiHomes;
 import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
-import com.lagopusempire.multihomes.jobs.user.admin.SetOthersHomeJob;
+import com.lagopusempire.multihomes.jobs.admin.SetOthersHomeJob;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import org.bukkit.entity.Player;
