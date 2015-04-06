@@ -31,14 +31,12 @@ public class FlatfileHomeIO implements HomeIO
     }
     
     @Override
-    public boolean saveHome(Home home)
+    public void saveHome(Home home)
     {
         final Coordinates coords = home.getCoords();
         final String ownerName = home.getOwner().toString();
         
         final String path = ownerName + "." + home.getName() + ".";
-        
-        final boolean update = config.contains(path);
         
         config.set(path + "x", coords.x);
         config.set(path + "y", coords.y);
@@ -48,8 +46,6 @@ public class FlatfileHomeIO implements HomeIO
         config.set(path + "worldName", home.getWorldName());
         
         homesFile.saveConfig();
-        
-        return update;
     }
 
     @Override

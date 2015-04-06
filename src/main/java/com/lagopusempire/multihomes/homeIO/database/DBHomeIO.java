@@ -35,7 +35,7 @@ public class DBHomeIO implements HomeIO
     }
 
     @Override
-    public boolean saveHome(final Home home)
+    public void saveHome(final Home home)
     {
         final UUID uuid = home.getOwner();
         
@@ -62,10 +62,6 @@ public class DBHomeIO implements HomeIO
             {
                 e.printStackTrace();
             }
-            finally
-            {
-                return false;
-            }
         }
         else
         {
@@ -88,10 +84,6 @@ public class DBHomeIO implements HomeIO
             catch (SQLException e)
             {
                 e.printStackTrace();
-            }
-            finally
-            {
-                return true;
             }
         }
     }

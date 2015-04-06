@@ -50,14 +50,14 @@ public class HomeManager implements Listener
         homes.remove(uuid);
     }
 
-    public boolean setHome(UUID owner, String homeName, Coordinates coords, String worldName)
+    public void setHome(UUID owner, String homeName, Coordinates coords, String worldName)
     {
         final Home home = new Home(owner, homeName, coords, worldName);;
         assert(homeName != null);
         assert(home != null);
         if(homes.containsKey(owner))
             homes.get(owner).put(homeName, home);
-        return io.saveHome(home);
+        io.saveHome(home);
     }
 
     public Home getHome(UUID owner, String homeName)

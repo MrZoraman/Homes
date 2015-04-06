@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public interface HomeIO
 {
-    public boolean saveHome(Home home);
+    public void saveHome(Home home);
     public Map<String, Home> loadHomes(UUID uuid);
     public Home loadHome(UUID uuid, String homeName);
     public List<String> getHomeList(UUID uuid);
