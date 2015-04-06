@@ -11,14 +11,17 @@ public enum Permissions
     RELOAD              ("multihomes.reload"),
     HELP                ("multihomes.help"),
     
+    //self
     SET_HOME            ("multihomes.set.self"),
     GO_HOME             ("multihomes.home.self"),
     LIST_HOMES          ("multihomes.list.self"),
     DELETE_HOME         ("multihomes.delete.self"),
+    
+    //other
     SET_HOME_OTHER      ("multihomes.set.other"),
-    DELETE_HOME_OTHER   ("multihomes.delete.other"),
+    GO_HOME_OTHER       ("multihomes.home.other"),
     LIST_HOMES_OTHER    ("multihomes.list.other"),
-    GO_HOME_OTHER       ("multihomes.home.other");
+    DELETE_HOME_OTHER   ("multihomes.delete.other");
 
     private Permissions(String node)
     {
