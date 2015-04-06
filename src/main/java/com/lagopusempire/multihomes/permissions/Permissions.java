@@ -11,45 +11,29 @@ public enum Permissions
     RELOAD              ("multihomes.reload"),
     HELP                ("multihomes.help"),
     
-    SET_HOME            ("multihomes.set.self",
-                         "multihomes.sethome"),
-    GO_HOME             ("multihomes.home.self",
-                         "multihomes.gohome"),
+    SET_HOME            ("multihomes.set.self"),
+    GO_HOME             ("multihomes.home.self"),
     LIST_HOMES          ("multihomes.list.self"),
     DELETE_HOME         ("multihomes.delete.self"),
-    
     SET_HOME_OTHER      ("multihomes.set.other"),
-    
     DELETE_HOME_OTHER   ("multihomes.delete.other"),
-    
     LIST_HOMES_OTHER    ("multihomes.list.other"),
-    
     GO_HOME_OTHER       ("multihomes.home.other");
 
-    private Permissions(String... nodes)
+    private Permissions(String node)
     {
-        if(nodes.length < 1) 
-            throw new IllegalStateException("Permission " + toString() + " must have at least one node! (This is a programmer error)");
-        
-        this.nodes = nodes;
+        this.node = node;
     }
 
-    private final String[] nodes;
+    private final String node;
     
     public String getNode()
     {
-        return nodes[0];
+        return node;
     }
 
     public boolean check(Permissible p)
     {
-        boolean hasPermission = false;
-        
-        for(int ii = 0; ii < nodes.length; ii++)
-        {
-            hasPermission |= p.hasPermission(nodes[ii]);
-        }
-        
-        return hasPermission;
+        return p.hasPermission(node);
     }
 }
