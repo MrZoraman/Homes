@@ -126,6 +126,7 @@
                     <include>config.yml</include>
                     <include>plugin.yml</include>
                     <include>messages.yml</include>
+                    <include>help.yml</include>
                 </includes>
             </resource>
             <resource>

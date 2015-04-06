@@ -1,1 +1,31 @@
-example: example
+entries:
+  multihomes.reload:
+    command: '/home reload'
+    help: 'Reloads multihomes'
+  multihomes.help:
+    command: '/home help'
+    help: 'Shows this help'
+  multihomes.set.self:
+    command: '/home set (homeName)'
+    help: 'Sets your home'
+  multihomes.home.self:
+    command: '/home (homeName)'
+    help: 'Takes you to your home'
+  multihomes.list.self:
+    command: '/home list'
+    help: 'Lists your homes'
+  multihomes.delete.self:
+    command: '/home delete (homeName)'
+    help: 'Delets your home'
+  multihomes.set.other:
+    command: '/home set other [playerName] (homeName)'
+    help: 'Sets someone else''s home'
+  multihomes.home.other:
+    command: '/home other [playerName] (homeName)'
+    help: 'Takes you to someone else''s home'
+  multihomes.list.other:
+    command: '/home list other [playerName]'
+    help: 'Lists someone else''s homes'
+  multihomes.delete.other:
+    command: '/home delete other [PlayerName] (homeName)'
+    help: 'Deletes someone else''s home'
