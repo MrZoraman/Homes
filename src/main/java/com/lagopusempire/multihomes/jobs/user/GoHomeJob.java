@@ -53,11 +53,12 @@ public class GoHomeJob extends JobBase
         {
             case NO_WORLD:
                 key = usingExplicitHome
-                        ? MessageKeys.HOME_GET_NOT_LOADED_IMPLICIT
-                        : MessageKeys.HOME_GET_NOT_LOADED_EXPLICIT;
+                        ? MessageKeys.HOME_GET_NOT_LOADED_EXPLICIT
+                        : MessageKeys.HOME_GET_NOT_LOADED_IMPLICIT;
                 formatter = Messages.getMessage(key)
                         .colorize()
-                        .replace("home", homeName);
+                        .replace("home", homeName)
+                        .replace("world", home.getWorldName());
                 player.sendMessage(formatter.toString());
                 break;
 

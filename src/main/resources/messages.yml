@@ -16,7 +16,7 @@ self:
       explicit: '&cHome ''&7%home%&c'' does not exist!'
     worldNotLoaded:
       implicit: '&cYour home is in a world that is not loaded!'
-      explicit: '&cHome &7%home%&c is in a world that is not loaded!'
+      explicit: '&cHome &7%home%&c is in a world (&7%world%&c) that is not loaded!'
   homeList:
     initial: '&2Home list (&9%count%&2/&9%max%&2): '
     format: '&a%home%&8, '
@@ -55,5 +55,5 @@ other:
       explicit: '&7%player%&c''s home &7%home%&c does not exist!'
     worldNotLoaded:
       implicit: '&7%player%&c''s home is in a world that is not loaded!'
-      explicit: '&7%player%&c''s home &7%home%&c is in a world that is not loaded!'
+      explicit: '&7%player%&c''s home &7%home%&c is in a world (&7%world%&c) that is not loaded!'
     
