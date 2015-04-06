@@ -33,7 +33,7 @@ public class HelpCommand implements IBukkitLCSCommand
         
         if(!Util.checkPerms(sender, Permissions.HELP))
         {
-            return false;
+            return true;
         }
         
         if(!plugin.isLoaded())
