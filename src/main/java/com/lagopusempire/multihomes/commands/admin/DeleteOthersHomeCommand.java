@@ -8,6 +8,7 @@ import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.jobs.admin.DeleteOthersHomeJob;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 
 /**
@@ -18,7 +19,7 @@ public class DeleteOthersHomeCommand extends CommandBase
 {
     public DeleteOthersHomeCommand(MultiHomes plugin, HomeManager homeManager)
     {
-        super(plugin, homeManager);
+        super(plugin, homeManager, Permissions.DELETE_HOME_OTHER);
     }
     
     @Override

@@ -8,6 +8,7 @@ import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.jobs.admin.SetOthersHomeJob;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,7 +20,7 @@ public class SetOthersHomeCommand extends CommandBase
 
     public SetOthersHomeCommand(MultiHomes plugin, HomeManager homeManager)
     {
-        super(plugin, homeManager);
+        super(plugin, homeManager, Permissions.SET_HOME_OTHER);
     }
 
     @Override

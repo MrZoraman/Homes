@@ -5,7 +5,6 @@ import com.lagopusempire.multihomes.jobs.ListHomesJobBase;
 import com.lagopusempire.multihomes.load.Loader;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
-import com.lagopusempire.multihomes.permissions.Permissions;
 import com.lagopusempire.multihomes.util.Util;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,8 +26,6 @@ public class ListOthersHomeJob extends ListHomesJobBase
     {
         super(plugin, homeManager, player, targetName);
         this.onlinePlayers = new HashSet<>(plugin.getServer().getOnlinePlayers());
-        
-        this.setRequiredPermissions(Permissions.LIST_HOMES_OTHER);
     }
 
     @Override

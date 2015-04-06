@@ -10,7 +10,6 @@ import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.NumeralPermissions;
-import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,8 +36,6 @@ public class SetHomeJob extends JobBase
         this.usingExplicitHome = usingExplicitHome;
         this.force = force;
         this.homeName = homeName;
-
-        this.setRequiredPermissions(Permissions.SET_HOME);
     }
 
     @Override

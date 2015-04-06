@@ -8,6 +8,7 @@ import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.jobs.admin.GoToOthersHomeJob;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 
 /**
@@ -16,10 +17,9 @@ import org.bukkit.entity.Player;
  */
 public class GoToOthersHomeCommand extends CommandBase
 {
-
     public GoToOthersHomeCommand(MultiHomes plugin, HomeManager homeManager)
     {
-        super(plugin, homeManager);
+        super(plugin, homeManager, Permissions.GO_HOME_OTHER);
     }
 
     @Override

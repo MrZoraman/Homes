@@ -4,7 +4,6 @@ import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.jobs.ListHomesJobBase;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.permissions.NumeralPermissions;
-import com.lagopusempire.multihomes.permissions.Permissions;
 import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,8 +17,6 @@ public class ListHomesJob extends ListHomesJobBase
     public ListHomesJob(JavaPlugin plugin, HomeManager homeManager, Player player)
     {
         super(plugin, homeManager, player, player.getName());
-        
-        this.setRequiredPermissions(Permissions.LIST_HOMES);
     }
 
     @Override

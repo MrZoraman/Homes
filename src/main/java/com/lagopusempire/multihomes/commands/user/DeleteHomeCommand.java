@@ -6,6 +6,7 @@ import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.jobs.user.DeleteHomeJob;
+import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 
 /**
@@ -16,13 +17,12 @@ public class DeleteHomeCommand extends CommandBase
 {
     public DeleteHomeCommand(MultiHomes plugin, HomeManager homeManager)
     {
-        super(plugin, homeManager);
+        super(plugin, homeManager, Permissions.DELETE_HOME);
     }
 
     @Override
     protected boolean onCommand(Player player, String[] args)
     {
-//        //Get home name
         final boolean usingExplicitHome = args.length > 0;
         final String homeName = usingExplicitHome
                 ? args[0]

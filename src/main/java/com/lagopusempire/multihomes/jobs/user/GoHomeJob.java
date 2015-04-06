@@ -8,7 +8,6 @@ import com.lagopusempire.multihomes.load.Loader;
 import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
-import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,8 +27,6 @@ public class GoHomeJob extends JobBase
         super(plugin, homeManager, player);
         this.homeName = homeName;
         this.usingExplicitHome = usingExplicitHome;
-
-        this.setRequiredPermissions(Permissions.GO_HOME);
     }
 
     @Override
