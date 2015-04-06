@@ -8,7 +8,6 @@ import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
  *
@@ -29,14 +28,13 @@ public class ReloadCommand implements IBukkitLCSCommand
         if(sender == null)
             throw new IllegalStateException("Sender cannot be null!");
         
-        final boolean isPlayer = sender instanceof Player;
-        if(!isPlayer || Permissions.RELOAD.check(sender))
+//        final boolean isPlayer = sender instanceof Player;
+        if(Permissions.RELOAD.check(sender))
         {
             plugin.reload((result) -> 
             {
                 final MessageFormatter f = Messages.getMessage(result ? MessageKeys.RELOAD_SUCCESS : MessageKeys.RELOAD_FAILURE);
                 f.colorize();
-                
                 sender.sendMessage(f.toString());
             });
         }

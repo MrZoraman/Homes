@@ -72,7 +72,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         loader.addStep(this::setupCommandSystem, false);
         loader.addStep(this::setupCommands, false);
         
-        loader.load(this);
+        loader.load(callback);
     }
 
     @Override
