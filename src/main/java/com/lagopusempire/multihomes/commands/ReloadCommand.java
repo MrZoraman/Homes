@@ -28,7 +28,6 @@ public class ReloadCommand implements IBukkitLCSCommand
         if(sender == null)
             throw new IllegalStateException("Sender cannot be null!");
         
-//        final boolean isPlayer = sender instanceof Player;
         if(Permissions.RELOAD.check(sender))
         {
             plugin.reload((result) -> 
