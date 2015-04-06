@@ -71,8 +71,6 @@ public class SetHomeJob extends JobBase
     private boolean verifyCanHaveHome()
     {
         final int maxHomes = NumeralPermissions.COUNT.getAmount(player);
-        System.out.println("maxHomes: " + maxHomes);
-        System.out.println("homeCount: " + homeCount);
         if (maxHomes >= 0 && homeCount >= maxHomes)
         {
             final MessageFormatter formatter = Messages.getMessage(MessageKeys.HOME_SET_TOO_MANY)

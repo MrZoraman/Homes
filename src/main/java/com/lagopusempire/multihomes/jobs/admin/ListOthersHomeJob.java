@@ -62,7 +62,6 @@ public class ListOthersHomeJob extends ListHomesJobBase
     @Override
     protected UUID getTarget()
     {
-        System.out.println("retrieving " + target.toString());
         return target;
     }
 
