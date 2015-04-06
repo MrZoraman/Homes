@@ -1,6 +1,6 @@
 package com.lagopusempire.multihomes.homeIO.database;
 
-import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.HomesPlugin;
 import com.lagopusempire.multihomes.home.Coordinates;
 import com.lagopusempire.multihomes.home.Home;
 import com.lagopusempire.multihomes.home.LoadResult;
@@ -33,10 +33,10 @@ import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
  */
 public class DBHomeIO implements HomeIO, Listener
 {
-    private final MultiHomes plugin;
+    private final HomesPlugin plugin;
     private Connection conn;
     
-    public DBHomeIO(MultiHomes plugin, Connection conn)
+    public DBHomeIO(HomesPlugin plugin, Connection conn)
     {
         this.plugin = plugin;
         this.conn = conn;

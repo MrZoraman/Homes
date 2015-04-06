@@ -1,7 +1,7 @@
 package com.lagopusempire.multihomes.commands.admin;
 
 import com.lagopusempire.multihomes.HomeManager;
-import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.HomesPlugin;
 import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
  */
 public class GoToOthersHomeCommand extends CommandBase
 {
-    public GoToOthersHomeCommand(MultiHomes plugin, HomeManager homeManager)
+    public GoToOthersHomeCommand(HomesPlugin plugin, HomeManager homeManager)
     {
         super(plugin, homeManager, Permissions.GO_HOME_OTHER);
     }

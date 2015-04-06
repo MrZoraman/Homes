@@ -2,7 +2,7 @@ package com.lagopusempire.multihomes.commands;
 
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.HomeManager;
-import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.HomesPlugin;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.messages.MessageKeys;
@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 public abstract class CommandBase implements IBukkitLCSCommand
 {
     protected final HomeManager homeManager;
-    protected final MultiHomes plugin;
+    protected final HomesPlugin plugin;
     
     private final Permissions[] permissions;
     
@@ -30,7 +30,7 @@ public abstract class CommandBase implements IBukkitLCSCommand
         public boolean explicit;
     }
     
-    public CommandBase(MultiHomes plugin, HomeManager homeManager, Permissions... permissions)
+    public CommandBase(HomesPlugin plugin, HomeManager homeManager, Permissions... permissions)
     {
         this.plugin = plugin;
         this.homeManager = homeManager;

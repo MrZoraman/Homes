@@ -25,9 +25,9 @@ public class HomeManager implements Listener
     private final Map<UUID, Map<String, Home>> homes = new ConcurrentHashMap<>();
 
     private final HomeIO io;
-    private final MultiHomes plugin;
+    private final HomesPlugin plugin;
 
-    public HomeManager(MultiHomes plugin, HomeIO io)
+    public HomeManager(HomesPlugin plugin, HomeIO io)
     {
         this.plugin = plugin;
         this.io = io;

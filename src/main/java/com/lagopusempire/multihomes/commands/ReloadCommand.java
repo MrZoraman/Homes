@@ -1,7 +1,7 @@
 package com.lagopusempire.multihomes.commands;
 
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
-import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.HomesPlugin;
 import com.lagopusempire.multihomes.messages.MessageFormatter;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
@@ -15,9 +15,9 @@ import org.bukkit.command.CommandSender;
  */
 public class ReloadCommand implements IBukkitLCSCommand
 {
-    private final MultiHomes plugin;
+    private final HomesPlugin plugin;
     
-    public ReloadCommand(MultiHomes plugin)
+    public ReloadCommand(HomesPlugin plugin)
     {
         this.plugin = plugin;
     }

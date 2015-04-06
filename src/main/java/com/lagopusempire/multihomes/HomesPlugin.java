@@ -27,7 +27,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  * @author MrZoraman
  */
-public class MultiHomes extends JavaPlugin implements LoadCallback
+public class HomesPlugin extends JavaPlugin implements LoadCallback
 {
     private Loader loader;
     private BukkitLCS commandSystem;

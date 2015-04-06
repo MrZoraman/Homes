@@ -1,7 +1,7 @@
 package com.lagopusempire.multihomes.commands.admin;
 
 import com.lagopusempire.multihomes.HomeManager;
-import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.HomesPlugin;
 import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.jobs.admin.ListOthersHomeJob;
 import com.lagopusempire.multihomes.messages.MessageKeys;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  */
 public class ListOthersHomeCommand extends CommandBase
 {
-    public ListOthersHomeCommand(MultiHomes plugin, HomeManager homeManager)
+    public ListOthersHomeCommand(HomesPlugin plugin, HomeManager homeManager)
     {
         super(plugin, homeManager, Permissions.LIST_HOMES_OTHER);
     }

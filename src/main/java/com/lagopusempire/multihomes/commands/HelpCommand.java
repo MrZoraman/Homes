@@ -1,7 +1,7 @@
 package com.lagopusempire.multihomes.commands;
 
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
-import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.HomesPlugin;
 import com.lagopusempire.multihomes.help.Help;
 import com.lagopusempire.multihomes.help.HelpKeys;
 import com.lagopusempire.multihomes.messages.MessageFormatter;
@@ -19,9 +19,9 @@ import org.bukkit.entity.Player;
  */
 public class HelpCommand implements IBukkitLCSCommand
 {
-    private final MultiHomes plugin;
+    private final HomesPlugin plugin;
     
-    public HelpCommand(MultiHomes plugin)
+    public HelpCommand(HomesPlugin plugin)
     {
         this.plugin = plugin;
     }

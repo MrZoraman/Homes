@@ -1,7 +1,7 @@
 package com.lagopusempire.multihomes.commands.user;
 
 import com.lagopusempire.multihomes.HomeManager;
-import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.HomesPlugin;
 import com.lagopusempire.multihomes.commands.CommandBase;
 import com.lagopusempire.multihomes.config.ConfigKeys;
 import com.lagopusempire.multihomes.config.PluginConfig;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  */
 public class SetHomeCommand extends CommandBase
 {
-    public SetHomeCommand(MultiHomes plugin, HomeManager homeManager)
+    public SetHomeCommand(HomesPlugin plugin, HomeManager homeManager)
     {
         super(plugin, homeManager, Permissions.SET_HOME);
     }
