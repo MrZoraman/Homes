@@ -64,12 +64,12 @@ public class DatabaseSetup
                 statement = conn.prepareStatement(Scripts.getScript(ScriptKeys.CREATE_ADD_UUID_PROC));
                 statement.executeUpdate();
                 statement.close();
-                logger.info("add_uuid_proc procedure created successfully.");
+                logger.info("multihomes_add_uuid_proc procedure created successfully.");
                 
                 statement = conn.prepareStatement(Scripts.getScript(ScriptKeys.CREATE_ADD_WORLD_PROC));
                 statement.executeUpdate();
                 statement.close();
-                logger.info("add_world_proc procedure created successfully.");
+                logger.info("multihomes_add_world_proc procedure created successfully.");
             }
             catch (SQLException ex)
             {
