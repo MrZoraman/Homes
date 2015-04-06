@@ -1,31 +1,42 @@
+separator: ' - '
 entries:
   multihomes.reload:
+    enabled: true
     command: '/home reload'
     help: 'Reloads multihomes'
   multihomes.help:
+    enabled: true
     command: '/home help'
     help: 'Shows this help'
   multihomes.set.self:
+    enabled: true
     command: '/home set (homeName)'
     help: 'Sets your home'
   multihomes.home.self:
+    enabled: true
     command: '/home (homeName)'
     help: 'Takes you to your home'
   multihomes.list.self:
+    enabled: true
     command: '/home list'
     help: 'Lists your homes'
   multihomes.delete.self:
+    enabled: true
     command: '/home delete (homeName)'
     help: 'Delets your home'
   multihomes.set.other:
+    enabled: true
     command: '/home set other [playerName] (homeName)'
     help: 'Sets someone else''s home'
   multihomes.home.other:
+    enabled: true
     command: '/home other [playerName] (homeName)'
     help: 'Takes you to someone else''s home'
   multihomes.list.other:
+    enabled: true
     command: '/home list other [playerName]'
     help: 'Lists someone else''s homes'
   multihomes.delete.other:
+    enabled: true
     command: '/home delete other [PlayerName] (homeName)'
     help: 'Deletes someone else''s home'
