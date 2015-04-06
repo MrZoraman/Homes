@@ -8,22 +8,22 @@ import org.bukkit.permissions.Permissible;
  */
 public enum Permissions
 {
-    RELOAD              ("multihomes.reload"),
-    HELP                ("multihomes.help"),
+    RELOAD              ("homes.reload"),
+    HELP                ("homes.help"),
     
     //self
-    SET_HOME            ("multihomes.set.self"),
-    GO_HOME             ("multihomes.home.self"),
-    LIST_HOMES          ("multihomes.list.self"),
-    DELETE_HOME         ("multihomes.delete.self"),
+    SET_HOME            ("homes.set.self"),
+    GO_HOME             ("homes.home.self"),
+    LIST_HOMES          ("homes.list.self"),
+    DELETE_HOME         ("homes.delete.self"),
     
     //other
-    SET_HOME_OTHER      ("multihomes.set.other"),
-    GO_HOME_OTHER       ("multihomes.home.other"),
-    LIST_HOMES_OTHER    ("multihomes.list.other"),
-    DELETE_HOME_OTHER   ("multihomes.delete.other");
+    SET_HOME_OTHER      ("homes.set.other"),
+    GO_HOME_OTHER       ("homes.home.other"),
+    LIST_HOMES_OTHER    ("homes.list.other"),
+    DELETE_HOME_OTHER   ("homes.delete.other");
     
-    private static final String NODE_PREFIX = "multihomes";
+    private static final String NODE_PREFIX = "homes";
     
     public static String getNodePrefix()
     {

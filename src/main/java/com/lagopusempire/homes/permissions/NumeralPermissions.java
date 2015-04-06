@@ -11,7 +11,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
  */
 public enum NumeralPermissions
 {
-    COUNT("multihomes.maxhomes.");
+    COUNT("homes.maxhomes.");
 
     private NumeralPermissions(String node)
     {
