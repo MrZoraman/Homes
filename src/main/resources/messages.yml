@@ -1,4 +1,4 @@
-noPermissions: '&cYou don''t have permission to do that!'
+noPermissions: '&cYou do not have permission to do that!'
 reload:
   success: '&aMultiHomes has been reloaded successfully!'
   failure: '&cMultihomes encountered errors while reloading!'
@@ -8,52 +8,52 @@ infiniteHomesRep: 'Infinity'
 self:
   homeSet:
     implicit: '&2Home has been set!'
-    explicit: '&2Home ''&a%home%&2'' has been set!'
+    explicit: '&2Home &a%home%&2 has been set!'
     tooMany: '&cYou have too many homes! The max you can have is &7%max%&c!'
   homeGet:
     doesNotExist:
-      implicit: '&cYou don''t have a home set!'
+      implicit: '&cYou do not have a home set!'
       explicit: '&cHome ''&7%home%&c'' does not exist!'
     worldNotLoaded:
       implicit: '&cYour home is in a world that is not loaded!'
-      explicit: '&cHome ''&7%home%&c'' is in a world that is not loaded!'
+      explicit: '&cHome &7%home%&c is in a world that is not loaded!'
   homeList:
     initial: '&2Home list (&9%count%&2/&9%max%&2): '
     format: '&a%home%&8, '
-    none: '&cYou do not have any homes to list! (The most you can have is &7%max%&c)'
+    none: '&cYou do not have any homes to list! (The max you can have is &7%max%&c)'
     endStripLength: 2
     listImplicitHome: false
   homeDelete:
     noExist:
-      implicit: '&cYou don''t have a home to delete!'
-      explicit: '&cYou can''t delete &7''%home%''&c because it doesn''t exist!'
+      implicit: '&cYou do nott have a home to delete!'
+      explicit: '&cYou cannot delete &7%home%&c because it does not exist!'
     success:
       implicit: '&2Home has been deleted!'
-      explicit: '&2Home ''&a%home%&2'' has been deleted!'
+      explicit: '&2Home &a%home%&2 has been deleted!'
 other:
   mustSpecifyPlayer: '&cYou must specify a player!'
-  playerNotFound: '&7''%player%''&c not found!'
+  playerNotFound: '&cPlayer &7%player%&c not found!'
   homeSet:
-    implicit: '&a''%player%''&2''s home has been set!'
-    explicit: '&2Home &a''%home%''&2 has been set for &a''%player%''&2!'
+    implicit: '&a%player%&2''s home has been set!'
+    explicit: '&2Home &a%home%&2 has been set for &a%player%&2!'
   homeDelete:
     noExist:
-      implicit: '&7''%player%''&c does not have a home to delete!'
-      explicit: '&7''%player%''&c does not have a home called &7''%home%''&c!'
+      implicit: '&7%player%&c does not have a home to delete!'
+      explicit: '&7%player%&c does not have a home called &7%home%&c!'
     success:
-      implicit: '&2Home has been deleted for player &a''%player%''&2!'
-      explicit: '&2Home &a''%home%''&2 has been deleted for player &a''%player%''&2!'
+      implicit: '&2Home has been deleted for player &a%player%&2!'
+      explicit: '&2Home &a%home%&2 has been deleted for player &a%player%&2!'
   homeList:
-    initial: '&a''%player%''&2''s home list (&9%count%&2): '
+    initial: '&a%player%&2''s home list (&9%count%&2): '
     format: '&a%home%&8, '
-    none: '&7''%player%''&c does not have any homes to list!'
+    none: '&7%player%&c does not have any homes to list!'
     endStripLength: 2
     listImplicitHome: true
   homeGet:
     doesNotExist:
-      implicit: '&7''%player%''&c does not have a home set!'
-      explicit: '&7''%player%''&c''s home ''&7%home%&c'' does not exist!'
+      implicit: '&7%player%&c does not have a home set!'
+      explicit: '&7%player%&c''s home &7%home%&c does not exist!'
     worldNotLoaded:
-      implicit: '&7''%player%''&c''s home is in a world that is not loaded!'
-      explicit: '&7''%player%''&c''s home ''&7%home%&c'' is in a world that is not loaded!'
+      implicit: '&7%player%&c''s home is in a world that is not loaded!'
+      explicit: '&7%player%&c''s home &7%home%&c is in a world that is not loaded!'
     
