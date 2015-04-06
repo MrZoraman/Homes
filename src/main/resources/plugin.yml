@@ -12,97 +12,97 @@ commands:
   sethome:
   delhome:
 permissions:
-  multihomes.reload:
+  homes.reload:
     description: Reload the plugin
     default: op
-  multihomes.help:
+  homes.help:
     description: Show help
     default: true
-  multihomes.set.self:
+  homes.set.self:
     description: Set home
     default: true
-  multihomes.home.self:
+  homes.home.self:
     description: Go home
     default: true
-  multihomes.list.self:
+  homes.list.self:
     description: List homes
     default: true
-  multihomes.delete.self:
+  homes.delete.self:
     description: Delete home
     default: true
-  multihomes.set.other:
+  homes.set.other:
     description: Set other's home
     default: op
-  multihomes.home.other:
+  homes.home.other:
     description: Go to other's home
     default: op
-  multihomes.list.other:
+  homes.list.other:
     description: List other's homes
     default: op
-  multihomes.delete.other:
+  homes.delete.other:
     description: Delete other's home
     default: op
-  mulithomes.self:
+  homes.self:
     description: All self permissions
     children:
-      multihomes.set.self: true
-      multihomes.home.self: true
-      multihomes.list.self: true
-      multihomes.delete.self: true
-  mulithomes.other:
+      homes.set.self: true
+      homes.home.self: true
+      homes.list.self: true
+      homes.delete.self: true
+  homes.other:
     description: All other's permissions
     children:
-      multihomes.set.other: true
-      multihomes.home.other: true
-      multihomes.list.other: true
-      multihomes.delete.other: true
-  multihomes.user:
+      homes.set.other: true
+      homes.home.other: true
+      homes.list.other: true
+      homes.delete.other: true
+  homes.user:
     description: Reccomended user permissions
     children:
-      multihomes.help: true
-      multihomes.set.self: true
-      multihomes.home.self: true
-      multihomes.list.self: true
-      multihomes.delete.self: true
-  multihomes.admin:
+      homes.help: true
+      homes.set.self: true
+      homes.home.self: true
+      homes.list.self: true
+      homes.delete.self: true
+  homes.admin:
     description: Reccomended admin permissions
     children:
-      multihomes.help: true
-      multihomes.set.self: true
-      multihomes.home.self: true
-      multihomes.list.self: true
-      multihomes.delete.self: true
-      multihomes.set.other: true
-      multihomes.home.other: true
-      multihomes.list.other: true
-      multihomes.delete.other: true
-  multihomes.set.*:
+      homes.help: true
+      homes.set.self: true
+      homes.home.self: true
+      homes.list.self: true
+      homes.delete.self: true
+      homes.set.other: true
+      homes.home.other: true
+      homes.list.other: true
+      homes.delete.other: true
+  homes.set.*:
     children:
       multihomes.set.self: true
       multihomes.set.other: true
-  multihomes.home.*:
+  homes.home.*:
     children:
-      multihomes.home.self: true
-      multihomes.home.other: true
-  multihomes.list.*:
+      homes.home.self: true
+      homes.home.other: true
+  homes.list.*:
     children:
-      multihomes.list.self: true
-      multihomes.list.other: true
-  multihomes.delete.*:
+      homes.list.self: true
+      homes.list.other: true
+  homes.delete.*:
     children:
-      multihomes.delete.self: true
-      multihomes.delete.other: true
-  multihomes.*:
+      homes.delete.self: true
+      homes.delete.other: true
+  homes.*:
     description: All multihomes permissions
     children:
-      multihomes.reload: true
-      multihomes.help: true
-      multihomes.set.self: true
-      multihomes.home.self: true
-      multihomes.list.self: true
-      multihomes.delete.self: true
-      multihomes.set.other: true
-      multihomes.home.other: true
-      multihomes.list.other: true
-      multihomes.delete.other: true
+      homes.reload: true
+      homes.help: true
+      homes.set.self: true
+      homes.home.self: true
+      homes.list.self: true
+      homes.delete.self: true
+      homes.set.other: true
+      homes.home.other: true
+      homes.list.other: true
+      homes.delete.other: true
     
