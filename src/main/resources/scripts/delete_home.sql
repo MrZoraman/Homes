@@ -1,1 +1,1 @@
-DELETE FROM `multihomes` WHERE `uuid_id`=(SELECT `id` FROM `multihomes_uuids` WHERE `uuid`=? LIMIT 1) AND `home_name`=?;
+DELETE FROM `homes` WHERE `uuid_id`=(SELECT `id` FROM `homes_uuids` WHERE `uuid`=? LIMIT 1) AND `home_name`=?;

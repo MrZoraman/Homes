@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>com.lagopusempire</groupId>
-    <artifactId>MultiHomes</artifactId>
+    <artifactId>Homes</artifactId>
     <version>0.9</version>
     <packaging>jar</packaging>
     

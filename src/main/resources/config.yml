@@ -2,7 +2,7 @@ single_home_only: false
 useDatabase: false
 implicitHomeName: __home__
 mysql:
-  schemaVersion: 1
+  schemaVersion: 0
   credentials:
     host: localhost
     username: user

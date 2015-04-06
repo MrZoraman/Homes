@@ -1,1 +1,1 @@
-CALL `multihomes_add_uuid_proc` (?);
+CALL `homes_add_uuid_proc` (?);

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `multihomes_worlds` (
+CREATE TABLE IF NOT EXISTS `homes_worlds` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `world_name` VARCHAR(255) UNIQUE
 )  ENGINE=InnoDB;

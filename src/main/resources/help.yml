@@ -2,7 +2,7 @@ separator: ' &6- '
 consoleStartStipLength: 3
 header:
   enabled: true
-  message: '&6multihomes help'
+  message: '&6Homes help'
 entries:
   multihomes_reload:
     enabled: true

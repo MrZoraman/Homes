@@ -1,7 +1,7 @@
 noPermissions: '&cYou do not have permission to do that!'
 reload:
-  success: '&aMultiHomes has been reloaded successfully!'
-  failure: '&cMultihomes encountered errors while reloading!'
+  success: '&aHomes has been reloaded successfully!'
+  failure: '&cHomes encountered errors while reloading!'
 mustBePlayer: '&cYou must be a player to use that command!'
 notLoaded: '&cMultihomes is not loaded yet!'
 infiniteHomesRep: 'Infinity'
