@@ -1,1 +1,1 @@
-SELECT COUNT(*) FROM `multihomes` WHERE `uuid`=?;
+SELECT COUNT(*) FROM `multihomes` WHERE `uuid_id`=(SELECT `id` FROM `multihomes_uuids` WHERE `uuid`=? LIMIT 1);

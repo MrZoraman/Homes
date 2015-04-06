@@ -1,1 +1,1 @@
-SELECT `home_name` FROM `multihomes` WHERE `uuid`=?;
+SELECT `home_name` FROM `multihomes` WHERE `uuid_id`=(SELECT `id` FROM `multihomes_uuids` WHERE `uuid`=? LIMIT 1);
