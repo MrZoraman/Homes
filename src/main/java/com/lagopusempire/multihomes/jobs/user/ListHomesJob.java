@@ -57,4 +57,9 @@ public class ListHomesJob extends ListHomesJobBase
     {
         return NumeralPermissions.COUNT.getAmount(player);
     }
+    @Override
+    protected MessageKeys getListImplicitHome()
+    {
+        return MessageKeys.HOME_LIST_IMPLICIT_HOME;
+    }
 }

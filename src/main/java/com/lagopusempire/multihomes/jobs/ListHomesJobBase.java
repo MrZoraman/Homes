@@ -35,6 +35,7 @@ public abstract class ListHomesJobBase extends JobBase
     protected abstract MessageKeys getHomeListInitial();
     protected abstract MessageKeys getHomeListFormat();
     protected abstract MessageKeys getStripLength();
+    protected abstract MessageKeys getListImplicitHome();
     
     @Override
     protected void addSteps(Loader loader)
@@ -53,7 +54,7 @@ public abstract class ListHomesJobBase extends JobBase
     {
         final String implicitHomeName = PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
 
-        final boolean listImplicitHome = PluginConfig.getBoolean(ConfigKeys.LIST_IMPLICIT_HOME);
+        final boolean listImplicitHome = Messages.getBoolean(getListImplicitHome());
 
         final int maxHomes = getTargetMaxHomes();
         final String maxHomesString = maxHomes >= 0

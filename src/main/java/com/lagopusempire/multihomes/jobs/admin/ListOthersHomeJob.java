@@ -95,4 +95,10 @@ public class ListOthersHomeJob extends ListHomesJobBase
     {
         return -1;
     }
+
+    @Override
+    protected MessageKeys getListImplicitHome()
+    {
+        return MessageKeys.HOME_LIST_OTHER_IMPLICIT_HOME;
+    }
 }

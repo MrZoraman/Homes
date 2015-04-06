@@ -1,6 +1,5 @@
 useDatabase: false
 implicitHomeName: __home__
-listImplicitHome: false
 mysql:
   schemaVersion: 1
   credentials:

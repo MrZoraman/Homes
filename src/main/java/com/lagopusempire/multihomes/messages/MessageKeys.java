@@ -27,6 +27,7 @@ public enum MessageKeys
     HOME_LIST_FORMAT                ("self.homeList.format"),
     HOME_LIST_NONE                  ("self.homeList.none"),
     HOME_LIST_END_STRIP_LENGTH      ("self.homeList.endStripLength"),
+    HOME_LIST_IMPLICIT_HOME         ("self.homeList.listImplicitHome"),
     
     HOME_DELETE_NOEXIST_IMPLICIT    ("self.homeDelete.noExist.implicit"),
     HOME_DELETE_NOEXIST_EXPLICIT    ("self.homeDelete.noExist.explicit"),
@@ -49,6 +50,7 @@ public enum MessageKeys
     HOME_LIST_OTHER_FORMAT             ("other.homeList.format"),
     HOME_LIST_OTHER_NONE               ("other.homeList.none"),
     HOME_LIST_OTHER_END_STRIP_LENGTH   ("other.homeList.endStripLength"),
+    HOME_LIST_OTHER_IMPLICIT_HOME      ("other.homeList.listImplicitHome"),
     
     HOME_GET_OTHER_NOEXIST_IMPLICIT    ("other.homeGet.doesNotExist.implicit"),
     HOME_GET_OTHER_NOEXIST_EXPLICIT    ("other.homeGet.doesNotExist.explicit"),

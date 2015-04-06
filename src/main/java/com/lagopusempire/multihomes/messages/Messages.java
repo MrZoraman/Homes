@@ -26,4 +26,9 @@ public class Messages
     {
         return messages.getInt(key.getKey());
     }
+    
+    public static boolean getBoolean(MessageKeys key)
+    {
+        return messages.getBoolean(key.getKey());
+    }
 }

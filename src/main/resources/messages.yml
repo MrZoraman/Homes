@@ -22,6 +22,7 @@ self:
     format: '&a%home%&8, '
     none: '&cYou do not have any homes to list! (The most you can have is &7%max%&c)'
     endStripLength: 2
+    listImplicitHome: false
   homeDelete:
     noExist:
       implicit: '&cYou don''t have a home to delete!'
@@ -47,6 +48,7 @@ other:
     format: '&a%home%&8, '
     none: '&7''%player%''&c does not have any homes to list!'
     endStripLength: 2
+    listImplicitHome: true
   homeGet:
     doesNotExist:
       implicit: '&7''%player%''&c does not have a home set!'
