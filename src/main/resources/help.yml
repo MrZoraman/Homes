@@ -4,43 +4,43 @@ header:
   enabled: true
   message: '&6Homes help'
 entries:
-  multihomes_reload:
+  homes_reload:
     enabled: true
     command: '&3/home reload'
     help: '&aReloads multihomes'
-  multihomes_help:
+  homes_help:
     enabled: true
     command: '&3/home help'
     help: '&aShows this help'
-  multihomes_set_self:
+  homes_set_self:
     enabled: true
     command: '&3/home set &b(homeName)'
     help: '&aSets your home'
-  multihomes_home_self:
+  homes_home_self:
     enabled: true
     command: '&3/home &b(homeName)'
     help: '&aTakes you to your home'
-  multihomes_list_self:
+  homes_list_self:
     enabled: true
     command: '&3/home list'
     help: '&aLists your homes'
-  multihomes_delete_self:
+  homes_delete_self:
     enabled: true
     command: '&3/home delete &b(homeName)'
     help: '&aDelets your home'
-  multihomes_set_other:
+  homes_set_other:
     enabled: true
     command: '&3/home set other &d[playerName] &b(homeName)'
     help: '&aSets someone else''s home'
-  multihomes_home_other:
+  homes_home_other:
     enabled: true
     command: '&3/home other &d[playerName] &b(homeName)'
     help: '&aTakes you to someone else''s home'
-  multihomes_list_other:
+  homes_list_other:
     enabled: true
     command: '&3/home list other &d[playerName]'
     help: '&aLists someone else''s homes'
-  multihomes_delete_other:
+  homes_delete_other:
     enabled: true
     command: '&3/home delete other &d[PlayerName] &b(homeName)'
     help: '&aDeletes someone else''s home'
