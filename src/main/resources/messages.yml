@@ -13,7 +13,7 @@ self:
   homeGet:
     doesNotExist:
       implicit: '&cYou do not have a home set!'
-      explicit: '&cHome ''&7%home%&c'' does not exist!'
+      explicit: '&cHome &7%home%&c does not exist!'
     worldNotLoaded:
       implicit: '&cYour home is in a world that is not loaded!'
       explicit: '&cHome &7%home%&c is in a world (&7%world%&c) that is not loaded!'
