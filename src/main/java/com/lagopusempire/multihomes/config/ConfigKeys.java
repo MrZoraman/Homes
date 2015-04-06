@@ -18,6 +18,7 @@ public enum ConfigKeys
     MYSQL_PASSWORD      ("mysql.credentials.password"),
     MYSQL_PORT          ("mysql.credentials.port"),
     MYSQL_DATABASE      ("mysql.credentials.database"),
+    MYSQL_DRIVER        ("mysql.driver"),
     
     UUID_REGEX          ("uuidRegex"),
     UUID_FETCH_URL      ("uuidFetchURL");

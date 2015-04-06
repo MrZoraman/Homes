@@ -17,11 +17,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class DatabaseSetup
 {
-    private static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
-    
     private final List<DbSetupStep> steps = new ArrayList<>();
-    
     private final Logger logger;
+    private final String mysqlDriver;
     
     private volatile int schemaVersion;
     
@@ -36,8 +34,8 @@ public class DatabaseSetup
     public DatabaseSetup(JavaPlugin plugin)
     {
         this.schemaVersion = PluginConfig.getInt(ConfigKeys.SCHEMA_VERSION);
-        
         this.logger = plugin.getLogger();
+        this.mysqlDriver = PluginConfig.getString(ConfigKeys.MYSQL_DRIVER);
         
         addSteps();
     }
@@ -67,7 +65,7 @@ public class DatabaseSetup
     {
         try
         {
-            Class.forName(MYSQL_DRIVER);
+            Class.forName(mysqlDriver);
         }
         catch (Exception ex)
         {
