@@ -39,7 +39,7 @@ public class HomeManager implements Listener
         final UUID uuid = event.getUniqueId();
 
         addHomeMap(uuid);
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> loadAllHomes(uuid));
+        loadAllHomes(uuid);
     }
 
     @EventHandler
