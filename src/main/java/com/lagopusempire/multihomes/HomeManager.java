@@ -52,9 +52,7 @@ public class HomeManager implements Listener
 
     public void setHome(UUID owner, String homeName, Coordinates coords, String worldName)
     {
-        final Home home = new Home(owner, homeName, coords, worldName);;
-        assert(homeName != null);
-        assert(home != null);
+        final Home home = new Home(owner, homeName, coords, worldName);
         if(homes.containsKey(owner))
             homes.get(owner).put(homeName, home);
         io.saveHome(home);
