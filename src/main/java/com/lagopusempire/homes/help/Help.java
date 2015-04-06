@@ -41,6 +41,11 @@ public class Help
         return helpMessages.getBoolean(PATH + perm.getNode().replace(".", "_") + ".enabled");
     }
     
+    public static boolean exists(Permissions perm)
+    {
+        return helpMessages.contains(PATH + perm.getNode().replace(".", "_"));
+    }
+    
     public static MessageFormatter getCommand(Permissions perm)
     {
         return MessageFormatter.create(helpMessages.getString(PATH + perm.getNode().replace(".", "_") + ".command"));

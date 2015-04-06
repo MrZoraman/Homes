@@ -55,6 +55,8 @@ public class HelpCommand implements IBukkitLCSCommand
         
         for(int ii = 0; ii < permissions.length; ii++)
         {
+            if(!Help.exists(permissions[ii])) continue;
+            
             if(!permissions[ii].check(sender)) continue;
             
             if(!isPlayer && permissions[ii] != Permissions.RELOAD) continue;

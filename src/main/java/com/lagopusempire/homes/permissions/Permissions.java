@@ -11,6 +11,8 @@ public enum Permissions
     RELOAD              ("homes.reload"),
     HELP                ("homes.help"),
     
+    RETURN_HOME_ON_DEATH("homes.ondeath"),
+    
     //self
     SET_HOME            ("homes.set.self"),
     GO_HOME             ("homes.home.self"),

@@ -18,6 +18,9 @@ permissions:
   homes.help:
     description: Show help
     default: true
+  homes.ondeath:
+    description: return home on death
+    default: true
   homes.set.self:
     description: Set home
     default: true
@@ -64,6 +67,7 @@ permissions:
       homes.home.self: true
       homes.list.self: true
       homes.delete.self: true
+      homes.ondeath: true
   homes.admin:
     description: Reccomended admin permissions
     children:
@@ -105,4 +109,5 @@ permissions:
       homes.home.other: true
       homes.list.other: true
       homes.delete.other: true
+      homes.ondeath: true
     
