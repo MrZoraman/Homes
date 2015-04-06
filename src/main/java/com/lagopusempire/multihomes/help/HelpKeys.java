@@ -6,7 +6,9 @@ package com.lagopusempire.multihomes.help;
  */
 public enum HelpKeys
 {
-    EXAMPLE ("example");
+    SEPARATOR       ("separator"),
+    HEADER          ("header.message"),
+    HEADER_ENABLED  ("header.enabled");
     
     private final String key;
 

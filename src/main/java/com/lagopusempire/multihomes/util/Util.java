@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -70,6 +71,17 @@ public class Util
         if(!perm.check(player))
         {
             Util.sendMessage(player, getNoPermsMsg(perm));
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public static boolean checkPerms(CommandSender sender, Permissions perm)
+    {
+        if(!perm.check(sender))
+        {
+            sender.sendMessage(getNoPermsMsg(perm).colorize().toString());
             return false;
         }
         

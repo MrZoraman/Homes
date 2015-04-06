@@ -1,4 +1,7 @@
 separator: ' - '
+header:
+  enabled: true
+  message: 'multihomes help'
 entries:
   multihomes.reload:
     enabled: true

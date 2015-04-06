@@ -81,6 +81,11 @@ public class MessageFormatter
         return new MessageFormatter(contents, colorized);
     }
     
+    public MessageFormatter concat(MessageFormatter other)
+    {
+        return new MessageFormatter(contents + other.contents, colorized & other.colorized);
+    }
+    
     @Override
     public String toString()
     {

@@ -22,6 +22,13 @@ public enum Permissions
     GO_HOME_OTHER       ("multihomes.home.other"),
     LIST_HOMES_OTHER    ("multihomes.list.other"),
     DELETE_HOME_OTHER   ("multihomes.delete.other");
+    
+    private static final String NODE_PREFIX = "multihomes";
+    
+    public static String getNodePrefix()
+    {
+        return NODE_PREFIX;
+    }
 
     private Permissions(String node)
     {
