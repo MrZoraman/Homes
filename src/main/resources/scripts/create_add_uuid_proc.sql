@@ -1,4 +1,4 @@
-CREATE PROCEDURE `add_uuid_proc` (IN uuid_in VARCHAR(36))
+CREATE PROCEDURE `multihomes_add_uuid_proc` (IN uuid_in VARCHAR(36))
 BEGIN
     DECLARE uuid_exists INT;
 

@@ -1,4 +1,4 @@
-CREATE PROCEDURE `add_world_proc` (IN world_in VARCHAR(255))
+CREATE PROCEDURE `multihomes_add_world_proc` (IN world_in VARCHAR(255))
 BEGIN
     DECLARE world_exists INT;
 

@@ -1,1 +1,1 @@
-CALL `add_world_proc` (?);
+CALL `multihomes_add_world_proc` (?);
