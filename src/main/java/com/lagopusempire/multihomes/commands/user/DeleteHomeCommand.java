@@ -24,11 +24,12 @@ public class DeleteHomeCommand extends CommandBase
     protected boolean onCommand(Player player, String[] args)
     {
         final boolean usingExplicitHome = args.length > 0;
-        final String homeName = usingExplicitHome
+        String homeName = usingExplicitHome
                 ? args[0]
                 : PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
         
-        final DeleteHomeJob job = new DeleteHomeJob(plugin, homeManager, player, homeName, usingExplicitHome);
+        final HomeAdjustment adjustment = adjustHomeName(homeName, usingExplicitHome);
+        final DeleteHomeJob job = new DeleteHomeJob(plugin, homeManager, player, adjustment.homeName, adjustment.explicit);
         job.run();
         return true;
     }

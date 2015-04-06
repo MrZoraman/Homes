@@ -1,3 +1,4 @@
+single_home_only: false
 useDatabase: false
 implicitHomeName: __home__
 mysql:

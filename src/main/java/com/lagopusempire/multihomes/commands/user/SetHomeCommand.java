@@ -24,11 +24,12 @@ public class SetHomeCommand extends CommandBase
     protected boolean onCommand(Player player, String[] args)
     {
         final boolean usingExplicitHome = args.length > 0;
-        final String homeName = usingExplicitHome
+        String homeName = usingExplicitHome
 		? args[0]
 		: PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
         
-        final SetHomeJob job = new SetHomeJob(plugin, homeManager, player, homeName, usingExplicitHome, false);
+        final HomeAdjustment adjustment = adjustHomeName(homeName, usingExplicitHome);
+        final SetHomeJob job = new SetHomeJob(plugin, homeManager, player, adjustment.homeName, adjustment.explicit, false);
         job.run();
         return true;
     }

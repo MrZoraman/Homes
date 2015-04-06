@@ -9,6 +9,7 @@ public enum ConfigKeys
     //misc
     USE_DATABASE        ("useDatabase"),
     IMPLICIT_HOME_NAME  ("implicitHomeName"),
+    SINGLE_HOME_ONLY    ("single_home_only"),
     
     //MySQL
     SCHEMA_VERSION      ("mysql.schemaVersion"),

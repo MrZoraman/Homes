@@ -47,7 +47,8 @@ public class GoToOthersHomeCommand extends CommandBase
                 return true;
         }
         
-        final GoToOthersHomeJob job = new GoToOthersHomeJob(plugin, homeManager, player, targetName, homeName, usingExplicitHome);
+        final HomeAdjustment adjustment = adjustHomeName(homeName, usingExplicitHome);
+        final GoToOthersHomeJob job = new GoToOthersHomeJob(plugin, homeManager, player, targetName, adjustment.homeName, adjustment.explicit);
         job.run();
         return true;
     }

@@ -47,7 +47,8 @@ public class DeleteOthersHomeCommand extends CommandBase
                 return true;
         }
         
-        final DeleteOthersHomeJob job = new DeleteOthersHomeJob(plugin, homeManager, player, targetName, usingExplicitHome, homeName);
+        final HomeAdjustment adjustment = adjustHomeName(homeName, usingExplicitHome);
+        final DeleteOthersHomeJob job = new DeleteOthersHomeJob(plugin, homeManager, player, targetName, adjustment.explicit, adjustment.homeName);
         job.run();
         return true;
     }

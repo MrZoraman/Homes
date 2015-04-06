@@ -48,8 +48,9 @@ public class SetOthersHomeCommand extends CommandBase
                 return true;
         }
         
+        final HomeAdjustment adjustment = adjustHomeName(homeName, usingExplicitHome);
         final SetOthersHomeJob job = new SetOthersHomeJob(plugin, homeManager, player,
-                targetName, usingExplicitHome, homeName);
+                targetName, adjustment.explicit, adjustment.homeName);
         job.run();
         return true;
     }

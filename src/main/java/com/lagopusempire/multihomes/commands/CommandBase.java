@@ -3,6 +3,8 @@ package com.lagopusempire.multihomes.commands;
 import com.lagopusempire.bukkitlcs.IBukkitLCSCommand;
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.MultiHomes;
+import com.lagopusempire.multihomes.config.ConfigKeys;
+import com.lagopusempire.multihomes.config.PluginConfig;
 import com.lagopusempire.multihomes.messages.MessageKeys;
 import com.lagopusempire.multihomes.messages.Messages;
 import com.lagopusempire.multihomes.permissions.Permissions;
@@ -21,6 +23,12 @@ public abstract class CommandBase implements IBukkitLCSCommand
     protected final MultiHomes plugin;
     
     private final Permissions[] permissions;
+    
+    protected class HomeAdjustment
+    {
+        public String homeName;
+        public boolean explicit;
+    }
     
     public CommandBase(MultiHomes plugin, HomeManager homeManager, Permissions... permissions)
     {
@@ -75,5 +83,23 @@ public abstract class CommandBase implements IBukkitLCSCommand
         }
         
         return true;
+    }
+    
+    protected HomeAdjustment adjustHomeName(String homeName, boolean explicit)
+    {
+        final HomeAdjustment adjustment = new HomeAdjustment();
+        
+        if(PluginConfig.getBoolean(ConfigKeys.SINGLE_HOME_ONLY))
+        {
+            adjustment.homeName = PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME);
+            adjustment.explicit = false;
+        }
+        else
+        {
+            adjustment.homeName = homeName;
+            adjustment.explicit = explicit;
+        }
+        
+        return adjustment;
     }
 }
