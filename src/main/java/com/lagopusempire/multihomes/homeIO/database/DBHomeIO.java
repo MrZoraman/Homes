@@ -285,7 +285,6 @@ public class DBHomeIO implements HomeIO, Listener
     {
         try
         {
-            System.out.println("Sleeping for 0 seconds on thread " + Thread.currentThread().getId());
             if(conn == null || conn.isClosed() || !conn.isValid(10))
             {
                 conn = Util.createConnection();

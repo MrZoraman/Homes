@@ -42,7 +42,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     @Override
     public void onEnable()
     {
-        System.out.println("Main thread: " + Thread.currentThread().getId());
         reload(this);
     }
 
