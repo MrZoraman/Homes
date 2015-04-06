@@ -23,7 +23,7 @@ public class DatabaseSetup
     
     private final Logger logger;
     
-    private volatile int schemaVersion = 1;
+    private volatile int schemaVersion;
     
     private Connection conn;
     
