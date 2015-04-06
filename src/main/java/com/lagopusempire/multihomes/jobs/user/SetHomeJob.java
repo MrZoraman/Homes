@@ -2,8 +2,6 @@ package com.lagopusempire.multihomes.jobs.user;
 
 import com.lagopusempire.multihomes.HomeManager;
 import com.lagopusempire.multihomes.home.Coordinates;
-import com.lagopusempire.multihomes.home.Home;
-import com.lagopusempire.multihomes.home.LoadResult;
 import com.lagopusempire.multihomes.jobs.JobBase;
 import com.lagopusempire.multihomes.load.Loader;
 import com.lagopusempire.multihomes.messages.MessageFormatter;
@@ -21,12 +19,10 @@ public class SetHomeJob extends JobBase
 {
     private final Coordinates coords;
     private final String worldName;
-    private final boolean force;
     private final boolean usingExplicitHome;
     private final String homeName;
 
     private volatile int homeCount;
-    private volatile boolean isUpdate;
 
     public SetHomeJob(JavaPlugin plugin, HomeManager homeManager, Player player, String homeName, boolean usingExplicitHome, boolean force)
     {
@@ -34,29 +30,15 @@ public class SetHomeJob extends JobBase
         this.coords = new Coordinates(player.getLocation());
         this.worldName = player.getLocation().getWorld().getName();
         this.usingExplicitHome = usingExplicitHome;
-        this.force = force;
         this.homeName = homeName;
     }
 
     @Override
     protected void addSteps(Loader loader)
     {
-        if(!force)
-        {
-            loader.addStep(this::getIsUpdate, homeManager.shouldBeAsync());
-            loader.addStep(this::getHomeCount, homeManager.shouldBeAsync());
-            loader.addStep(this::verifyCanHaveHome, false);
-        }
-        
+        loader.addStep(this::getHomeCount, homeManager.shouldBeAsync());
+        loader.addStep(this::verifyCanHaveHome, false);
         loader.addStep(this::setHome, homeManager.shouldBeAsync());
-    }
-    
-    private boolean getIsUpdate()
-    {
-        final Home home = homeManager.getHome(uuid, homeName);
-        final boolean doesNotExist = home.getHomeLoadPackage().loadResult == LoadResult.DOES_NOT_EXIST;
-        isUpdate = !doesNotExist;//double negative means that the home does exist, so it is an update .-.
-        return true;
     }
     
     private boolean getHomeCount()
