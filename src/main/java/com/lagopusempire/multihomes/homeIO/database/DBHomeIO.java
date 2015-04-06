@@ -8,25 +8,24 @@ import com.lagopusempire.multihomes.homeIO.HomeIO;
 import com.lagopusempire.multihomes.util.Util;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-
-import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
-import java.util.HashSet;
-import java.util.Set;
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.world.WorldLoadEvent;
+
+import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
 
 /**
  *
