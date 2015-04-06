@@ -65,12 +65,18 @@ public class HelpCommand implements IBukkitLCSCommand
             final MessageFormatter command = Help.getCommand(permissions[ii]);
             final MessageFormatter help = Help.getHelp(permissions[ii]);
             
-            final MessageFormatter message = command
+            String message = command
                     .concat(separator)
                     .concat(help)
-                    .colorize();
+                    .colorize()
+                    .toString();
             
-            sender.sendMessage(message.toString());
+            if(!isPlayer)
+            {
+                message = message.substring(Help.getInt(HelpKeys.INITIAL_STRIP));
+            }
+            
+            sender.sendMessage(message);
         }
         
         return true;

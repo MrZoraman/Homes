@@ -31,18 +31,23 @@ public class Help
         return helpMessages.getBoolean(key.getKey());
     }
     
+    public static int getInt(HelpKeys key)
+    {
+        return helpMessages.getInt(key.getKey());
+    }
+    
     public static boolean getEnabled(Permissions perm)
     {
-        return helpMessages.getBoolean(PATH + perm.getNode() + ".enabled");
+        return helpMessages.getBoolean(PATH + perm.getNode().replace(".", "_") + ".enabled");
     }
     
     public static MessageFormatter getCommand(Permissions perm)
     {
-        return MessageFormatter.create(helpMessages.getString(PATH + perm.getNode() + ".command"));
+        return MessageFormatter.create(helpMessages.getString(PATH + perm.getNode().replace(".", "_") + ".command"));
     }
     
     public static MessageFormatter getHelp(Permissions perm)
     {
-        return MessageFormatter.create(helpMessages.getString(PATH + perm.getNode() + ".help"));
+        return MessageFormatter.create(helpMessages.getString(PATH + perm.getNode().replace(".", "_") + ".help"));
     }
 }

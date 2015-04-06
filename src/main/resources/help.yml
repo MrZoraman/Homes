@@ -1,45 +1,47 @@
-separator: ' - '
+separator: ' &6- '
+consoleStartStipLength: 3
 header:
   enabled: true
-  message: 'multihomes help'
+  message: '&6multihomes help'
 entries:
-  multihomes.reload:
+  multihomes_reload:
     enabled: true
-    command: '/home reload'
-    help: 'Reloads multihomes'
-  multihomes.help:
+    command: '&3/home reload'
+    help: '&aReloads multihomes'
+  multihomes_help:
     enabled: true
-    command: '/home help'
-    help: 'Shows this help'
-  multihomes.set.self:
+    command: '&3/home help'
+    help: '&aShows this help'
+  multihomes_set_self:
     enabled: true
-    command: '/home set (homeName)'
-    help: 'Sets your home'
-  multihomes.home.self:
+    command: '&3/home set &b(homeName)'
+    help: '&aSets your home'
+  multihomes_home_self:
     enabled: true
-    command: '/home (homeName)'
-    help: 'Takes you to your home'
-  multihomes.list.self:
+    command: '&3/home &b(homeName)'
+    help: '&aTakes you to your home'
+  multihomes_list_self:
     enabled: true
-    command: '/home list'
-    help: 'Lists your homes'
-  multihomes.delete.self:
+    command: '&3/home list'
+    help: '&aLists your homes'
+  multihomes_delete_self:
     enabled: true
-    command: '/home delete (homeName)'
-    help: 'Delets your home'
-  multihomes.set.other:
+    command: '&3/home delete &b(homeName)'
+    help: '&aDelets your home'
+  multihomes_set_other:
     enabled: true
-    command: '/home set other [playerName] (homeName)'
-    help: 'Sets someone else''s home'
-  multihomes.home.other:
+    command: '&3/home set other &d[playerName] &b(homeName)'
+    help: '&aSets someone else''s home'
+  multihomes_home_other:
     enabled: true
-    command: '/home other [playerName] (homeName)'
-    help: 'Takes you to someone else''s home'
-  multihomes.list.other:
+    command: '&3/home other &d[playerName] &b(homeName)'
+    help: '&aTakes you to someone else''s home'
+  multihomes_list_other:
     enabled: true
-    command: '/home list other [playerName]'
-    help: 'Lists someone else''s homes'
-  multihomes.delete.other:
+    command: '&3/home list other &d[playerName]'
+    help: '&aLists someone else''s homes'
+  multihomes_delete_other:
     enabled: true
-    command: '/home delete other [PlayerName] (homeName)'
-    help: 'Deletes someone else''s home'
+    command: '&3/home delete other &d[PlayerName] &b(homeName)'
+    help: '&aDeletes someone else''s home'
+skipFirstCharForConsole: false

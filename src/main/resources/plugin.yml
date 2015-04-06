@@ -8,6 +8,7 @@ prefix: Homes
 depend: [${build.plugin.dependency}]
 commands:
   home:
+    usage: /<command> help
   sethome:
   delhome:
 permissions:

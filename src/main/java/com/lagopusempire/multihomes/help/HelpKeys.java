@@ -8,7 +8,8 @@ public enum HelpKeys
 {
     SEPARATOR       ("separator"),
     HEADER          ("header.message"),
-    HEADER_ENABLED  ("header.enabled");
+    HEADER_ENABLED  ("header.enabled"),
+    INITIAL_STRIP   ("consoleStartStipLength");
     
     private final String key;
 
