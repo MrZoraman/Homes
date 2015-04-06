@@ -44,11 +44,32 @@ public class DatabaseSetup
     {
         steps.add(() ->
         {
-            final String query = Scripts.getScript(ScriptKeys.CREATE_HOMES_TABLE);
-            
-            try (PreparedStatement statement = conn.prepareStatement(query))
+            try
             {
+                PreparedStatement statement = conn.prepareStatement(Scripts.getScript(ScriptKeys.CREATE_UUIDS_TABLE));
                 statement.executeUpdate();
+                statement.close();
+                logger.info("multihomes_uuids table created successfully.");
+                
+                statement = conn.prepareStatement(Scripts.getScript(ScriptKeys.CREATE_WORLDS_TABLE));
+                statement.executeUpdate();
+                statement.close();
+                logger.info("multihomes_worlds table created successfully.");
+                        
+                statement = conn.prepareStatement(Scripts.getScript(ScriptKeys.CREATE_HOMES_TABLE));
+                statement.executeUpdate();
+                statement.close();
+                logger.info("multihomes table created successfully.");
+                
+                statement = conn.prepareStatement(Scripts.getScript(ScriptKeys.CREATE_ADD_UUID_PROC));
+                statement.executeUpdate();
+                statement.close();
+                logger.info("add_uuid_proc procedure created successfully.");
+                
+                statement = conn.prepareStatement(Scripts.getScript(ScriptKeys.CREATE_ADD_WORLD_PROC));
+                statement.executeUpdate();
+                statement.close();
+                logger.info("add_world_proc procedure created successfully.");
             }
             catch (SQLException ex)
             {
@@ -56,7 +77,6 @@ public class DatabaseSetup
                 return false;
             }
             
-            logger.info("Table created successfully.");
             return true;
         });
     }

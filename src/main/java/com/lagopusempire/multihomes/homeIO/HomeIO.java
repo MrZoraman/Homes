@@ -24,4 +24,16 @@ public interface HomeIO
     {
         return true;
     }
+    
+    public default void registerEvents()
+    {
+    }
+    
+    public default void unregisterEvents()
+    {
+    }
+    
+    public default void onLoad()
+    {
+    }
 }

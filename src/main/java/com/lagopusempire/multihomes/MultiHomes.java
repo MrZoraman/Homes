@@ -127,6 +127,10 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         {
             HandlerList.unregisterAll(homeManager);
         }
+        if(io != null)
+        {
+            io.unregisterEvents();
+        }
         return true;
     }
 
@@ -202,7 +206,6 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
         if (needToSetupDatabase())
         {
             this.io = new DBHomeIO(this, conn);
-            return true;
         }
         else
         {
@@ -213,8 +216,10 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
             }
 
             this.io = new FlatfileHomeIO(homes);
-            return true;
         }
+        
+        io.onLoad();
+        return true;
     }
 
     private boolean setupHomeManager()
@@ -226,6 +231,7 @@ public class MultiHomes extends JavaPlugin implements LoadCallback
     private boolean setupEvents()
     {
         getServer().getPluginManager().registerEvents(homeManager, this);
+        io.registerEvents();
         return true;
     }
 

@@ -18,12 +18,21 @@ import java.sql.SQLException;
 import java.util.Collections;
 
 import static com.lagopusempire.multihomes.homeIO.database.ScriptKeys.*;
+import java.util.HashSet;
+import java.util.Set;
+import org.bukkit.World;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
+import org.bukkit.event.world.WorldLoadEvent;
 
 /**
  *
  * @author MrZoraman
  */
-public class DBHomeIO implements HomeIO
+public class DBHomeIO implements HomeIO, Listener
 {
     private final MultiHomes plugin;
     private Connection conn;
@@ -307,5 +316,93 @@ public class DBHomeIO implements HomeIO
         }
         
         return true;
+    }
+    
+    @EventHandler
+    public void onPlayerJoin(AsyncPlayerPreLoginEvent event)
+    {
+        try(final PreparedStatement stmt = conn.prepareStatement(Scripts.getScript(CALL_ADD_UUID_PROC)))
+        {
+            stmt.setString(1, event.getUniqueId().toString());
+            
+            stmt.executeQuery();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            event.setKickMessage("Failed to log you in due to server internal error.");
+            event.setLoginResult(Result.KICK_OTHER);
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onWorldLoad(WorldLoadEvent event)
+    {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            try(final PreparedStatement stmt = conn.prepareStatement(Scripts.getScript(CALL_ADD_WORLD_PROC)))
+            {
+                stmt.setString(1, event.getWorld().getName());
+
+                stmt.executeQuery();
+            }
+            catch(Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        });
+    }
+    
+    @Override
+    public void registerEvents()
+    {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+    
+    @Override
+    public void unregisterEvents()
+    {
+        AsyncPlayerPreLoginEvent.getHandlerList().unregister(this);
+        WorldLoadEvent.getHandlerList().unregister(this);
+    }
+    
+    @Override
+    public void onLoad()
+    {
+        final Set<String> worldNames = new HashSet<>();
+        plugin.getServer().getWorlds().forEach((world) -> worldNames.add(world.getName()));
+        
+        final Set<UUID> playerUUIDs = new HashSet<>();
+        plugin.getServer().getOnlinePlayers().forEach((player) -> playerUUIDs.add(player.getUniqueId()));
+        
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            try
+            {
+                String script = Scripts.getScript(CALL_ADD_WORLD_PROC);
+                for(String worldName : worldNames)
+                {
+                    try (PreparedStatement stmt = conn.prepareStatement(script))
+                    {
+                        stmt.setString(1, worldName);
+                        stmt.execute();
+                    }
+                }
+                
+                script = Scripts.getScript(CALL_ADD_UUID_PROC);
+                for(UUID uuid : playerUUIDs)
+                {
+                    try (PreparedStatement stmt = conn.prepareStatement(script))
+                    {
+                        stmt.setString(1, uuid.toString());
+                        stmt.execute();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        });
     }
 }
