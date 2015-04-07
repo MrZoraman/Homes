@@ -32,7 +32,7 @@ public enum NumeralPermissions
                 final String amount = permParts[permParts.length - 1];
                 try
                 {
-                    int amountInt = Integer.parseInt(amount);
+                    final int amountInt = Integer.parseInt(amount);
                     if(amountInt < 0)
                     {
                         largestAmountFound = amountInt;
