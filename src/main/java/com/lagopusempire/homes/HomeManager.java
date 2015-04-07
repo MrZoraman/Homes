@@ -1,8 +1,13 @@
 package com.lagopusempire.homes;
 
+import com.lagopusempire.homes.config.ConfigKeys;
+import com.lagopusempire.homes.config.PluginConfig;
 import com.lagopusempire.homes.home.Coordinates;
 import com.lagopusempire.homes.home.Home;
+import com.lagopusempire.homes.home.HomeLoadPackage;
+import com.lagopusempire.homes.home.LoadResult;
 import com.lagopusempire.homes.homeIO.HomeIO;
+import com.lagopusempire.homes.permissions.Permissions;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +18,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  *
@@ -48,6 +55,23 @@ public class HomeManager implements Listener
         final UUID uuid = event.getPlayer().getUniqueId();
         
         homes.remove(uuid);
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerRespawn(PlayerRespawnEvent event)
+    {
+        if(!Permissions.RETURN_HOME_ON_DEATH.check(event.getPlayer())) return;
+        
+        final UUID uuid = event.getPlayer().getUniqueId();
+        if(!homes.containsKey(uuid)) return;
+            
+        final Home home = homes.get(uuid).get(PluginConfig.getString(ConfigKeys.IMPLICIT_HOME_NAME));
+        if(home == null) return;
+        
+        final HomeLoadPackage pack = home.getHomeLoadPackage();
+        if(pack.loadResult != LoadResult.SUCCESS) return;
+        
+        event.setRespawnLocation(pack.loc);
     }
 
     public void setHome(UUID owner, String homeName, Coordinates coords, String worldName)
