@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
     
     <name>${project.artifactId}</name>
-    <description>Bukkit Plugin that allows users to have multiple homes.</description>
+    <description>Bukkit Plugin that allows users to set and use homes.</description>
     <inceptionYear>2015</inceptionYear>
     <organization>
         <name>Lagopus Empire</name>
