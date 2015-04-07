@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -154,7 +153,10 @@ public class HomeManager implements Listener
 
     boolean loadOnlinePlayerHomes()
     {
-        plugin.getServer().getOnlinePlayers().forEach((player) -> loadAllHomes(player.getUniqueId()));
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> 
+        {
+            plugin.getServer().getOnlinePlayers().forEach((player) -> loadAllHomes(player.getUniqueId()));
+        });
         return true;
     }
 

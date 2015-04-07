@@ -76,7 +76,7 @@ public class HomesPlugin extends JavaPlugin implements LoadCallback
         loader.addStep(this::setupHomeIO, false);
         loader.addStep(this::setupHomeManager, false);
         loader.addStep(this::setupEvents, false);
-        loader.addStep(this::loadOnlinePlayers, true);
+        loader.addStep(this::loadOnlinePlayers, false);
         loader.addStep(this::setupCommandSystem, false);
         loader.addStep(this::setupCommands, false);
         
