@@ -1,4 +1,4 @@
-noPermissions: '&cYou do not have permission to do that!'
+noPermissions: '&cYou do not have permission to do that (You neeed &7%node&c)!'
 reload:
   success: '&aHomes has been reloaded successfully!'
   failure: '&cHomes encountered errors while reloading!'

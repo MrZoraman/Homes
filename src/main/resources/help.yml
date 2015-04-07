@@ -44,4 +44,3 @@ entries:
     enabled: true
     command: '&3/home delete other &d[PlayerName] &b(homeName)'
     help: '&aDeletes someone else''s home'
-skipFirstCharForConsole: false
