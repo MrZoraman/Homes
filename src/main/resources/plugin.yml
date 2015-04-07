@@ -19,7 +19,7 @@ permissions:
     description: Show help
     default: true
   homes.ondeath:
-    description: return home on death
+    description: Return home on death
     default: true
   homes.set.self:
     description: Set home
